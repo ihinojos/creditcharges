@@ -20,6 +20,7 @@ namespace creditcharges.Models
         public AddUser addUser { get; set; }
         public DateRange dateRange { get; set; }
         public Employees employees { get; set; }
+        public ProgressBar progressBar { get; set; }
         public static Controller controller { get; } = new Controller();
     }
 }

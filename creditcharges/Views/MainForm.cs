@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace creditcharges.Views
@@ -21,6 +22,7 @@ namespace creditcharges.Views
         public readonly bool ADMIN;
         private bool report = false;
         private readonly SqlConnection sql;
+
         public MainForm(bool admin)
         {
             ADMIN = admin;
@@ -28,12 +30,10 @@ namespace creditcharges.Views
             sql = new SqlConnection(Data.cn);
             LoadTable();
             addCardToolStripMenuItem.Enabled = ADMIN;
-
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-
             Controller.controller.logIn.Show();
         }
 
@@ -189,7 +189,6 @@ namespace creditcharges.Views
             return result;
         }
 
-
         private void addCardToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var instance = Controller.controller.addCard;
@@ -250,10 +249,10 @@ namespace creditcharges.Views
             var date = start.ToString("yyyy-MM-dd");
             end = end.AddDays(1);
             var tomorrow = end.ToString("yyyy-MM-dd");
-            
+
             var query = "SELECT R.Id, R.TDate, R.Card, R.Location, R.Concept, R.Amount, R.CardHolder, " +
             "Q.Account, Q.Entity, Q.Class, Q.JobNumber, Q.JobName, Q.Card, R.Notes " +
-            "FROM Records R JOIN QuickBooks Q ON R.Id = Q.Id "+
+            "FROM Records R JOIN QuickBooks Q ON R.Id = Q.Id " +
             "WHERE R.TDate >= @today AND R.TDate < @tomorrow ";
 
             SqlCommand cmd = new SqlCommand(query, sql);
@@ -285,16 +284,16 @@ namespace creditcharges.Views
                 cmd.Connection.Close();
             }
             if (detailsGrid.DataSource != null) detailsGrid.DataSource = null;
+            detailsGridView.Columns.Clear();
             detailsGrid.DataSource = result;
             GridColumn price = detailsGridView.Columns["Amount"];
             price.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             price.DisplayFormat.FormatString = "c2";
             detailsGridView.BestFitColumns();
-        }
+        }   
 
         private void LoadReport()
         {
-            report = true;
             BindingList<Report> result = new BindingList<Report>();
             OpenFileDialog open = new OpenFileDialog
             {
@@ -312,24 +311,43 @@ namespace creditcharges.Views
                     {
                         var values = parser.ReadFields();
 
-                        result.Add(new Report()
+                        try
                         {
-                            T_date = DateTime.Parse(values[0]),
-                            Card = values[1] == "0" ? "0000" : values[1],
-                            Location = values[2],
-                            Concept = values[3],
-                            Amount = string.IsNullOrEmpty(values[5]) ? decimal.Parse(values[4]) : decimal.Parse(values[5])
-                        });
-
+                            result.Add(new Report()
+                            {
+                                Date = DateTime.Parse(values[0]),
+                                Card = values[1] == "0" ? "0000" : values[1],
+                                Location = values[2],
+                                Concept = values[3],
+                                Amount = string.IsNullOrEmpty(values[5]) ? decimal.Parse(values[4]) : decimal.Parse(values[5])
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message  + "\n" + values);
+                        }
+                        
                     }
                 }
+
                 if (detailsGrid.DataSource != null) detailsGrid.DataSource = null;
+                detailsGridView.Columns.Clear();
+
+                var bar = Controller.controller.progressBar = new ProgressBar();
+                bar.progressBar1.Maximum = result.Count * 5;
+                bar.Show();
+
+                report = true;
+                Cursor.Current = Cursors.WaitCursor;
+                Application.DoEvents();
                 detailsGrid.DataSource = result;
+                Cursor.Current = Cursors.Default;
                 GridColumn price = detailsGridView.Columns["Amount"];
                 price.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
                 price.DisplayFormat.FormatString = "c2";
                 detailsGridView.Columns[5].Visible = false;
                 detailsGridView.BestFitColumns();
+                bar.Dispose();
             }
         }
 
@@ -340,9 +358,9 @@ namespace creditcharges.Views
                 GridView view = sender as GridView;
                 if (e.RowHandle >= 0)
                 {
-                    var date = DateTime.Parse(view.GetRowCellDisplayText(e.RowHandle, view.Columns[0]));
-                    var card = view.GetRowCellDisplayText(e.RowHandle, view.Columns[1]);
-                    var amnt = decimal.Parse(view.GetRowCellDisplayText(e.RowHandle, view.Columns[4]).Replace("$", ""));
+                    var date = DateTime.Parse(view.GetRowCellDisplayText(e.RowHandle, view.Columns["Date"]));
+                    var card = view.GetRowCellDisplayText(e.RowHandle, view.Columns["Card"]);
+                    var amnt = decimal.Parse(view.GetRowCellDisplayText(e.RowHandle, view.Columns["Amount"]).Replace("$", ""));
 
                     var query = "SELECT * FROM Records WHERE Card = @card AND Amount = @amnt AND TDate >= @date";
                     SqlCommand cmd = new SqlCommand(query, sql);
@@ -356,15 +374,16 @@ namespace creditcharges.Views
                     {
                         e.Appearance.BackColor = Color.LightBlue;
                         view.SetRowCellValue(e.RowHandle, "Id", reader[0] as string);
+                        Controller.controller.progressBar.progressBar1.PerformStep();
                     }
                     else
                     {
                         e.Appearance.BackColor = Color.Salmon;
                         e.Appearance.BackColor2 = Color.SeaShell;
+                        Controller.controller.progressBar.progressBar1.PerformStep();
                     }
                     reader.Close();
                     cmd.Connection.Close();
-
                 }
             }
         }
@@ -386,7 +405,8 @@ namespace creditcharges.Views
                 generalGridView.Columns[10].Visible = false;
                 generalGridView.Columns[11].Visible = false;
                 generalGridView.Columns[12].Visible = false;
-            } catch (NullReferenceException)
+            }
+            catch (NullReferenceException)
             {
                 LoadTable();
             }

@@ -4,7 +4,7 @@ namespace creditcharges.Models
 {
     public class Report
     {
-        public DateTime T_date { get; set; }
+        public DateTime Date { get; set; }
         public string Card { get; set; }
         public string Location { get; set; }
         public string Concept { get; set; }
