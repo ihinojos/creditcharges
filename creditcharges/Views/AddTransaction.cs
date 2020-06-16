@@ -1,4 +1,5 @@
 ﻿using creditcharges.Models;
+using DevExpress.Utils.Serializing;
 using DevExpress.XtraBars.Docking2010;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,6 @@ namespace creditcharges.Views
             InitializeComponent();
             sql = new SqlConnection(Data.cn);
             dateBox.Value = DateTime.Now;
-            dateBox.Enabled = false;
 
             AutoCompleteStringCollection names = new AutoCompleteStringCollection();
             names.AddRange(Data.names.ToArray());
@@ -33,6 +33,7 @@ namespace creditcharges.Views
             AutoCompleteStringCollection cards = new AutoCompleteStringCollection();
             cards.AddRange(Data.childCards.ToArray());
             cardBoxNum.AutoCompleteCustomSource = cards;
+
         }
 
         private void windowsUIButtonPanel1_ButtonClick(object sender, ButtonEventArgs e)
@@ -58,8 +59,9 @@ namespace creditcharges.Views
             var concept = conceptBox.Text;
             var date = dateBox.Value;
             var notes = notesBox.Text;
-            var query = "INSERT INTO Records (Id, CardHolder, Card, Concept, Amount, TDate, Notes) " +
-                            "VALUES (@id, @name, @card, @concept, @amount, @date, @notes)";
+            var user = Controller.controller.mainForm.User;
+            var query = "INSERT INTO Records (Id, CardHolder, Card, Concept, Amount, TDate, Notes, Author) " +
+                            "VALUES (@id, @name, @card, @concept, @amount, @date, @notes, @user)";
 
             SqlCommand cmd = new SqlCommand(query, sql);
             cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = id;
@@ -69,6 +71,7 @@ namespace creditcharges.Views
             cmd.Parameters.AddWithValue("@amount", SqlDbType.Decimal).Value = val;
             cmd.Parameters.AddWithValue("@date", SqlDbType.DateTime).Value = date;
             cmd.Parameters.AddWithValue("@notes", SqlDbType.Text).Value = notes;
+            cmd.Parameters.AddWithValue("@user", SqlDbType.VarChar).Value = user;
             if (!(string.IsNullOrEmpty(employee) || string.IsNullOrEmpty(number) || string.IsNullOrEmpty(concept) || string.IsNullOrEmpty(number)))
             {
                 cmd.Connection.Open();
@@ -87,6 +90,21 @@ namespace creditcharges.Views
                             cmd.Parameters.AddWithValue("@main", SqlDbType.VarChar).Value = main;
                             reader.Close();
                             var res = cmd.ExecuteNonQuery();
+
+                            if (checkBox1.Checked)
+                            {
+                                query = "INSERT INTO Fuel (Id, Odometer, Plate, Model, Gallons) VALUES (@id, @odometer, @plate, @model, @gallons)";
+                                var odometer = int.Parse(odometerBox.Text);
+                                var plate = plateBox.Text;
+                                var model = modelBox.Text;
+                                var gallons = decimal.Parse(gallonsBox.Text);
+                                cmd.CommandText = query;
+                                cmd.Parameters.AddWithValue("@odometer", SqlDbType.Int).Value = odometer;
+                                cmd.Parameters.AddWithValue("@plate", SqlDbType.VarChar).Value = plate;
+                                cmd.Parameters.AddWithValue("@model", SqlDbType.VarChar).Value = model;
+                                cmd.Parameters.AddWithValue("@gallons", SqlDbType.Decimal).Value = gallons;
+                                res = cmd.ExecuteNonQuery();
+                            }
                             if (res == 1) MessageBox.Show("Record saved successfully.", "Success");
                             else MessageBox.Show("Please check your internet connection.", "Error");
                         }
@@ -110,6 +128,37 @@ namespace creditcharges.Views
                 amountBox.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", value);
             else
                 amountBox.Text = string.Empty;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            odometerBox.Enabled = checkBox1.Checked;
+            plateBox.Enabled = checkBox1.Checked;
+            modelBox.Enabled = checkBox1.Checked;
+            gallonsBox.Enabled = checkBox1.Checked;
+        }
+
+        private void odometerBox_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                int.Parse(odometerBox.Text.Trim());
+            } catch
+            {
+                odometerBox.Text = string.Empty;
+            }
+        }
+
+        private void litersBox_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                decimal.Parse(gallonsBox.Text);
+            }
+            catch
+            {
+                gallonsBox.Text = string.Empty;
+            }
         }
     }
 }

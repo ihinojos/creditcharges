@@ -112,6 +112,7 @@
             this.p2Box.Name = "p2Box";
             this.p2Box.Size = new System.Drawing.Size(191, 20);
             this.p2Box.TabIndex = 7;
+            this.p2Box.UseSystemPasswordChar = true;
             // 
             // label4
             // 
@@ -128,6 +129,7 @@
             this.p1Box.Name = "p1Box";
             this.p1Box.Size = new System.Drawing.Size(191, 20);
             this.p1Box.TabIndex = 5;
+            this.p1Box.UseSystemPasswordChar = true;
             // 
             // label3
             // 
@@ -176,6 +178,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(237, 287);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddUser";
             this.Text = "AddUser";
             this.tableLayoutPanel1.ResumeLayout(false);

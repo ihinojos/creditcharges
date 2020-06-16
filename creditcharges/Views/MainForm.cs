@@ -22,6 +22,7 @@ namespace creditcharges.Views
         public readonly bool ADMIN;
         private bool report = false;
         private readonly SqlConnection sql;
+        public string User;
 
         public MainForm(bool admin)
         {
@@ -29,7 +30,6 @@ namespace creditcharges.Views
             InitializeComponent();
             sql = new SqlConnection(Data.cn);
             LoadTable();
-            addCardToolStripMenuItem.Enabled = ADMIN;
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -84,6 +84,13 @@ namespace creditcharges.Views
                     var ret = cmd.ExecuteNonQuery();
                     cmd.CommandText = "DELETE FROM Records WHERE Id = @id";
                     var rel = cmd.ExecuteNonQuery();
+                    try
+                    {
+                        cmd.CommandText = "DELETE FROM Fuel WHERE Id = @id";
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch { }
+
                     cmd.Connection.Close();
                     if (res > 0 && rel > 0 && ret > 0) MessageBox.Show("Record deleted.");
                     dateEdit1.EditValue = null;
@@ -99,7 +106,9 @@ namespace creditcharges.Views
         public void LoadTable()
         {
             if (generalGrid.DataSource != null) generalGrid.DataSource = null;
-            generalGrid.DataSource = GetDataSource();
+            if (dateEdit1.EditValue == null)
+                generalGrid.DataSource = GetDataSource();
+            else generalGrid.DataSource = GetDataSource((DateTime) dateEdit1.EditValue);
             GridColumn price = generalGridView.Columns["Amount"];
             price.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             price.DisplayFormat.FormatString = "c2";
@@ -115,9 +124,9 @@ namespace creditcharges.Views
 
         private void AddTransaction()
         {
-            var instance = Controller.controller.addTransaction;
+            var instance = Controller.controller.editTransaction;
             if (instance != null) instance.Dispose();
-            instance = Controller.controller.addTransaction = new AddTransaction();
+            instance = Controller.controller.editTransaction = new EditTransaction("","","");
             instance.Show();
         }
 
@@ -151,8 +160,17 @@ namespace creditcharges.Views
             }
             else if (!flag && view == detailsGridView)
             {
-                var concept = view.GetRowCellValue(view.FocusedRowHandle, "Concept").ToString();
-                var location = view.GetRowCellValue(view.FocusedRowHandle, "Location").ToString();
+                string concept = "";
+                string location = "";
+                try
+                {
+                    concept = view.GetRowCellValue(view.FocusedRowHandle, "Concept").ToString();
+                    location = view.GetRowCellValue(view.FocusedRowHandle, "Location").ToString();
+                }
+                catch
+                {
+
+                }
                 var instance = Controller.controller.editTransaction;
                 if (instance != null) instance.Dispose();
                 instance = Controller.controller.editTransaction = new EditTransaction(id, location, concept);
@@ -181,7 +199,8 @@ namespace creditcharges.Views
                         Concept = reader[4] as string,
                         Location = reader[5] as string,
                         Date = reader.GetDateTime(6),
-                        Notes = reader[7] as string
+                        Notes = reader[7] as string,
+                        Author = reader[8] as string
                     });
                 }
                 cmd.Connection.Close();
@@ -242,7 +261,7 @@ namespace creditcharges.Views
             instance.Show();
         }
 
-        public void LoadCustomDates(DateTime start, DateTime end)
+        public void GetDataSource(DateTime start, DateTime end)
         {
             report = false;
             BindingList<Transaction> result = new BindingList<Transaction>();
@@ -251,8 +270,8 @@ namespace creditcharges.Views
             var tomorrow = end.ToString("yyyy-MM-dd");
 
             var query = "SELECT R.Id, R.TDate, R.Card, R.Location, R.Concept, R.Amount, R.CardHolder, " +
-            "Q.Account, Q.Entity, Q.Class, Q.JobNumber, Q.JobName, Q.Card, R.Notes " +
-            "FROM Records R JOIN QuickBooks Q ON R.Id = Q.Id " +
+            "Q.Account, Q.Entity, Q.Class, Q.JobNumber, Q.JobName, Q.Card, R.Notes, R.Author " +
+            "FROM Records R LEFT JOIN QuickBooks Q ON R.Id = Q.Id " +
             "WHERE R.TDate >= @today AND R.TDate < @tomorrow ";
 
             SqlCommand cmd = new SqlCommand(query, sql);
@@ -278,7 +297,8 @@ namespace creditcharges.Views
                         JobNumber = reader[10] as string,
                         JobName = reader[11] as string,
                         MainCard = reader[12] as string,
-                        Notes = reader[13] as string
+                        Notes = reader[13] as string,
+                        Author = reader[14] as string
                     });
                 }
                 cmd.Connection.Close();
@@ -332,12 +352,6 @@ namespace creditcharges.Views
 
                 if (detailsGrid.DataSource != null) detailsGrid.DataSource = null;
                 detailsGridView.Columns.Clear();
-
-                var bar = Controller.controller.progressBar = new ProgressBar();
-                bar.progressBar1.Maximum = result.Count * 5;
-                bar.Show();
-
-                report = true;
                 Cursor.Current = Cursors.WaitCursor;
                 Application.DoEvents();
                 detailsGrid.DataSource = result;
@@ -347,8 +361,8 @@ namespace creditcharges.Views
                 price.DisplayFormat.FormatString = "c2";
                 detailsGridView.Columns[5].Visible = false;
                 detailsGridView.BestFitColumns();
-                bar.Dispose();
             }
+            report = true;
         }
 
         private void detailsGridView_RowStyle(object sender, RowStyleEventArgs e)
@@ -374,13 +388,11 @@ namespace creditcharges.Views
                     {
                         e.Appearance.BackColor = Color.LightBlue;
                         view.SetRowCellValue(e.RowHandle, "Id", reader[0] as string);
-                        Controller.controller.progressBar.progressBar1.PerformStep();
                     }
                     else
                     {
                         e.Appearance.BackColor = Color.Salmon;
                         e.Appearance.BackColor2 = Color.SeaShell;
-                        Controller.controller.progressBar.progressBar1.PerformStep();
                     }
                     reader.Close();
                     cmd.Connection.Close();
@@ -394,7 +406,7 @@ namespace creditcharges.Views
             {
                 var date = (DateTime)dateEdit1.EditValue;
                 if (generalGrid.DataSource != null) generalGrid.DataSource = null;
-                generalGrid.DataSource = GetCustomDate(date);
+                generalGrid.DataSource = GetDataSource(date);
                 GridColumn price = generalGridView.Columns["Amount"];
                 price.DisplayFormat.FormatType = FormatType.Numeric;
                 price.DisplayFormat.FormatString = "c2";
@@ -412,7 +424,7 @@ namespace creditcharges.Views
             }
         }
 
-        private BindingList<Transaction> GetCustomDate(DateTime _date)
+        private BindingList<Transaction> GetDataSource(DateTime _date)
         {
             BindingList<Transaction> result = new BindingList<Transaction>();
             var date = _date.ToString("yyyy-MM-dd");
@@ -436,7 +448,8 @@ namespace creditcharges.Views
                         Concept = reader[4] as string,
                         Location = reader[5] as string,
                         Date = reader.GetDateTime(6),
-                        Notes = reader[7] as string
+                        Notes = reader[7] as string,
+                        Author = reader[8] as string
                     });
                 }
                 cmd.Connection.Close();
@@ -470,6 +483,29 @@ namespace creditcharges.Views
             if (instance != null) instance.Dispose();
             instance = Controller.controller.employees = new Employees();
             instance.Show();
+        }
+
+        private void generalGridView_DoubleClick(object sender, EventArgs e)
+        {
+            EditTransaction(generalGridView);
+        }
+
+        private void detailsGridView_DoubleClick(object sender, EventArgs e)
+        {
+            EditTransaction(detailsGridView);
+        }
+
+        private void windowsUIButtonPanel3_ButtonClick(object sender, ButtonEventArgs e)
+        {
+            var tag = ((WindowsUIButton)e.Button).Tag.ToString();
+            switch (tag)
+            {
+                case "clear":
+                    report = false;
+                    detailsGrid.DataSource = null;
+                    detailsGridView.Columns.Clear();
+                    break;
+            }
         }
     }
 }

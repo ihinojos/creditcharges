@@ -24,7 +24,7 @@ namespace creditcharges.Views
             {
                 var date1 = (DateTime)dateEdit1.EditValue;
                 var date2 = (DateTime)dateEdit2.EditValue;
-                Controller.controller.mainForm.LoadCustomDates(date1, date2);
+                Controller.controller.mainForm.GetDataSource(date1, date2);
                 Dispose();
             }catch { }
         }

@@ -43,6 +43,7 @@ namespace creditcharges.Views
                         {
                             case true:
                                 var instance = Controller.controller.mainForm = new MainForm(admn);
+                                instance.User = reader[1] as string;
                                 instance.Show();
                                 Hide();
                                 break;
