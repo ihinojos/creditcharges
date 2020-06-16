@@ -1,12 +1,5 @@
 ﻿using creditcharges.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace creditcharges.Views
@@ -26,7 +19,8 @@ namespace creditcharges.Views
                 var date2 = (DateTime)dateEdit2.EditValue;
                 Controller.controller.mainForm.GetDataSource(date1, date2);
                 Dispose();
-            }catch { }
+            }
+            catch { }
         }
     }
 }

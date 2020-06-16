@@ -1,18 +1,14 @@
-﻿using DevExpress.Utils.Extensions;
-using DevExpress.XtraBars.Ribbon.ViewInfo;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace creditcharges.Models
 {
-    class Data
+    internal class Data
     {
         private static SqlConnection sql;
+
         //public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=TESTTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
         public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=PRODTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
 

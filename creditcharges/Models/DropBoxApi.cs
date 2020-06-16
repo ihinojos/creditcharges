@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace creditcharges.Models
 {
-    class DropBoxAPI
+    internal class DropBoxAPI
     {
         private static string sToken = "H6ShxgYjLJAAAAAAAAaM3XfEGX0t1E52OiIfKns6fF9PbyCUP7rrolnbe8ckx5KZ";
         public static string sFileName { get; set; }
         public static string sDropBoxPath { get; set; }
         public static string imagePath { get; set; }
+
         public static async Task DropBoxDownload()
         {
             var client = new DropboxClient(sToken);
@@ -33,9 +34,10 @@ namespace creditcharges.Models
             {
             }
         }
+
         public static async Task DropBoxSave()
         {
-           // bool bFolderExist = true;
+            // bool bFolderExist = true;
             var client = new DropboxClient(sToken);
             //string folder = $"/DAILY PICK UP LOADS/Credit Card Tickets/{DateTime.Today.ToString("yyyy")}/";
             string imageDropboxPath = sDropBoxPath;

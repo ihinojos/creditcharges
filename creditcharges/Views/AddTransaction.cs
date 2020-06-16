@@ -1,17 +1,9 @@
 ﻿using creditcharges.Models;
-using DevExpress.Utils.Serializing;
 using DevExpress.XtraBars.Docking2010;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace creditcharges.Views
@@ -20,6 +12,7 @@ namespace creditcharges.Views
     {
         private double value;
         private readonly SqlConnection sql;
+
         public AddTransaction()
         {
             InitializeComponent();
@@ -33,7 +26,6 @@ namespace creditcharges.Views
             AutoCompleteStringCollection cards = new AutoCompleteStringCollection();
             cards.AddRange(Data.childCards.ToArray());
             cardBoxNum.AutoCompleteCustomSource = cards;
-
         }
 
         private void windowsUIButtonPanel1_ButtonClick(object sender, ButtonEventArgs e)
@@ -44,6 +36,7 @@ namespace creditcharges.Views
                 case "save":
                     AddRecord();
                     break;
+
                 case "cancel":
                     Dispose();
                     break;
@@ -143,7 +136,8 @@ namespace creditcharges.Views
             try
             {
                 int.Parse(odometerBox.Text.Trim());
-            } catch
+            }
+            catch
             {
                 odometerBox.Text = string.Empty;
             }

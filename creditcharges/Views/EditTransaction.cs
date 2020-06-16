@@ -1,21 +1,12 @@
 ﻿using creditcharges.Models;
-using DevExpress.Utils.DragDrop;
 using DevExpress.XtraBars.Docking2010;
-using DevExpress.XtraBars.Ribbon.Gallery;
-using DevExpress.XtraEditors.Filtering.Templates;
-using DevExpress.XtraPrinting;
-using DevExpress.XtraTab.Drawing;
-using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -61,7 +52,6 @@ namespace creditcharges.Views
 
             if (!string.IsNullOrEmpty(Id))
             {
-
                 if (!(string.IsNullOrEmpty(location) && string.IsNullOrEmpty(concept)))
                 {
                     locationBox.Text = location;
@@ -100,18 +90,16 @@ namespace creditcharges.Views
             entities.AddRange(Data.entities.ToArray());
             entityBox.AutoCompleteCustomSource = entities;
 
-            //Class 
+            //Class
             AutoCompleteStringCollection classes = new AutoCompleteStringCollection();
             classes.AddRange(Data.classes.ToArray());
             classBox.AutoCompleteCustomSource = classes;
 
-            //Job Number 
+            //Job Number
             jobNumBox.Items.AddRange(Data.jobNumbers.ToArray());
 
             //Job Name
             jobNameBox.Items.AddRange(Data.jobNames.ToArray());
-
-
         }
 
         private void windowsUIButtonPanel1_ButtonClick(object sender, DevExpress.XtraBars.Docking2010.ButtonEventArgs e)
@@ -122,11 +110,13 @@ namespace creditcharges.Views
                 case "cancel":
                     Dispose();
                     break;
+
                 case "save":
                     if (!string.IsNullOrEmpty(Id))
                         SaveInfo(Id);
                     else SaveNewInfo();
                     break;
+
                 case "delete":
                     Delete();
                     break;
@@ -221,8 +211,8 @@ namespace creditcharges.Views
             }
             if (!imgInf) sidePic1.Visible = true;
             else DownloadImages();
-
         }
+
         private void SaveNewInfo()
         {
             string maincard = "";
@@ -313,6 +303,7 @@ namespace creditcharges.Views
             }
             else MessageBox.Show("There are empty fields.");
         }
+
         private void SaveInfo(string Id)
         {
             var employee = employeeBox.Text;
@@ -373,7 +364,6 @@ namespace creditcharges.Views
                 cmd.Parameters.AddWithValue("@gallons", SqlDbType.Decimal).Value = gallons;
                 cmd.ExecuteNonQuery();
             }
-
 
             cmd.Connection.Close();
 
@@ -582,7 +572,6 @@ namespace creditcharges.Views
                         imgCount = 0;
                     }
                 }
-
             }
         }
 
@@ -679,7 +668,7 @@ namespace creditcharges.Views
             };
         }
 
-        Image ZoomPicture(Image img, Size size)
+        private Image ZoomPicture(Image img, Size size)
         {
             Bitmap bmp = new Bitmap(img, Convert.ToInt32(img.Width * size.Width / 100), Convert.ToInt32(img.Height * size.Height / 100));
             Graphics graphics = Graphics.FromImage(bmp);
@@ -687,7 +676,7 @@ namespace creditcharges.Views
             return bmp;
         }
 
-        PictureBox original;
+        private PictureBox original;
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {

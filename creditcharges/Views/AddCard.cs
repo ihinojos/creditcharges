@@ -1,15 +1,8 @@
 ﻿using creditcharges.Models;
-using DevExpress.Utils.Serializing;
 using DevExpress.XtraBars.Docking2010;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace creditcharges.Views
@@ -17,6 +10,7 @@ namespace creditcharges.Views
     public partial class AddCard : Form
     {
         private readonly SqlConnection sql;
+
         public AddCard()
         {
             InitializeComponent();
@@ -40,10 +34,10 @@ namespace creditcharges.Views
                 case "save":
                     SaveCard();
                     break;
+
                 case "cancel":
                     Dispose();
                     break;
-
             }
         }
 
@@ -63,7 +57,7 @@ namespace creditcharges.Views
                     {
                         if (reader.Read())
                         {
-                            query = "SELECT * FROM ChildCards WHERE Card = @child AND ";
+                            query = "SELECT * FROM ChildCards WHERE Card = @child AND Main = @main";
                             cmd.CommandText = query;
                             cmd.Parameters.AddWithValue("@child", SqlDbType.VarChar).Value = Child;
                             reader.Close();
@@ -78,9 +72,13 @@ namespace creditcharges.Views
                                     read.Close();
                                     query = "INSERT INTO ChildCards (Card, Main) VALUES (@child, @main)";
                                     cmd.CommandText = query;
-                                    int res = cmd.ExecuteNonQuery();
-                                    if (res == 1) MessageBox.Show("Card added successfully.");
-                                    else MessageBox.Show("There was an error, please check internet connection");
+                                    try
+                                    {
+                                        int res = cmd.ExecuteNonQuery();
+                                        if (res == 1) MessageBox.Show("Card added successfully.");
+                                        else MessageBox.Show("There was an error, please check internet connection");
+                                    }
+                                    catch { }
                                 }
                             }
                         }

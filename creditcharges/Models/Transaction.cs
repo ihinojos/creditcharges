@@ -7,10 +7,13 @@ namespace creditcharges.Models
     {
         [System.ComponentModel.DataAnnotations.Key, Display(AutoGenerateField = false)]
         public string Id { get; set; }
+
         [Required]
         public string Employee { get; set; }
+
         [Required]
         public string Card { get; set; }
+
         public string Location { get; set; }
         public string Concept { get; set; }
         public decimal Amount { get; set; }

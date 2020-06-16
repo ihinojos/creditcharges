@@ -1,20 +1,13 @@
 ﻿using creditcharges.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace creditcharges.Views
 {
     public partial class LogIn : Form
     {
-
         private SqlConnection sql;
 
         public LogIn()
@@ -47,6 +40,7 @@ namespace creditcharges.Views
                                 instance.Show();
                                 Hide();
                                 break;
+
                             case false:
                                 MessageBox.Show("The password is incorrect.");
                                 break;

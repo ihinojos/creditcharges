@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace creditcharges.Models
+﻿namespace creditcharges.Models
 {
-    class ProgressReport
+    internal class ProgressReport
     {
     }
 }

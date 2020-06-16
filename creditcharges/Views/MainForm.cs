@@ -1,18 +1,14 @@
 ﻿using creditcharges.Models;
-using DevExpress.Data.Mask;
 using DevExpress.Utils;
 using DevExpress.XtraBars.Docking2010;
 using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using Microsoft.VisualBasic.FileIO;
 using System;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace creditcharges.Views
@@ -47,15 +43,19 @@ namespace creditcharges.Views
                     case "print":
                         generalGrid.ShowRibbonPrintPreview();
                         break;
+
                     case "new":
                         AddTransaction();
                         break;
+
                     case "edit":
                         EditTransaction(generalGridView);
                         break;
+
                     case "delete":
                         DeleteRecord();
                         break;
+
                     case "refresh":
                         LoadTable();
                         break;
@@ -100,7 +100,6 @@ namespace creditcharges.Views
             {
                 MessageBox.Show("Please select a record.");
             }
-
         }
 
         public void LoadTable()
@@ -108,7 +107,7 @@ namespace creditcharges.Views
             if (generalGrid.DataSource != null) generalGrid.DataSource = null;
             if (dateEdit1.EditValue == null)
                 generalGrid.DataSource = GetDataSource();
-            else generalGrid.DataSource = GetDataSource((DateTime) dateEdit1.EditValue);
+            else generalGrid.DataSource = GetDataSource((DateTime)dateEdit1.EditValue);
             GridColumn price = generalGridView.Columns["Amount"];
             price.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             price.DisplayFormat.FormatString = "c2";
@@ -126,7 +125,7 @@ namespace creditcharges.Views
         {
             var instance = Controller.controller.editTransaction;
             if (instance != null) instance.Dispose();
-            instance = Controller.controller.editTransaction = new EditTransaction("","","");
+            instance = Controller.controller.editTransaction = new EditTransaction("", "", "");
             instance.Show();
         }
 
@@ -137,13 +136,13 @@ namespace creditcharges.Views
             try { id = view.GetRowCellValue(view.FocusedRowHandle, "Id").ToString(); }
             catch (NullReferenceException)
             {
-
                 var msg = "";
                 switch (view.Tag)
                 {
                     case "general":
                         msg = "Please select a transaction to edit.";
                         break;
+
                     case "detail":
                         msg = "There is no record associated with the report.";
                         break;
@@ -169,7 +168,6 @@ namespace creditcharges.Views
                 }
                 catch
                 {
-
                 }
                 var instance = Controller.controller.editTransaction;
                 if (instance != null) instance.Dispose();
@@ -220,7 +218,6 @@ namespace creditcharges.Views
 
         private void deleteCardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             var instance = Controller.controller.delCard;
             if (instance != null) instance.Dispose();
 
@@ -239,12 +236,15 @@ namespace creditcharges.Views
                     case "load":
                         LoadReport();
                         break;
+
                     case "fill":
                         EditTransaction(detailsGridView);
                         break;
+
                     case "print":
                         detailsGrid.ShowRibbonPrintPreview();
                         break;
+
                     case "details":
                         DateRangeForm();
                         break;
@@ -310,7 +310,7 @@ namespace creditcharges.Views
             price.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             price.DisplayFormat.FormatString = "c2";
             detailsGridView.BestFitColumns();
-        }   
+        }
 
         private void LoadReport()
         {
@@ -344,9 +344,8 @@ namespace creditcharges.Views
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine(ex.Message  + "\n" + values);
+                            Console.WriteLine(ex.Message + "\n" + values);
                         }
-                        
                     }
                 }
 

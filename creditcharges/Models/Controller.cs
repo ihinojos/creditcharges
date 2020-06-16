@@ -1,16 +1,13 @@
 ﻿using creditcharges.Views;
-using DevExpress.XtraEditors.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace creditcharges.Models
 {
     public sealed class Controller
     {
-        private Controller() { }
+        private Controller()
+        {
+        }
+
         public LogIn logIn { get; set; }
         public MainForm mainForm { get; set; }
         public AddTransaction addTransaction { get; set; }
