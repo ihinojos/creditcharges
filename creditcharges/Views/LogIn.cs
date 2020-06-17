@@ -16,8 +16,9 @@ namespace creditcharges.Views
             sql = new SqlConnection(Data.cn);
         }
 
-        private void Get_Account(object sender, EventArgs e)
+        private void LogInAccount()
         {
+
             var user = userBox.Text;
             var pass = passBox.Text;
             if (!string.IsNullOrEmpty(user) && !string.IsNullOrEmpty(pass))
@@ -55,6 +56,16 @@ namespace creditcharges.Views
                 }
             }
             else MessageBox.Show("There are empty fields!");
+        }
+
+        private void Get_Account(object sender, EventArgs e)
+        {
+            LogInAccount();
+        }
+
+        private void passBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter) LogInAccount(); 
         }
     }
 }

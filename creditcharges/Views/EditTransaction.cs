@@ -1,10 +1,16 @@
-﻿using creditcharges.Models;
+﻿
+using creditcharges.Models;
+using DevExpress.Data.Extensions;
+using DevExpress.Utils.CodedUISupport;
 using DevExpress.XtraBars.Docking2010;
+using DevExpress.XtraRichEdit.Import.Doc;
+using Ghostscript.NET.Rasterizer;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -211,6 +217,85 @@ namespace creditcharges.Views
             }
             if (!imgInf) sidePic1.Visible = true;
             else DownloadImages();
+        }
+
+        private void ImagesFromList(List<string> list)
+        {
+            button1.PerformClick();
+
+            if (list.Count > 0)
+            {
+                var img = Image.FromFile(list.ElementAt(0));
+                img.Tag = list.ElementAt(0);
+
+                //main
+                mainPictureBox.Image.Dispose();
+                mainPictureBox.Image = img;
+                mainCardBox.Refresh();
+                original.Image.Dispose();
+                original.Image = img;
+                original.Tag = img.Tag;
+                original.Refresh();
+
+                //side1
+                sidePic1.Image = img;
+                sidePic1.Tag = img.Tag;
+                sidePic1.ImageLocation = img.Tag.ToString();
+                sidePic1.Visible = true;
+                imgCount = 1;
+
+            }if(list.Count > 1)
+            {
+                var img = Image.FromFile(list.ElementAt(1));
+                img.Tag = list.ElementAt(1);
+                //side2
+                sidePic2.Image = img;
+                sidePic2.Tag = img.Tag;
+                sidePic2.ImageLocation = img.Tag.ToString();
+                sidePic2.Visible = true;
+                imgCount = 2;
+            }
+            if(list.Count > 2)
+            {
+                var img = Image.FromFile(list.ElementAt(2));
+                img.Tag = list.ElementAt(2);
+                //side3
+                sidePic3.Image = img;
+                sidePic3.Tag = img.Tag;
+                sidePic3.ImageLocation = img.Tag.ToString();
+                sidePic3.Visible = true;
+                imgCount = 3;
+            }
+            if (list.Count > 3)
+            {
+                var img = Image.FromFile(list.ElementAt(3));
+                img.Tag = list.ElementAt(3);
+                //side4
+                sidePic4.Image = img;
+                sidePic4.Tag = img.Tag;
+                sidePic4.ImageLocation = img.Tag.ToString();
+
+                sidePic4.Visible = true;
+                imgCount = 0;
+            }
+        }
+
+        private List<string> PDFImage(string path)
+        {
+            List<string> images = new List<string>();
+
+            using (var rasterizer = new GhostscriptRasterizer())
+            {
+                rasterizer.Open(path);
+                for (var page = 1; page <= rasterizer.PageCount; page++)
+                {
+                    var imgPath = Path.Combine(Path.GetTempPath(), Path.GetTempFileName()).Replace("tmp", "jpg");
+                    var img = rasterizer.GetPage(96, 96, page);
+                    img.Save(imgPath, ImageFormat.Jpeg);
+                    images.Add(imgPath);
+                }
+            }
+                return images;
         }
 
         private void SaveNewInfo()
@@ -506,7 +591,7 @@ namespace creditcharges.Views
             PictureBox pic = (PictureBox)sender;
             try
             {
-                mainPictureBox.Image.Dispose();
+                mainPictureBox.Image.Dispose();  
                 mainPictureBox.Image = Image.FromFile(pic.Tag.ToString());
                 mainPictureBox.Refresh();
                 original.Image.Dispose();
@@ -518,58 +603,67 @@ namespace creditcharges.Views
             {
                 OpenFileDialog open = new OpenFileDialog
                 {
-                    Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png"
+                    Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png|PDF Files (*.pdf) | *.pdf"
                 };
                 if (open.ShowDialog() == DialogResult.OK)
                 {
-                    var img = Image.FromFile(open.FileName);
-                    img.Tag = open.FileName;
+                    if (Path.GetExtension(open.FileName) == ".pdf")
+                    {
+                        var list = PDFImage(open.FileName);
+                        ImagesFromList(list);
+                    }
+                    else
+                    {
 
-                    mainPictureBox.Image.Dispose();
-                    mainPictureBox.Image = img;
-                    mainCardBox.Refresh();
-                    original.Image.Dispose();
-                    original.Image = img;
-                    original.Tag = img.Tag;
-                    original.Refresh();
-                    if (pic == sidePic1)
-                    {
-                        sidePic1.Image.Dispose();
-                        sidePic1.Image = img;
-                        sidePic1.Tag = img.Tag;
-                        sidePic1.ImageLocation = img.Tag.ToString();
-                        sidePic1.Refresh();
-                        sidePic2.Visible = true;
-                        imgCount = 1;
-                    }
-                    else if (pic == sidePic2)
-                    {
-                        sidePic2.Image.Dispose();
-                        sidePic2.Image = img;
-                        sidePic2.Tag = img.Tag;
-                        sidePic2.ImageLocation = img.Tag.ToString();
-                        sidePic2.Refresh();
-                        sidePic3.Visible = true;
-                        imgCount = 2;
-                    }
-                    else if (pic == sidePic3)
-                    {
-                        sidePic3.Image.Dispose();
-                        sidePic3.Image = img;
-                        sidePic3.Tag = img.Tag;
-                        sidePic3.ImageLocation = img.Tag.ToString();
-                        sidePic3.Refresh();
-                        sidePic4.Visible = true;
-                        imgCount = 3;
-                    }
-                    else if (pic == sidePic4)
-                    {
-                        sidePic4.Image.Dispose();
-                        sidePic4.Image = img;
-                        sidePic4.Tag = img.Tag;
-                        sidePic4.ImageLocation = img.Tag.ToString();
-                        sidePic4.Refresh();
-                        imgCount = 0;
+                        var img = Image.FromFile(open.FileName);
+                        img.Tag = open.FileName;
+
+                        mainPictureBox.Image.Dispose();
+                        mainPictureBox.Image = img;
+                        mainCardBox.Refresh();
+                        original.Image.Dispose();
+                        original.Image = img;
+                        original.Tag = img.Tag;
+                        original.Refresh();
+                        if (pic == sidePic1)
+                        {
+                            sidePic1.Image.Dispose();
+                            sidePic1.Image = img;
+                            sidePic1.Tag = img.Tag;
+                            sidePic1.ImageLocation = img.Tag.ToString();
+                            sidePic1.Refresh();
+                            sidePic2.Visible = true;
+                            imgCount = 1;
+                        }
+                        else if (pic == sidePic2)
+                        {
+                            sidePic2.Image.Dispose();
+                            sidePic2.Image = img;
+                            sidePic2.Tag = img.Tag;
+                            sidePic2.ImageLocation = img.Tag.ToString();
+                            sidePic2.Refresh();
+                            sidePic3.Visible = true;
+                            imgCount = 2;
+                        }
+                        else if (pic == sidePic3)
+                        {
+                            sidePic3.Image.Dispose();
+                            sidePic3.Image = img;
+                            sidePic3.Tag = img.Tag;
+                            sidePic3.ImageLocation = img.Tag.ToString();
+                            sidePic3.Refresh();
+                            sidePic4.Visible = true;
+                            imgCount = 3;
+                        }
+                        else if (pic == sidePic4)
+                        {
+                            sidePic4.Image.Dispose();
+                            sidePic4.Image = img;
+                            sidePic4.Tag = img.Tag;
+                            sidePic4.ImageLocation = img.Tag.ToString();
+                            sidePic4.Refresh();
+                            imgCount = 0;
+                        }
                     }
                 }
             }
@@ -590,53 +684,62 @@ namespace creditcharges.Views
                     var fileNames = data as string[];
                     if (fileNames.Length > 0)
                     {
-                        var img = Image.FromFile(fileNames[0]);
-                        img.Tag = fileNames[0];
-                        mainPictureBox.Image.Dispose();
-                        mainPictureBox.Image = img;
-                        mainPictureBox.Refresh();
-                        original.Image.Dispose();
-                        original.Image = img;
-                        original.Tag = img.Tag;
-                        original.Refresh();
-                        if (imgCount == 0)
+                        if (Path.GetExtension(fileNames[0]) == ".pdf")
                         {
-                            sidePic1.Image.Dispose();
-                            sidePic1.Image = img;
-                            sidePic1.Tag = img.Tag;
-                            sidePic1.ImageLocation = img.Tag.ToString();
-                            sidePic1.Refresh();
-                            imgCount = 1;
-                            sidePic2.Visible = true;
+                            var list = PDFImage(fileNames[0]);
+                            ImagesFromList(list);
                         }
-                        else if (imgCount == 1)
+                        else
                         {
-                            sidePic2.Image.Dispose();
-                            sidePic2.Image = img;
-                            sidePic2.Tag = img.Tag;
-                            sidePic2.ImageLocation = img.Tag.ToString();
-                            sidePic2.Refresh();
-                            imgCount = 2;
-                            sidePic3.Visible = true;
-                        }
-                        else if (imgCount == 2)
-                        {
-                            sidePic3.Image.Dispose();
-                            sidePic3.Image = img;
-                            sidePic3.Tag = img.Tag;
-                            sidePic3.ImageLocation = img.Tag.ToString();
-                            sidePic3.Refresh();
-                            imgCount = 3;
-                            sidePic4.Visible = true;
-                        }
-                        else if (imgCount == 3)
-                        {
-                            sidePic4.Image.Dispose();
-                            sidePic4.Image = img;
-                            sidePic4.Tag = img.Tag;
-                            sidePic4.ImageLocation = img.Tag.ToString();
-                            sidePic4.Refresh();
-                            imgCount = 0;
+
+                            var img = Image.FromFile(fileNames[0]);
+                            img.Tag = fileNames[0];
+                            mainPictureBox.Image.Dispose();
+                            mainPictureBox.Image = img;
+                            mainPictureBox.Refresh();
+                            original.Image.Dispose();
+                            original.Image = img;
+                            original.Tag = img.Tag;
+                            original.Refresh();
+                            if (imgCount == 0)
+                            {
+                                sidePic1.Image.Dispose();
+                                sidePic1.Image = img;
+                                sidePic1.Tag = img.Tag;
+                                sidePic1.ImageLocation = img.Tag.ToString();
+                                sidePic1.Refresh();
+                                imgCount = 1;
+                                sidePic2.Visible = true;
+                            }
+                            else if (imgCount == 1)
+                            {
+                                sidePic2.Image.Dispose();
+                                sidePic2.Image = img;
+                                sidePic2.Tag = img.Tag;
+                                sidePic2.ImageLocation = img.Tag.ToString();
+                                sidePic2.Refresh();
+                                imgCount = 2;
+                                sidePic3.Visible = true;
+                            }
+                            else if (imgCount == 2)
+                            {
+                                sidePic3.Image.Dispose();
+                                sidePic3.Image = img;
+                                sidePic3.Tag = img.Tag;
+                                sidePic3.ImageLocation = img.Tag.ToString();
+                                sidePic3.Refresh();
+                                imgCount = 3;
+                                sidePic4.Visible = true;
+                            }
+                            else if (imgCount == 3)
+                            {
+                                sidePic4.Image.Dispose();
+                                sidePic4.Image = img;
+                                sidePic4.Tag = img.Tag;
+                                sidePic4.ImageLocation = img.Tag.ToString();
+                                sidePic4.Refresh();
+                                imgCount = 0;
+                            }
                         }
                     }
                 }
@@ -701,6 +804,25 @@ namespace creditcharges.Views
                 amountBox.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", value);
             else
                 amountBox.Text = string.Empty;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            mainPictureBox.Image.Dispose();
+            mainPictureBox.Image = new Bitmap(Properties.Resources.No_Picture1);
+            original.Image.Dispose();
+            original.Image = new Bitmap(Properties.Resources.No_Picture1);
+            sidePic1.Visible = true;
+            sidePic1.Image.Dispose();
+            sidePic1.Image = new Bitmap(Properties.Resources.addImg);
+            sidePic1.Tag = null;
+            sidePic1.ImageLocation = null;
+            sidePic2.Visible = false;
+            sidePic2.Image.Dispose();
+            sidePic3.Visible = false;
+            sidePic3.Image.Dispose();
+            sidePic4.Visible = false;
+            sidePic4.Image.Dispose();
         }
     }
 }

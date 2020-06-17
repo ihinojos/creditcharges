@@ -35,6 +35,19 @@ namespace creditcharges.Models
             }
         }
 
+        private static async Task<FileStream> GetStreamAsync(string path)
+        {
+            try
+            {
+                return new FileStream(path, FileMode.Open, FileAccess.Read);
+            }
+            catch (IOException)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(1));
+                return await GetStreamAsync(path);
+            }
+        }
+
         public static async Task DropBoxSave()
         {
             // bool bFolderExist = true;
@@ -63,7 +76,7 @@ namespace creditcharges.Models
             /************** Copy image file to DropBox folder   ******************/
             try
             {
-                using (var file = new FileStream(imagePath, FileMode.Open))
+                using (var file = await GetStreamAsync(imagePath))
                 {
                     var updated = await client.Files.UploadAsync(
                         imageDropboxPath + sFileName,
@@ -72,7 +85,8 @@ namespace creditcharges.Models
                     file.Close();
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex) {
+            }
         }
     }
 }

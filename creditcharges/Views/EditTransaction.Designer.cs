@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions7 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions10 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditTransaction));
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions8 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions9 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions11 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions12 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.windowsUIButtonPanel1 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel();
@@ -68,6 +68,17 @@
             this.label10 = new System.Windows.Forms.Label();
             this.accountBox = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.gallonsBox = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.odometerBox = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.modelBox = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.plateBox = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.sidePic1 = new System.Windows.Forms.PictureBox();
@@ -77,17 +88,7 @@
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.panel3 = new System.Windows.Forms.Panel();
             this.mainPictureBox = new System.Windows.Forms.PictureBox();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.label14 = new System.Windows.Forms.Label();
-            this.plateBox = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.modelBox = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.odometerBox = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.gallonsBox = new System.Windows.Forms.TextBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -97,6 +98,8 @@
             this.panel1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sidePic1)).BeginInit();
@@ -106,8 +109,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
-            this.tabPage3.SuspendLayout();
-            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -143,14 +144,14 @@
             // 
             // windowsUIButtonPanel1
             // 
-            windowsUIButtonImageOptions7.Image = ((System.Drawing.Image)(resources.GetObject("windowsUIButtonImageOptions7.Image")));
-            windowsUIButtonImageOptions8.Image = ((System.Drawing.Image)(resources.GetObject("windowsUIButtonImageOptions8.Image")));
-            windowsUIButtonImageOptions9.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions9.SvgImage")));
+            windowsUIButtonImageOptions10.Image = ((System.Drawing.Image)(resources.GetObject("windowsUIButtonImageOptions10.Image")));
+            windowsUIButtonImageOptions11.Image = ((System.Drawing.Image)(resources.GetObject("windowsUIButtonImageOptions11.Image")));
+            windowsUIButtonImageOptions12.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions12.SvgImage")));
             this.windowsUIButtonPanel1.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Save & Close", true, windowsUIButtonImageOptions7, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "save", -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Cancel", true, windowsUIButtonImageOptions8, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "cancel", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Save & Close", true, windowsUIButtonImageOptions10, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "save", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Cancel", true, windowsUIButtonImageOptions11, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "cancel", -1, false),
             new DevExpress.XtraBars.Docking2010.WindowsUISeparator(),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Delete", true, windowsUIButtonImageOptions9, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "delete", -1, false)});
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Delete", true, windowsUIButtonImageOptions12, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "delete", -1, false)});
             this.windowsUIButtonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.windowsUIButtonPanel1.Location = new System.Drawing.Point(18, 559);
             this.windowsUIButtonPanel1.Name = "windowsUIButtonPanel1";
@@ -520,6 +521,113 @@
             this.label11.TabIndex = 0;
             this.label11.Text = "QB Account Type";
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.panel4);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(280, 331);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Fuel";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.checkBox1);
+            this.panel4.Controls.Add(this.gallonsBox);
+            this.panel4.Controls.Add(this.label17);
+            this.panel4.Controls.Add(this.odometerBox);
+            this.panel4.Controls.Add(this.label16);
+            this.panel4.Controls.Add(this.modelBox);
+            this.panel4.Controls.Add(this.label15);
+            this.panel4.Controls.Add(this.plateBox);
+            this.panel4.Controls.Add(this.label14);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(3, 3);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(274, 325);
+            this.panel4.TabIndex = 0;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(6, 3);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(46, 17);
+            this.checkBox1.TabIndex = 8;
+            this.checkBox1.Text = "Fuel";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // gallonsBox
+            // 
+            this.gallonsBox.Enabled = false;
+            this.gallonsBox.Location = new System.Drawing.Point(6, 159);
+            this.gallonsBox.Name = "gallonsBox";
+            this.gallonsBox.Size = new System.Drawing.Size(265, 20);
+            this.gallonsBox.TabIndex = 7;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(3, 143);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(80, 13);
+            this.label17.TabIndex = 6;
+            this.label17.Text = "Gallons of fuel: ";
+            // 
+            // odometerBox
+            // 
+            this.odometerBox.Enabled = false;
+            this.odometerBox.Location = new System.Drawing.Point(6, 120);
+            this.odometerBox.Name = "odometerBox";
+            this.odometerBox.Size = new System.Drawing.Size(265, 20);
+            this.odometerBox.TabIndex = 5;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(3, 104);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(89, 13);
+            this.label16.TabIndex = 4;
+            this.label16.Text = "Odometer (Miles):";
+            // 
+            // modelBox
+            // 
+            this.modelBox.Enabled = false;
+            this.modelBox.Location = new System.Drawing.Point(6, 78);
+            this.modelBox.Name = "modelBox";
+            this.modelBox.Size = new System.Drawing.Size(265, 20);
+            this.modelBox.TabIndex = 3;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(3, 62);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(76, 13);
+            this.label15.TabIndex = 2;
+            this.label15.Text = "Vehicle model:";
+            // 
+            // plateBox
+            // 
+            this.plateBox.Enabled = false;
+            this.plateBox.Location = new System.Drawing.Point(6, 39);
+            this.plateBox.Name = "plateBox";
+            this.plateBox.Size = new System.Drawing.Size(265, 20);
+            this.plateBox.TabIndex = 1;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(3, 23);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(71, 13);
+            this.label14.TabIndex = 0;
+            this.label14.Text = "Vehicle plate:";
+            // 
             // tableLayoutPanel4
             // 
             this.tableLayoutPanel4.AllowDrop = true;
@@ -546,6 +654,7 @@
             this.flowLayoutPanel1.Controls.Add(this.sidePic3);
             this.flowLayoutPanel1.Controls.Add(this.sidePic4);
             this.flowLayoutPanel1.Controls.Add(this.trackBar1);
+            this.flowLayoutPanel1.Controls.Add(this.button1);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(672, 3);
@@ -629,112 +738,17 @@
             this.mainPictureBox.TabIndex = 2;
             this.mainPictureBox.TabStop = false;
             // 
-            // tabPage3
+            // button1
             // 
-            this.tabPage3.Controls.Add(this.panel4);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(280, 331);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Fuel";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.checkBox1);
-            this.panel4.Controls.Add(this.gallonsBox);
-            this.panel4.Controls.Add(this.label17);
-            this.panel4.Controls.Add(this.odometerBox);
-            this.panel4.Controls.Add(this.label16);
-            this.panel4.Controls.Add(this.modelBox);
-            this.panel4.Controls.Add(this.label15);
-            this.panel4.Controls.Add(this.plateBox);
-            this.panel4.Controls.Add(this.label14);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(3, 3);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(274, 325);
-            this.panel4.TabIndex = 0;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(3, 23);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(71, 13);
-            this.label14.TabIndex = 0;
-            this.label14.Text = "Vehicle plate:";
-            // 
-            // plateBox
-            // 
-            this.plateBox.Enabled = false;
-            this.plateBox.Location = new System.Drawing.Point(6, 39);
-            this.plateBox.Name = "plateBox";
-            this.plateBox.Size = new System.Drawing.Size(265, 20);
-            this.plateBox.TabIndex = 1;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(3, 62);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(76, 13);
-            this.label15.TabIndex = 2;
-            this.label15.Text = "Vehicle model:";
-            // 
-            // modelBox
-            // 
-            this.modelBox.Enabled = false;
-            this.modelBox.Location = new System.Drawing.Point(6, 78);
-            this.modelBox.Name = "modelBox";
-            this.modelBox.Size = new System.Drawing.Size(265, 20);
-            this.modelBox.TabIndex = 3;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(3, 104);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(89, 13);
-            this.label16.TabIndex = 4;
-            this.label16.Text = "Odometer (Miles):";
-            // 
-            // odometerBox
-            // 
-            this.odometerBox.Enabled = false;
-            this.odometerBox.Location = new System.Drawing.Point(6, 120);
-            this.odometerBox.Name = "odometerBox";
-            this.odometerBox.Size = new System.Drawing.Size(265, 20);
-            this.odometerBox.TabIndex = 5;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(3, 143);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(80, 13);
-            this.label17.TabIndex = 6;
-            this.label17.Text = "Gallons of fuel: ";
-            // 
-            // gallonsBox
-            // 
-            this.gallonsBox.Enabled = false;
-            this.gallonsBox.Location = new System.Drawing.Point(6, 159);
-            this.gallonsBox.Name = "gallonsBox";
-            this.gallonsBox.Size = new System.Drawing.Size(265, 20);
-            this.gallonsBox.TabIndex = 7;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(6, 3);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(46, 17);
-            this.checkBox1.TabIndex = 8;
-            this.checkBox1.Text = "Fuel";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.button1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.button1.Location = new System.Drawing.Point(3, 466);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(151, 37);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Remove Images";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // EditTransaction
             // 
@@ -758,6 +772,9 @@
             this.tabPage2.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
@@ -769,9 +786,6 @@
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).EndInit();
-            this.tabPage3.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -834,5 +848,6 @@
         private System.Windows.Forms.TextBox odometerBox;
         private System.Windows.Forms.TextBox gallonsBox;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button button1;
     }
 }

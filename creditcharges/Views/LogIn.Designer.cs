@@ -51,6 +51,7 @@
             this.passBox.Size = new System.Drawing.Size(188, 20);
             this.passBox.TabIndex = 1;
             this.passBox.UseSystemPasswordChar = true;
+            this.passBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.passBox_KeyDown);
             // 
             // logBtn
             // 
