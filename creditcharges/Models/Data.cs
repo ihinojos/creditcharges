@@ -20,7 +20,6 @@ namespace creditcharges.Models
         public static List<string> names { get; set; }
         public static List<string> childCards { get; set; }
         public static List<string> mainCards { get; set; }
-
         public static void getData()
         {
             accountType = new List<string>(Properties.Resources.QBAT.Split(new char[] { ',' }));

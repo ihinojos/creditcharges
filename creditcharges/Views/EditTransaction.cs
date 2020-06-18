@@ -174,7 +174,6 @@ namespace creditcharges.Views
                     conceptBox.Text = reader[4] as string;
                     locationBox.Text = reader[5] as string;
                     dateBox.Value = reader.GetDateTime(6);
-                    dateBox.Enabled = false;
                     notesBox.Text = reader[7] as string;
                 }
             }
@@ -403,12 +402,12 @@ namespace creditcharges.Views
             var jobName = jobNameBox.Text;
             var mainCard = mainCardBox.Text;
             var date = dateBox.Value;
-            var amount = amountBox.Text.Replace("$", "");
+            var amount = amountBox.Text.Replace("$", "").Replace(",", "");
             var card = cardBoxNum.Text;
             var author = Controller.controller.mainForm.User;
 
-            var query = "UPDATE Records SET Concept = @concept, Location = @location, Notes = @notes, Amount = @amount, Card = @card, Author = @author " +
-                "WHERE Id = @id";
+            var query = "UPDATE Records SET Concept = @concept, Location = @location, Notes = @notes, Amount = @amount, Card = @card, Author = @author," +
+                "TDate = @date WHERE Id = @id";
             SqlCommand cmd = new SqlCommand(query, sql);
             cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = Id;
             cmd.Parameters.AddWithValue("@concept", SqlDbType.VarChar).Value = concept;
@@ -417,6 +416,7 @@ namespace creditcharges.Views
             cmd.Parameters.AddWithValue("@amount", SqlDbType.Decimal).Value = amount;
             cmd.Parameters.AddWithValue("@card", SqlDbType.VarChar).Value = card;
             cmd.Parameters.AddWithValue("@author", SqlDbType.VarChar).Value = author;
+            cmd.Parameters.AddWithValue("@date", SqlDbType.DateTime).Value = date;
 
             cmd.Connection.Open();
             cmd.ExecuteNonQuery();
@@ -460,55 +460,61 @@ namespace creditcharges.Views
         private void DownloadImages()
         {
             Task task;
-            if (imgPaths.Count > 0)
+            try
             {
-                DropBoxAPI.sFileName = Path.GetFileName(imgPaths.ElementAt(0));
-                DropBoxAPI.sDropBoxPath = Path.GetDirectoryName(imgPaths.ElementAt(0)).Replace("\\", "/");
-                task = Task.Run(DropBoxAPI.DropBoxDownload);
-                task.Wait();
-                sidePic1.Image.Dispose();
-                sidePic1.Image = Image.FromFile(Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName));
-                sidePic1.Tag = Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName);
-                sidePic1.ImageLocation = sidePic1.Tag.ToString();
-                sidePic1.Visible = true;
+                if (imgPaths.Count > 0)
+                {
+                    DropBoxAPI.sFileName = Path.GetFileName(imgPaths.ElementAt(0));
+                    DropBoxAPI.sDropBoxPath = Path.GetDirectoryName(imgPaths.ElementAt(0)).Replace("\\", "/");
+                    task = Task.Run(DropBoxAPI.DropBoxDownload);
+                    task.Wait();
+                    sidePic1.Image.Dispose();
+                    sidePic1.Image = Image.FromFile(Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName));
+                    sidePic1.Tag = Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName);
+                    sidePic1.ImageLocation = sidePic1.Tag.ToString();
+                    sidePic1.Visible = true;
+                }
+                if (imgPaths.Count > 1)
+                {
+                    DropBoxAPI.sFileName = Path.GetFileName(imgPaths.ElementAt(1));
+                    DropBoxAPI.sDropBoxPath = Path.GetDirectoryName(imgPaths.ElementAt(1)).Replace("\\", "/");
+                    task = Task.Run(DropBoxAPI.DropBoxDownload);
+                    task.Wait();
+                    sidePic2.Image.Dispose();
+                    sidePic2.Image = Image.FromFile(Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName));
+                    sidePic2.Tag = Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName);
+                    sidePic2.ImageLocation = sidePic2.Tag.ToString();
+                    sidePic2.Visible = true;
+                }
+                if (imgPaths.Count > 2)
+                {
+                    DropBoxAPI.sFileName = Path.GetFileName(imgPaths.ElementAt(2));
+                    DropBoxAPI.sDropBoxPath = Path.GetDirectoryName(imgPaths.ElementAt(2)).Replace("\\", "/");
+                    task = Task.Run(DropBoxAPI.DropBoxDownload);
+                    task.Wait();
+                    sidePic3.Image.Dispose();
+                    sidePic3.Image = Image.FromFile(Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName));
+                    sidePic3.Tag = Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName);
+                    sidePic3.ImageLocation = sidePic3.Tag.ToString();
+                    sidePic3.Visible = true;
+                }
+                if (imgPaths.Count > 3)
+                {
+                    DropBoxAPI.sFileName = Path.GetFileName(imgPaths.ElementAt(3));
+                    DropBoxAPI.sDropBoxPath = Path.GetDirectoryName(imgPaths.ElementAt(3)).Replace("\\", "/");
+                    task = Task.Run(DropBoxAPI.DropBoxDownload);
+                    task.Wait();
+                    sidePic4.Image.Dispose();
+                    sidePic4.Image = Image.FromFile(Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName));
+                    sidePic4.Tag = Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName);
+                    sidePic1.ImageLocation = sidePic1.Tag.ToString();
+                    sidePic4.Visible = true;
+                }
+                mainPictureBox.Image = Image.FromFile(sidePic1.ImageLocation);
             }
-            if (imgPaths.Count > 1)
-            {
-                DropBoxAPI.sFileName = Path.GetFileName(imgPaths.ElementAt(1));
-                DropBoxAPI.sDropBoxPath = Path.GetDirectoryName(imgPaths.ElementAt(1)).Replace("\\", "/");
-                task = Task.Run(DropBoxAPI.DropBoxDownload);
-                task.Wait();
-                sidePic2.Image.Dispose();
-                sidePic2.Image = Image.FromFile(Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName));
-                sidePic2.Tag = Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName);
-                sidePic2.ImageLocation = sidePic2.Tag.ToString();
-                sidePic2.Visible = true;
+            catch {
+                MessageBox.Show("Error downloading images, the file could've been moved or deleted.", "Error");
             }
-            if (imgPaths.Count > 2)
-            {
-                DropBoxAPI.sFileName = Path.GetFileName(imgPaths.ElementAt(2));
-                DropBoxAPI.sDropBoxPath = Path.GetDirectoryName(imgPaths.ElementAt(2)).Replace("\\", "/");
-                task = Task.Run(DropBoxAPI.DropBoxDownload);
-                task.Wait();
-                sidePic3.Image.Dispose();
-                sidePic3.Image = Image.FromFile(Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName));
-                sidePic3.Tag = Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName);
-                sidePic3.ImageLocation = sidePic3.Tag.ToString();
-                sidePic3.Visible = true;
-            }
-            if (imgPaths.Count > 3)
-            {
-                DropBoxAPI.sFileName = Path.GetFileName(imgPaths.ElementAt(3));
-                DropBoxAPI.sDropBoxPath = Path.GetDirectoryName(imgPaths.ElementAt(3)).Replace("\\", "/");
-                task = Task.Run(DropBoxAPI.DropBoxDownload);
-                task.Wait();
-                sidePic4.Image.Dispose();
-                sidePic4.Image = Image.FromFile(Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName));
-                sidePic4.Tag = Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName);
-                sidePic1.ImageLocation = sidePic1.Tag.ToString();
-                sidePic4.Visible = true;
-            }
-            mainPictureBox.Image = Image.FromFile(sidePic1.ImageLocation);
         }
 
         private void SaveImagesAsync(string employee, string main, string child, DateTime date)
@@ -819,10 +825,13 @@ namespace creditcharges.Views
             sidePic1.ImageLocation = null;
             sidePic2.Visible = false;
             sidePic2.Image.Dispose();
+            sidePic2.ImageLocation = null;
             sidePic3.Visible = false;
             sidePic3.Image.Dispose();
+            sidePic3.ImageLocation = null;
             sidePic4.Visible = false;
             sidePic4.Image.Dispose();
+            sidePic4.ImageLocation = null;
         }
     }
 }
