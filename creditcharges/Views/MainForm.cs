@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace creditcharges.Views
@@ -75,10 +76,25 @@ namespace creditcharges.Views
                 DialogResult result = MessageBox.Show(message, "", buttons);
                 if (result == DialogResult.Yes)
                 {
-                    var query = "DELETE FROM QuickBooks WHERE Id = @id";
+
+                    var query = "SELECT * FROM Images WHERE Id = @id";
                     SqlCommand cmd = new SqlCommand(query, sql);
                     cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = id;
                     cmd.Connection.Open();
+                    Task task;
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var path = reader[1] as string;
+                            DropBoxAPI.imagePath = path;
+                            task = Task.Run(DropBoxAPI.DropBoxDelete);
+                            task.Wait();
+                        }
+                    }
+
+                    query = "DELETE FROM QuickBooks WHERE Id = @id";
+                    cmd.CommandText = query;
                     var res = cmd.ExecuteNonQuery();
                     cmd.CommandText = "DELETE FROM Images WHERE Id = @id";
                     var ret = cmd.ExecuteNonQuery();
