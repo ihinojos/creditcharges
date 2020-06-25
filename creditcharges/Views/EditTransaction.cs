@@ -1,12 +1,15 @@
 ﻿
 using creditcharges.Models;
+using DevExpress.Accessibility;
 using DevExpress.Data.Extensions;
 using DevExpress.Utils.CodedUISupport;
+using DevExpress.Utils.MVVM;
 using DevExpress.XtraBars.Docking2010;
 using DevExpress.XtraRichEdit.Import.Doc;
 using Ghostscript.NET.Rasterizer;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -21,47 +24,46 @@ namespace creditcharges.Views
     public partial class EditTransaction : Form
     {
         private static string Id;
+        private string location;
+        private string concept;
         private readonly SqlConnection sql;
         private bool imgInf;
-        private int imgCount = 0;
-        private List<string> imgPaths = new List<string>();
+        private List<string> imgPaths;
         private double value;
+        private ImageList imgl;
 
         public EditTransaction(string id, string location, string concept)
         {
             Id = id;
             sql = new SqlConnection(Data.cn);
             InitializeComponent();
+
+            imgl = new ImageList
+            {
+                ImageSize = new Size(75, 50),
+                ColorDepth = ColorDepth.Depth32Bit
+            };
+            imgPaths = new List<string>();
+
+            listView1.View = View.SmallIcon;
+            listView1.Columns.Add("Image", 250);
+
             mainPictureBox.AllowDrop = true;
-            sidePic1.AllowDrop = true;
-            sidePic2.AllowDrop = true;
-            sidePic3.AllowDrop = true;
-            sidePic4.AllowDrop = true;
             AddAutoCompleteOptions();
 
-            sidePic1.Click += new EventHandler(pictureBox_Click);
-            sidePic2.Click += new EventHandler(pictureBox_Click);
-            sidePic3.Click += new EventHandler(pictureBox_Click);
-            sidePic4.Click += new EventHandler(pictureBox_Click);
-
-            mainPictureBox.DragEnter += new DragEventHandler(PictureBox_DragEnter);
-            sidePic1.DragEnter += new DragEventHandler(PictureBox_DragEnter);
-            sidePic2.DragEnter += new DragEventHandler(PictureBox_DragEnter);
-            sidePic3.DragEnter += new DragEventHandler(PictureBox_DragEnter);
-            sidePic4.DragEnter += new DragEventHandler(PictureBox_DragEnter);
-
-            mainPictureBox.DragDrop += new DragEventHandler(PictureBox_DragGrop);
-            sidePic1.DragDrop += new DragEventHandler(PictureBox_DragGrop);
-            sidePic2.DragDrop += new DragEventHandler(PictureBox_DragGrop);
-            sidePic3.DragDrop += new DragEventHandler(PictureBox_DragGrop);
-            sidePic4.DragDrop += new DragEventHandler(PictureBox_DragGrop);
+            mainPictureBox.DragEnter += new DragEventHandler(Picture_DragEnter);
+            panel3.DragEnter += new DragEventHandler(Picture_DragEnter);
+            listView1.DragEnter += new DragEventHandler(Picture_DragEnter);
+            mainPictureBox.DragDrop += new DragEventHandler(Picture_DragDrop);
+            panel3.DragDrop += new DragEventHandler(Picture_DragDrop);
+            listView1.DragDrop += new DragEventHandler(Picture_DragDrop);
 
             if (!string.IsNullOrEmpty(Id))
             {
                 if (!(string.IsNullOrEmpty(location) && string.IsNullOrEmpty(concept)))
                 {
-                    locationBox.Text = location;
-                    conceptBox.Text = concept;
+                    this.location = locationBox.Text = location;
+                    this.concept = conceptBox.Text = concept;
                 }
                 LoadInfo();
             }
@@ -70,36 +72,26 @@ namespace creditcharges.Views
                 dateBox.Value = DateTime.Now;
                 label1.Text = "Add New Transaction";
                 Text = "AddTransaction";
-                sidePic1.Visible = true;
+                //sidePic1.Visible = true;
             }
         }
 
         private void AddAutoCompleteOptions()
         {
             //Employee name box
-            AutoCompleteStringCollection names = new AutoCompleteStringCollection();
-            names.AddRange(Data.names.ToArray());
-            employeeBox.AutoCompleteCustomSource = names;
+            employeeBox.Items.AddRange(Data.names.ToArray());
 
             //Card number box
-            AutoCompleteStringCollection cards = new AutoCompleteStringCollection();
-            cards.AddRange(Data.childCards.ToArray());
-            cardBoxNum.AutoCompleteCustomSource = cards;
+            cardBoxNum.Items.AddRange(Data.childCards.ToArray());
 
             //QB Account type
-            AutoCompleteStringCollection accounts = new AutoCompleteStringCollection();
-            accounts.AddRange(Data.accountType.ToArray());
-            accountBox.AutoCompleteCustomSource = accounts;
+            accountBox.Items.AddRange(Data.accountType.ToArray());
 
             //Entity
-            AutoCompleteStringCollection entities = new AutoCompleteStringCollection();
-            entities.AddRange(Data.entities.ToArray());
-            entityBox.AutoCompleteCustomSource = entities;
+            entityBox.Items.AddRange(Data.entities.ToArray());
 
             //Class
-            AutoCompleteStringCollection classes = new AutoCompleteStringCollection();
-            classes.AddRange(Data.classes.ToArray());
-            classBox.AutoCompleteCustomSource = classes;
+            classBox.Items.AddRange(Data.classes.ToArray());
 
             //Job Number
             jobNumBox.Items.AddRange(Data.jobNumbers.ToArray());
@@ -168,11 +160,10 @@ namespace creditcharges.Views
                 if (reader.Read())
                 {
                     employeeBox.Text = reader[1] as string;
-                    employeeBox.Enabled = false;
                     cardBoxNum.Text = reader[2] as string;
                     amountBox.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", reader.GetDecimal(3));
-                    conceptBox.Text = reader[4] as string;
-                    locationBox.Text = reader[5] as string;
+                    conceptBox.Text = reader[4] as string == "" ? concept : reader[4] as string;
+                    locationBox.Text = reader[5] as string == "" ? location : reader[5] as string;
                     dateBox.Value = reader.GetDateTime(6);
                     notesBox.Text = reader[7] as string;
                 }
@@ -202,6 +193,7 @@ namespace creditcharges.Views
                     modelBox.Text = reader[3] as string;
                     gallonsBox.Text = reader.GetDecimal(4).ToString();
                 }
+                LoadFuelTable();
             }
             query = "SELECT * FROM Images WHERE Id = @id";
             cmd.CommandText = query;
@@ -212,71 +204,96 @@ namespace creditcharges.Views
                     imgInf = true;
                     imgPaths.Add(reader.GetString(1));
                 }
-                cmd.Connection.Close();
             }
-            if (!imgInf) sidePic1.Visible = true;
+            cmd.Connection.Close();
+            if (!imgInf) Console.WriteLine();
             else DownloadImages();
+        }
+
+        private void LoadFuelTable()
+        {
+            var plate = plateBox.Text;
+            var query = "SELECT R.Id, R.Amount, R.TDate, F.Odometer, F.Plate, F.Model, F.Gallons FROM Records R LEFT JOIN Fuel F On R.Id = F.Id WHERE F.Plate = @plate";
+            SqlCommand cmd = new SqlCommand(query, sql);
+            cmd.Parameters.AddWithValue("@plate", SqlDbType.VarChar).Value = plate;
+            BindingList<Fuel> fuel = new BindingList<Fuel>();
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    fuel.Add(new Fuel()
+                    {
+                        Id = reader[0] as string,
+                        Amount = reader.GetDecimal(1),
+                        Date = reader.GetDateTime(2),
+                        Odometer = reader.GetInt32(3),
+                        Plate = reader[4] as string,
+                        Model = reader[5] as string,
+                        Gallons = reader.GetDecimal(6)
+                    });
+                }
+                if (fuelControl.DataSource != null) fuelControl.DataSource = null;
+                fuelView.Columns.Clear();
+                fuelControl.DataSource = fuel;
+                fuelView.Columns[1].Visible = false;
+                fuelView.Columns[3].Visible = false;
+                fuelView.Columns[5].Visible = false;
+                DevExpress.XtraGrid.Columns.GridColumn price = fuelView.Columns["Amount"];
+                price.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+                price.DisplayFormat.FormatString = "c2";
+                fuelView.BestFitColumns();
+            }
         }
 
         private void ImagesFromList(List<string> list)
         {
-            button1.PerformClick();
-
-            if (list.Count > 0)
+            try
             {
-                var img = Image.FromFile(list.ElementAt(0));
-                img.Tag = list.ElementAt(0);
+                var tmpList = new List<string>();
+                if (listView1.Items.Count > 0)
+                    for (int i = 0; i < listView1.Items.Count; i++)
+                    {
+                        try
+                        {
+                            var file = listView1.Items[i].Tag.ToString();
+                            if (!list.Contains(file))
+                                list.Add(listView1.Items[i].Tag.ToString());
+                        }
+                        catch { }
+                    }
+                listView1.Items.Clear();
+                listView1.Clear();
+                imgl.Images.Clear();
+                imgl.Dispose();
 
-                //main
+                for (int i = 0; i < list.Count; i++)
+                {
+                    var file = list.ElementAt(i);
+                    var ext = Path.GetExtension(file);
+                    if (ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".jfif" || ext == ".jpe")
+                    {
+                        imgl.Images.Add(Path.GetFileNameWithoutExtension(file), Image.FromFile(file));
+                        listView1.Items.Add(Path.GetFileNameWithoutExtension(file), listView1.Items.Count);
+                        listView1.Items[listView1.Items.Count - 1].Tag = file;
+                        tmpList.Add(file);
+                    }
+                }
+
+                var img = Image.FromFile(tmpList.ElementAt(0));
+                img.Tag = tmpList.ElementAt(0);
                 mainPictureBox.Image.Dispose();
                 mainPictureBox.Image = img;
-                mainCardBox.Refresh();
+                mainPictureBox.Refresh();
                 original.Image.Dispose();
                 original.Image = img;
                 original.Tag = img.Tag;
                 original.Refresh();
-
-                //side1
-                sidePic1.Image = img;
-                sidePic1.Tag = img.Tag;
-                sidePic1.ImageLocation = img.Tag.ToString();
-                sidePic1.Visible = true;
-                imgCount = 1;
-
-            }if(list.Count > 1)
-            {
-                var img = Image.FromFile(list.ElementAt(1));
-                img.Tag = list.ElementAt(1);
-                //side2
-                sidePic2.Image = img;
-                sidePic2.Tag = img.Tag;
-                sidePic2.ImageLocation = img.Tag.ToString();
-                sidePic2.Visible = true;
-                imgCount = 2;
+                listView1.SmallImageList = imgl;
+                listView1.Refresh();
+                imgPaths.Clear();
+                imgPaths.AddRange(tmpList);
             }
-            if(list.Count > 2)
-            {
-                var img = Image.FromFile(list.ElementAt(2));
-                img.Tag = list.ElementAt(2);
-                //side3
-                sidePic3.Image = img;
-                sidePic3.Tag = img.Tag;
-                sidePic3.ImageLocation = img.Tag.ToString();
-                sidePic3.Visible = true;
-                imgCount = 3;
-            }
-            if (list.Count > 3)
-            {
-                var img = Image.FromFile(list.ElementAt(3));
-                img.Tag = list.ElementAt(3);
-                //side4
-                sidePic4.Image = img;
-                sidePic4.Tag = img.Tag;
-                sidePic4.ImageLocation = img.Tag.ToString();
-
-                sidePic4.Visible = true;
-                imgCount = 0;
-            }
+            catch { }
         }
 
         private List<string> PDFImage(string path)
@@ -294,7 +311,7 @@ namespace creditcharges.Views
                     images.Add(imgPath);
                 }
             }
-                return images;
+            return images;
         }
 
         private void SaveNewInfo()
@@ -357,7 +374,8 @@ namespace creditcharges.Views
                     cmd.CommandText = query;
                     cmd.Parameters.AddWithValue("@main", SqlDbType.VarChar).Value = maincard;
                     var res = cmd.ExecuteNonQuery();
-
+                    if (imgPaths.Count > 0)
+                        SaveImagesAsync(employee, maincard, number, date);
                     if (res == 1) MessageBox.Show("Record saved successfully.", "Success");
                     else MessageBox.Show("Please check your internet connection.", "Error");
                     if (checkBox1.Checked)
@@ -376,12 +394,6 @@ namespace creditcharges.Views
                     }
                 }
                 cmd.Connection.Close();
-                SaveImagesAsync(employee, maincard, number, date);
-                if (!Data.names.Contains(employee))
-                {
-                    using (StreamWriter w = File.AppendText("Resources\\names.txt")) w.WriteLine(employee);
-                    Data.getData();
-                }
                 Controller.controller.mainForm.LoadTable();
                 Dispose();
             }
@@ -407,7 +419,7 @@ namespace creditcharges.Views
             var author = Controller.controller.mainForm.User;
 
             var query = "UPDATE Records SET Concept = @concept, Location = @location, Notes = @notes, Amount = @amount, Card = @card, Author = @author," +
-                "TDate = @date WHERE Id = @id";
+                "TDate = @date, CardHolder = @employee WHERE Id = @id";
             SqlCommand cmd = new SqlCommand(query, sql);
             cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = Id;
             cmd.Parameters.AddWithValue("@concept", SqlDbType.VarChar).Value = concept;
@@ -417,6 +429,7 @@ namespace creditcharges.Views
             cmd.Parameters.AddWithValue("@card", SqlDbType.VarChar).Value = card;
             cmd.Parameters.AddWithValue("@author", SqlDbType.VarChar).Value = author;
             cmd.Parameters.AddWithValue("@date", SqlDbType.DateTime).Value = date;
+            cmd.Parameters.AddWithValue("@employee", SqlDbType.VarChar).Value = employee;
 
             cmd.Connection.Open();
             cmd.ExecuteNonQuery();
@@ -436,18 +449,27 @@ namespace creditcharges.Views
 
             if (checkBox1.Checked)
             {
-                query = "UPDATE Fuel SET Odometer = @odometer, Plate = @plate, Model = @model, Gallons = @gallons WHERE Id = @id";
-                cmd.CommandText = query;
-                var odometer = int.Parse(odometerBox.Text);
-                var plate = plateBox.Text;
-                var model = modelBox.Text;
-                var gallons = decimal.Parse(gallonsBox.Text);
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@odometer", SqlDbType.Int).Value = odometer;
-                cmd.Parameters.AddWithValue("@plate", SqlDbType.VarChar).Value = plate;
-                cmd.Parameters.AddWithValue("@model", SqlDbType.VarChar).Value = model;
-                cmd.Parameters.AddWithValue("@gallons", SqlDbType.Decimal).Value = gallons;
-                cmd.ExecuteNonQuery();
+                try
+                {
+                    query = "UPDATE Fuel SET Odometer = @odometer, Plate = @plate, Model = @model, Gallons = @gallons WHERE Id = @id";
+                    cmd.CommandText = query;
+                    var odometer = int.Parse(odometerBox.Text);
+                    var plate = plateBox.Text;
+                    var model = modelBox.Text;
+                    var gallons = decimal.Parse(gallonsBox.Text);
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@odometer", SqlDbType.Int).Value = odometer;
+                    cmd.Parameters.AddWithValue("@plate", SqlDbType.VarChar).Value = plate;
+                    cmd.Parameters.AddWithValue("@model", SqlDbType.VarChar).Value = model;
+                    cmd.Parameters.AddWithValue("@gallons", SqlDbType.Decimal).Value = gallons;
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+                    MessageBox.Show("Please try again.", "Error");
+                    cmd.Connection.Close();
+                    return;
+                }
             }
 
             cmd.Connection.Close();
@@ -459,228 +481,87 @@ namespace creditcharges.Views
 
         private void DownloadImages()
         {
+
             Task task;
             try
             {
-                if (imgPaths.Count > 0)
+                var iter = imgPaths.Count;
+                for (int i = 0; i < iter; i++)
                 {
-                    DropBoxAPI.sFileName = Path.GetFileName(imgPaths.ElementAt(0));
-                    DropBoxAPI.sDropBoxPath = Path.GetDirectoryName(imgPaths.ElementAt(0)).Replace("\\", "/");
+                    var path = imgPaths.ElementAt(i);
+                    DropBoxAPI.sFileName = Path.GetFileName(path);
+                    DropBoxAPI.sDropBoxPath = Path.GetDirectoryName(path).Replace("\\", "/");
                     task = Task.Run(DropBoxAPI.DropBoxDownload);
                     task.Wait();
-                    sidePic1.Image.Dispose();
-                    sidePic1.Image = Image.FromFile(Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName));
-                    sidePic1.Tag = Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName);
-                    sidePic1.ImageLocation = sidePic1.Tag.ToString();
-                    sidePic1.Visible = true;
+                    imgPaths.RemoveAt(i);
+                    path = Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName);
+                    imgl.Images.Add(Path.GetFileNameWithoutExtension(path), Image.FromFile(path));
+                    listView1.Items.Add(Path.GetFileNameWithoutExtension(path), i);
+                    listView1.Items[i].Tag = path;
+                    imgPaths.Insert(i, path);
                 }
-                if (imgPaths.Count > 1)
-                {
-                    DropBoxAPI.sFileName = Path.GetFileName(imgPaths.ElementAt(1));
-                    DropBoxAPI.sDropBoxPath = Path.GetDirectoryName(imgPaths.ElementAt(1)).Replace("\\", "/");
-                    task = Task.Run(DropBoxAPI.DropBoxDownload);
-                    task.Wait();
-                    sidePic2.Image.Dispose();
-                    sidePic2.Image = Image.FromFile(Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName));
-                    sidePic2.Tag = Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName);
-                    sidePic2.ImageLocation = sidePic2.Tag.ToString();
-                    sidePic2.Visible = true;
-                }
-                if (imgPaths.Count > 2)
-                {
-                    DropBoxAPI.sFileName = Path.GetFileName(imgPaths.ElementAt(2));
-                    DropBoxAPI.sDropBoxPath = Path.GetDirectoryName(imgPaths.ElementAt(2)).Replace("\\", "/");
-                    task = Task.Run(DropBoxAPI.DropBoxDownload);
-                    task.Wait();
-                    sidePic3.Image.Dispose();
-                    sidePic3.Image = Image.FromFile(Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName));
-                    sidePic3.Tag = Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName);
-                    sidePic3.ImageLocation = sidePic3.Tag.ToString();
-                    sidePic3.Visible = true;
-                }
-                if (imgPaths.Count > 3)
-                {
-                    DropBoxAPI.sFileName = Path.GetFileName(imgPaths.ElementAt(3));
-                    DropBoxAPI.sDropBoxPath = Path.GetDirectoryName(imgPaths.ElementAt(3)).Replace("\\", "/");
-                    task = Task.Run(DropBoxAPI.DropBoxDownload);
-                    task.Wait();
-                    sidePic4.Image.Dispose();
-                    sidePic4.Image = Image.FromFile(Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName));
-                    sidePic4.Tag = Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName);
-                    sidePic1.ImageLocation = sidePic1.Tag.ToString();
-                    sidePic4.Visible = true;
-                }
-                mainPictureBox.Image = Image.FromFile(sidePic1.ImageLocation);
+                mainPictureBox.Image = Image.FromFile(Path.Combine(Path.GetTempPath(), DropBoxAPI.sFileName));
+                listView1.SmallImageList = imgl;
+                listView1.Refresh();
             }
-            catch {
+            catch
+            {
                 MessageBox.Show("Error downloading images, the file could've been moved or deleted.", "Error");
             }
         }
 
         private void SaveImagesAsync(string employee, string main, string child, DateTime date)
         {
-            var query = "DELETE FROM Images WHERE Id = @id";
+            var query = "SELECT * FROM Images WHERE Id = @id";
             SqlCommand cmd = new SqlCommand(query, sql);
             cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = Id;
             cmd.Connection.Open();
-            cmd.ExecuteNonQuery();
+            Task task;
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var path = reader[1] as string;
+                    DropBoxAPI.imagePath = path;
+                    task = Task.Run(DropBoxAPI.DropBoxDelete);
+                    task.Wait();
+                }
+            }
+            query = "DELETE FROM Images WHERE Id = @id";
             var stamp = ((DateTimeOffset)date).ToUnixTimeSeconds();
             mainPictureBox.Image.Dispose();
             original.Image.Dispose();
-            Task task;
             DropBoxAPI.sDropBoxPath = $"/DAILY PICK UP LOADS/Credit Card Tickets/{DateTime.Today:yyyy}/";
             var filename = main + "_" + child + "_" + employee + "_" + stamp;
-            if (!string.IsNullOrEmpty(sidePic1.ImageLocation))
+            query = "INSERT INTO Images (Id, ImgPath) VALUES (@id, @path)";
+            cmd.Parameters.AddWithValue("@path", SqlDbType.VarChar);
+            for (int i = 0; i < imgPaths.Count; i++)
             {
-                var ext = Path.GetExtension(sidePic1.ImageLocation);
-                sidePic1.Image.Dispose();
-                DropBoxAPI.sFileName = filename + " (1)" + ext;
-                DropBoxAPI.imagePath = sidePic1.ImageLocation;
+                var file = imgPaths.ElementAt(i);
+                var ext = Path.GetExtension(file);
+                DropBoxAPI.sFileName = filename + "_(" + i + ")" + ext;
+                DropBoxAPI.imagePath = file;
                 task = Task.Run(DropBoxAPI.DropBoxSave);
                 task.Wait();
                 var sqlPath = DropBoxAPI.sDropBoxPath + DropBoxAPI.sFileName;
-                query = "INSERT INTO Images (Id, ImgPath) VALUES (@id, @path)";
                 cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@path", SqlDbType.VarChar).Value = sqlPath;
-                cmd.ExecuteNonQuery();
-                sidePic1.Image = Image.FromFile(sidePic1.ImageLocation);
-            }
-            if (!string.IsNullOrEmpty(sidePic2.ImageLocation))
-            {
-                var ext = Path.GetExtension(sidePic2.ImageLocation);
-                sidePic2.Image.Dispose();
-                DropBoxAPI.sFileName = filename + " (2)" + ext;
-                DropBoxAPI.imagePath = sidePic2.ImageLocation;
-                task = Task.Run((Func<Task>)DropBoxAPI.DropBoxSave);
-                task.Wait();
-                var sqlPath = DropBoxAPI.sDropBoxPath + DropBoxAPI.sFileName;
                 cmd.Parameters["@path"].Value = sqlPath;
                 cmd.ExecuteNonQuery();
-                sidePic2.Image = Image.FromFile(sidePic2.ImageLocation);
-            }
-            if (!string.IsNullOrEmpty(sidePic3.ImageLocation))
-            {
-                var ext = Path.GetExtension(sidePic3.ImageLocation);
-                sidePic3.Image.Dispose();
-                DropBoxAPI.sFileName = filename + " (3)" + ext;
-                DropBoxAPI.imagePath = sidePic3.ImageLocation;
-                task = Task.Run((Func<Task>)DropBoxAPI.DropBoxSave);
-                task.Wait();
-                var sqlPath = DropBoxAPI.sDropBoxPath + DropBoxAPI.sFileName;
-                cmd.Parameters["@path"].Value = sqlPath;
-                cmd.ExecuteNonQuery();
-                sidePic3.Image = Image.FromFile(sidePic3.ImageLocation);
-            }
-            if (!string.IsNullOrEmpty(sidePic4.ImageLocation))
-            {
-                var ext = Path.GetExtension(sidePic4.ImageLocation);
-                sidePic4.Image.Dispose();
-                DropBoxAPI.sFileName = filename + " (4)" + ext;
-                DropBoxAPI.imagePath = sidePic4.ImageLocation;
-                task = Task.Run((Func<Task>)DropBoxAPI.DropBoxSave);
-                task.Wait();
-                var sqlPath = DropBoxAPI.sDropBoxPath + DropBoxAPI.sFileName;
-                cmd.Parameters["@path"].Value = sqlPath;
-                cmd.ExecuteNonQuery();
-                sidePic4.Image = Image.FromFile(sidePic4.ImageLocation);
             }
             cmd.Connection.Close();
             try
             {
-                mainPictureBox.Image = Image.FromFile(sidePic1.ImageLocation);
+                mainPictureBox.Image = Image.FromFile(imgPaths.ElementAt(0));
             }
             catch { }
         }
 
-        private void pictureBox_Click(object sender, EventArgs e)
-        {
-            PictureBox pic = (PictureBox)sender;
-            try
-            {
-                mainPictureBox.Image.Dispose();  
-                mainPictureBox.Image = Image.FromFile(pic.Tag.ToString());
-                mainPictureBox.Refresh();
-                original.Image.Dispose();
-                original.Image = Image.FromFile(pic.Tag.ToString());
-                original.Tag = pic.Tag;
-                original.Refresh();
-            }
-            catch
-            {
-                OpenFileDialog open = new OpenFileDialog
-                {
-                    Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png|PDF Files (*.pdf) | *.pdf"
-                };
-                if (open.ShowDialog() == DialogResult.OK)
-                {
-                    if (Path.GetExtension(open.FileName) == ".pdf")
-                    {
-                        var list = PDFImage(open.FileName);
-                        ImagesFromList(list);
-                    }
-                    else
-                    {
-
-                        var img = Image.FromFile(open.FileName);
-                        img.Tag = open.FileName;
-
-                        mainPictureBox.Image.Dispose();
-                        mainPictureBox.Image = img;
-                        mainCardBox.Refresh();
-                        original.Image.Dispose();
-                        original.Image = img;
-                        original.Tag = img.Tag;
-                        original.Refresh();
-                        if (pic == sidePic1)
-                        {
-                            sidePic1.Image.Dispose();
-                            sidePic1.Image = img;
-                            sidePic1.Tag = img.Tag;
-                            sidePic1.ImageLocation = img.Tag.ToString();
-                            sidePic1.Refresh();
-                            sidePic2.Visible = true;
-                            imgCount = 1;
-                        }
-                        else if (pic == sidePic2)
-                        {
-                            sidePic2.Image.Dispose();
-                            sidePic2.Image = img;
-                            sidePic2.Tag = img.Tag;
-                            sidePic2.ImageLocation = img.Tag.ToString();
-                            sidePic2.Refresh();
-                            sidePic3.Visible = true;
-                            imgCount = 2;
-                        }
-                        else if (pic == sidePic3)
-                        {
-                            sidePic3.Image.Dispose();
-                            sidePic3.Image = img;
-                            sidePic3.Tag = img.Tag;
-                            sidePic3.ImageLocation = img.Tag.ToString();
-                            sidePic3.Refresh();
-                            sidePic4.Visible = true;
-                            imgCount = 3;
-                        }
-                        else if (pic == sidePic4)
-                        {
-                            sidePic4.Image.Dispose();
-                            sidePic4.Image = img;
-                            sidePic4.Tag = img.Tag;
-                            sidePic4.ImageLocation = img.Tag.ToString();
-                            sidePic4.Refresh();
-                            imgCount = 0;
-                        }
-                    }
-                }
-            }
-        }
-
-        private void PictureBox_DragEnter(object sender, DragEventArgs e)
+        private void Picture_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Copy;
         }
 
-        private void PictureBox_DragGrop(object sender, DragEventArgs e)
+        private void Picture_DragDrop(object sender, DragEventArgs e)
         {
             try
             {
@@ -688,67 +569,24 @@ namespace creditcharges.Views
                 if (data != null)
                 {
                     var fileNames = data as string[];
+                    var images = new List<string>();
                     if (fileNames.Length > 0)
                     {
-                        if (Path.GetExtension(fileNames[0]) == ".pdf")
+                        foreach (var image in fileNames)
                         {
-                            var list = PDFImage(fileNames[0]);
-                            ImagesFromList(list);
-                        }
-                        else
-                        {
-
-                            var img = Image.FromFile(fileNames[0]);
-                            img.Tag = fileNames[0];
-                            mainPictureBox.Image.Dispose();
-                            mainPictureBox.Image = img;
-                            mainPictureBox.Refresh();
-                            original.Image.Dispose();
-                            original.Image = img;
-                            original.Tag = img.Tag;
-                            original.Refresh();
-                            if (imgCount == 0)
+                            if (Path.GetExtension(image) == ".pdf")
                             {
-                                sidePic1.Image.Dispose();
-                                sidePic1.Image = img;
-                                sidePic1.Tag = img.Tag;
-                                sidePic1.ImageLocation = img.Tag.ToString();
-                                sidePic1.Refresh();
-                                imgCount = 1;
-                                sidePic2.Visible = true;
+                                ImagesFromList(PDFImage(image));
                             }
-                            else if (imgCount == 1)
+                            else
                             {
-                                sidePic2.Image.Dispose();
-                                sidePic2.Image = img;
-                                sidePic2.Tag = img.Tag;
-                                sidePic2.ImageLocation = img.Tag.ToString();
-                                sidePic2.Refresh();
-                                imgCount = 2;
-                                sidePic3.Visible = true;
-                            }
-                            else if (imgCount == 2)
-                            {
-                                sidePic3.Image.Dispose();
-                                sidePic3.Image = img;
-                                sidePic3.Tag = img.Tag;
-                                sidePic3.ImageLocation = img.Tag.ToString();
-                                sidePic3.Refresh();
-                                imgCount = 3;
-                                sidePic4.Visible = true;
-                            }
-                            else if (imgCount == 3)
-                            {
-                                sidePic4.Image.Dispose();
-                                sidePic4.Image = img;
-                                sidePic4.Tag = img.Tag;
-                                sidePic4.ImageLocation = img.Tag.ToString();
-                                sidePic4.Refresh();
-                                imgCount = 0;
+                                images.Add(image);
                             }
                         }
+                        if (images.Count > 0) ImagesFromList(images);
                     }
                 }
+
             }
             catch (Exception ex)
             {
@@ -764,22 +602,23 @@ namespace creditcharges.Views
 
         private void EditTransaction_Load(object sender, EventArgs e)
         {
-            trackBar1.Minimum = 1;
-            trackBar1.Maximum = 300;
-            trackBar1.SmallChange = 10;
-            trackBar1.LargeChange = 10;
-            trackBar1.UseWaitCursor = false;
-
+            zoomBar.Properties.Minimum = 100;
+            zoomBar.Properties.Maximum = 3000;
+            zoomBar.Properties.SmallChange = 100;
+            zoomBar.Properties.LargeChange = 100;
+            zoomBar.UseWaitCursor = false;
             this.DoubleBuffered = true;
             original = new PictureBox
             {
                 Image = mainPictureBox.Image
             };
+            zoomBar.Value = 200;
+            zoomBar_Scroll(null, null);
         }
 
         private Image ZoomPicture(Image img, Size size)
         {
-            Bitmap bmp = new Bitmap(img, Convert.ToInt32(img.Width * size.Width / 100), Convert.ToInt32(img.Height * size.Height / 100));
+            Bitmap bmp = new Bitmap(img, Convert.ToInt32((img.Width + size.Width) / 2), Convert.ToInt32((img.Height + size.Height) / 2));
             Graphics graphics = Graphics.FromImage(bmp);
             graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
             return bmp;
@@ -787,12 +626,12 @@ namespace creditcharges.Views
 
         private PictureBox original;
 
-        private void trackBar1_Scroll(object sender, EventArgs e)
+        private void zoomBar_Scroll(object sender, EventArgs e)
         {
-            if (trackBar1.Value != 0)
+            if (zoomBar.Value != 0)
             {
                 mainPictureBox.Image = null;
-                mainPictureBox.Image = ZoomPicture(original.Image, new Size(trackBar1.Value, trackBar1.Value));
+                mainPictureBox.Image = ZoomPicture(original.Image, new Size(zoomBar.Value, zoomBar.Value));
             }
         }
 
@@ -812,26 +651,123 @@ namespace creditcharges.Views
                 amountBox.Text = string.Empty;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        public void LoadReport(DateTime date, string card, string location, string concept, string amount)
+        {
+            dateBox.Value = date;
+            cardBoxNum.Text = card;
+            locationBox.Text = location;
+            conceptBox.Text = concept;
+            value = double.Parse(amount);
+            amountBox.Text = "$" + value;
+        }
+
+        private void jobNameBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var idx = jobNameBox.SelectedIndex;
+            jobNumBox.SelectedIndex = idx;
+        }
+
+        private void windowsUIButtonPanel2_ButtonClick(object sender, ButtonEventArgs e)
+        {
+            var tag = ((WindowsUIButton)e.Button).Tag.ToString();
+            switch (tag)
+            {
+                case "add":
+                    AddImages();
+                    break;
+                case "remove":
+                    RemoveImage();
+                    break;
+                case "clear":
+                    ClearImages();
+                    break;
+            }
+        }
+
+        private void AddImages()
+        {
+            OpenFileDialog open = new OpenFileDialog
+            {
+                Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png|PDF Files (*.pdf) | *.pdf",
+                Multiselect = true
+            };
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                var fileNames = open.FileNames;
+                var images = new List<string>();
+                if (fileNames.Length > 0)
+                {
+                    foreach (var image in fileNames)
+                    {
+                        if (Path.GetExtension(image) == ".pdf")
+                        {
+                            ImagesFromList(PDFImage(image));
+                        }
+                        else
+                        {
+                            images.Add(image);
+                        }
+                    }
+                    if (images.Count > 0) ImagesFromList(images);
+                }
+            }
+        }
+
+        private void RemoveImage()
+        {
+            var selected = listView1.SelectedItems.Count;
+            if (selected > 0)
+            {
+                for (int i = selected - 1; i > -1; i--)
+                {
+                    var idx = listView1.Items.IndexOf(listView1.SelectedItems[i]);
+                    listView1.Items.RemoveAt(idx);
+                    imgPaths.RemoveAt(idx);
+                }
+                ImagesFromList(imgPaths);
+                if (imgPaths.Count == 0)
+                {
+                    mainPictureBox.Image.Dispose();
+                    mainPictureBox.Image = Properties.Resources.No_Picture1;
+                    original.Image.Dispose();
+                    original.Image = Properties.Resources.No_Picture1;
+                }
+            }
+        }
+
+        private void ClearImages()
         {
             mainPictureBox.Image.Dispose();
-            mainPictureBox.Image = new Bitmap(Properties.Resources.No_Picture1);
+            mainPictureBox.Image = Properties.Resources.No_Picture1;
             original.Image.Dispose();
-            original.Image = new Bitmap(Properties.Resources.No_Picture1);
-            sidePic1.Visible = true;
-            sidePic1.Image.Dispose();
-            sidePic1.Image = new Bitmap(Properties.Resources.addImg);
-            sidePic1.Tag = null;
-            sidePic1.ImageLocation = null;
-            sidePic2.Visible = false;
-            sidePic2.Image.Dispose();
-            sidePic2.ImageLocation = null;
-            sidePic3.Visible = false;
-            sidePic3.Image.Dispose();
-            sidePic3.ImageLocation = null;
-            sidePic4.Visible = false;
-            sidePic4.Image.Dispose();
-            sidePic4.ImageLocation = null;
+            original.Image = Properties.Resources.No_Picture1;
+            imgPaths.Clear();
+            listView1.Items.Clear();
+            imgl.Images.Clear();
+            listView1.Refresh();
+        }
+
+        private void listView1_DoubleClick(object sender, EventArgs e)
+        {
+            var selected = listView1.SelectedItems.Count;
+            if (selected > 0)
+            {
+                var idx = listView1.Items.IndexOf(listView1.SelectedItems[0]);
+                try
+                {
+                    mainPictureBox.Image.Dispose();
+                    mainPictureBox.Image = Image.FromFile(imgPaths.ElementAt(idx));
+                    mainPictureBox.Refresh();
+                    original.Image.Dispose();
+                    original.Image = Image.FromFile(imgPaths.ElementAt(idx));
+                    original.Tag = imgPaths.ElementAt(idx);
+                    original.Refresh();
+                }
+                catch
+                {
+
+                }
+            }
         }
     }
 }

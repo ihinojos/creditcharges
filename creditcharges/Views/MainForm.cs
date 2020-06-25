@@ -129,6 +129,23 @@ namespace creditcharges.Views
             instance.Show();
         }
 
+        private void AddTransactionFromReport(GridView view)
+        {
+            //date,card,location,concept,amount
+            var date_ = view.GetRowCellValue(view.FocusedRowHandle, "Date").ToString();
+            var date = DateTime.Parse(date_);
+            var card = view.GetRowCellValue(view.FocusedRowHandle, "Card").ToString();
+            var location = view.GetRowCellValue(view.FocusedRowHandle, "Location").ToString();
+            var concept = view.GetRowCellValue(view.FocusedRowHandle, "Concept").ToString();
+            var amount = view.GetRowCellValue(view.FocusedRowHandle, "Amount").ToString();
+
+            var instance = Controller.controller.editTransaction;
+            if (instance != null) instance.Dispose();
+            instance = Controller.controller.editTransaction = new EditTransaction("", "", "");
+            instance.LoadReport(date, card, location, concept, amount);
+            instance.Show();
+        }
+
         private void EditTransaction(GridView view)
         {
             var flag = false;
@@ -141,13 +158,13 @@ namespace creditcharges.Views
                 {
                     case "general":
                         msg = "Please select a transaction to edit.";
+                        MessageBox.Show(msg, "Error");
                         break;
 
                     case "detail":
-                        msg = "There is no record associated with the report.";
+                        AddTransactionFromReport(view);
                         break;
                 }
-                MessageBox.Show(msg, "Error");
                 flag = true;
             }
             if (!flag && view == generalGridView)
@@ -180,7 +197,7 @@ namespace creditcharges.Views
         {
             BindingList<Transaction> result = new BindingList<Transaction>();
             var date = DateTime.Now.ToString("yyyy-MM-dd");
-            var query = "SELECT * FROM Records WHERE TDate >= @today";
+            var query = "SELECT * FROM Records WHERE CAST(TDate as DATE) = CAST(@today as DATE)";
             SqlCommand cmd = new SqlCommand(query, sql);
             cmd.Parameters.AddWithValue("@today", SqlDbType.DateTime).Value = date;
             cmd.Connection.Open();
@@ -201,8 +218,8 @@ namespace creditcharges.Views
                         Author = reader[8] as string
                     });
                 }
-                cmd.Connection.Close();
             }
+            cmd.Connection.Close();
             return result;
         }
 
@@ -265,17 +282,14 @@ namespace creditcharges.Views
         {
             report = false;
             BindingList<Transaction> result = new BindingList<Transaction>();
-            var date = start.ToString("yyyy-MM-dd");
-            end = end.AddDays(1);
-            var tomorrow = end.ToString("yyyy-MM-dd");
-
+            var tomorrow = end.AddDays(1).ToString("yyyy-MM-dd");
             var query = "SELECT R.Id, R.TDate, R.Card, R.Location, R.Concept, R.Amount, R.CardHolder, " +
             "Q.Account, Q.Entity, Q.Class, Q.JobNumber, Q.JobName, Q.Card, R.Notes, R.Author " +
             "FROM Records R LEFT JOIN QuickBooks Q ON R.Id = Q.Id " +
-            "WHERE R.TDate >= @today AND R.TDate < @tomorrow ";
+            "WHERE CAST(R.TDate as DATE) >= CAST(@today as DATE) AND CAST(R.TDate as DATE) < CAST(@tomorrow as DATE)";
 
             SqlCommand cmd = new SqlCommand(query, sql);
-            cmd.Parameters.AddWithValue("@today", SqlDbType.DateTime).Value = date;
+            cmd.Parameters.AddWithValue("@today", SqlDbType.DateTime).Value = start;
             cmd.Parameters.AddWithValue("@tomorrow", SqlDbType.DateTime).Value = tomorrow;
             cmd.Connection.Open();
             using (var reader = cmd.ExecuteReader())
@@ -301,8 +315,8 @@ namespace creditcharges.Views
                         Author = reader[14] as string
                     });
                 }
-                cmd.Connection.Close();
             }
+            cmd.Connection.Close();
             if (detailsGrid.DataSource != null) detailsGrid.DataSource = null;
             detailsGridView.Columns.Clear();
             detailsGrid.DataSource = result;
@@ -374,8 +388,7 @@ namespace creditcharges.Views
                     var date = DateTime.Parse(view.GetRowCellDisplayText(e.RowHandle, view.Columns["Date"]));
                     var card = view.GetRowCellDisplayText(e.RowHandle, view.Columns["Card"]);
                     var amnt = decimal.Parse(view.GetRowCellDisplayText(e.RowHandle, view.Columns["Amount"]).Replace("$", ""));
-
-                    var query = "SELECT * FROM Records WHERE Card = @card AND Amount = @amnt AND TDate >= @date";
+                    var query = "SELECT * FROM Records WHERE Card = @card AND Amount = @amnt AND CAST(TDate as DATE) = CAST(@date as DATE)";
                     SqlCommand cmd = new SqlCommand(query, sql);
                     cmd.Parameters.AddWithValue("@date", SqlDbType.DateTime).Value = date;
                     cmd.Parameters.AddWithValue("@card", SqlDbType.VarChar).Value = card;
@@ -426,12 +439,10 @@ namespace creditcharges.Views
         private BindingList<Transaction> GetDataSource(DateTime _date)
         {
             BindingList<Transaction> result = new BindingList<Transaction>();
-            var date = _date.ToString("yyyy-MM-dd");
-            var tomorrou = _date.AddDays(1);
-            var tomorrow = tomorrou.ToString("yyyy-MM-dd");
-            var query = "SELECT * FROM Records WHERE TDate >= @today AND TDate < @tomorrow";
+            var tomorrow = _date.AddDays(1).ToString("yyyy-MM-dd");
+            var query = "SELECT * FROM Records WHERE CAST(TDate as DATE) >= CAST(@today as DATE) AND CAST(TDate as DATE) < CAST(@tomorrow as DATE)";
             SqlCommand cmd = new SqlCommand(query, sql);
-            cmd.Parameters.AddWithValue("@today", SqlDbType.DateTime).Value = date;
+            cmd.Parameters.AddWithValue("@today", SqlDbType.DateTime).Value = _date;
             cmd.Parameters.AddWithValue("@tomorrow", SqlDbType.DateTime).Value = tomorrow;
             cmd.Connection.Open();
             using (var reader = cmd.ExecuteReader())
@@ -451,8 +462,8 @@ namespace creditcharges.Views
                         Author = reader[8] as string
                     });
                 }
-                cmd.Connection.Close();
             }
+            cmd.Connection.Close();
             return result;
         }
 
@@ -505,6 +516,11 @@ namespace creditcharges.Views
                     detailsGridView.Columns.Clear();
                     break;
             }
+        }
+
+        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

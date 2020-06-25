@@ -34,6 +34,7 @@ namespace creditcharges.Models
                 jobNames.Add(num[1].Trim().ToString());
             }
             classes = new List<string>(Properties.Resources.CLASS.Split(new char[] { ',' }));
+            if (names != null) names.Clear();
             names = File.ReadAllLines("Resources\\names.txt").ToList();
             sql = new SqlConnection(cn);
             var cmd = new SqlCommand("SELECT * FROM ChildCards", sql);

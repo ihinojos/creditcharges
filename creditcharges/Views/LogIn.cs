@@ -14,6 +14,7 @@ namespace creditcharges.Views
         {
             InitializeComponent();
             sql = new SqlConnection(Data.cn);
+            KeyDown += new KeyEventHandler(passBox_KeyDown);
         }
 
         private void LogInAccount()

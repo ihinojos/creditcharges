@@ -16,7 +16,6 @@ namespace creditcharges.Models
         public static async Task DropBoxDownload()
         {
             var client = new DropboxClient(sToken);
-            //string folder = $"/DAILY PICK UP LOADS/Credit Card Tickets/{DateTime.Today.ToString("yyyy")}/";
             string folder = sDropBoxPath;
             string localFile = Path.Combine(Path.GetTempPath(), sFileName);
             try
@@ -30,7 +29,7 @@ namespace creditcharges.Models
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
             }
         }
@@ -50,30 +49,8 @@ namespace creditcharges.Models
 
         public static async Task DropBoxSave()
         {
-            // bool bFolderExist = true;
             var client = new DropboxClient(sToken);
-            //string folder = $"/DAILY PICK UP LOADS/Credit Card Tickets/{DateTime.Today.ToString("yyyy")}/";
             string imageDropboxPath = sDropBoxPath;
-            /***********  Checks for existing DropBox folder ***********/
-            //var list = await client.Files.ListFolderAsync(imageDropboxPath);
-            //foreach (var item in list.Entries.Where(i => i.IsFolder))
-            //{
-            //    if (item.Name.ToString() == "Tickets")
-            //    {
-            //        bFolderExist = true;
-            //    }
-            //    Console.WriteLine("D  {0}/", item.Name);
-            //}
-            //imageDropboxPath += "/Tickets";
-            /*************  Creates folder if doesn't exist *************/
-            //if (!bFolderExist)
-            //{
-            //    Console.WriteLine("--- Creating Folder ---");
-            //    var folderArg = new CreateFolderArg(imageDropboxPath);
-            //    var folder = await client.Files.CreateFolderV2Async(folderArg);
-            //    Console.WriteLine("Folder: " + imageDropboxPath + " created!");
-            //}
-            /************** Copy image file to DropBox folder   ******************/
             try
             {
                 using (var file = await GetStreamAsync(imagePath))
@@ -85,8 +62,19 @@ namespace creditcharges.Models
                     file.Close();
                 }
             }
-            catch (Exception ex) {
+            catch{
             }
         }
+
+        public static async Task DropBoxDelete()
+        {
+            try
+            {
+                var client = new DropboxClient(sToken);
+                await client.Files.DeleteV2Async(imagePath);
+            }
+            catch { }
+        }
+
     }
 }
