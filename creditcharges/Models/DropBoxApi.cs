@@ -1,4 +1,5 @@
-﻿using Dropbox.Api;
+﻿using DevExpress.XtraBars.Ribbon.ViewInfo;
+using Dropbox.Api;
 using Dropbox.Api.Files;
 using System;
 using System.IO;
@@ -8,10 +9,12 @@ namespace creditcharges.Models
 {
     internal class DropBoxAPI
     {
-        private static string sToken = "H6ShxgYjLJAAAAAAAAaM3XfEGX0t1E52OiIfKns6fF9PbyCUP7rrolnbe8ckx5KZ";
+        private static string sToken = "faXwDUEbOEAAAAAAAAD8BCI7IPCVS9XCH75LfvVIJiWKkSu06rEM-4EF_CmGLOdP";
         public static string sFileName { get; set; }
         public static string sDropBoxPath { get; set; }
         public static string imagePath { get; set; }
+        public static string fromPath { get; set; }
+        public static string toPath { get; set; }
 
         public static async Task DropBoxDownload()
         {
@@ -72,6 +75,17 @@ namespace creditcharges.Models
             {
                 var client = new DropboxClient(sToken);
                 await client.Files.DeleteV2Async(imagePath);
+            }
+            catch { }
+        }
+
+
+        public static async Task DropBoxMove()
+        {
+            try
+            {
+                var client = new DropboxClient(sToken);
+                await client.Files.MoveV2Async(fromPath, toPath);
             }
             catch { }
         }
