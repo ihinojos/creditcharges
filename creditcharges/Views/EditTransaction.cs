@@ -161,6 +161,7 @@ namespace creditcharges.Views
                 catch { }
                 cmd.Connection.Close();
                 if (res > 0 && rel > 0 && ret > 0) MessageBox.Show("Record deleted.");
+                Controller.controller.mainForm.LoadTable();
                 Dispose();
             }
         }
@@ -490,7 +491,6 @@ namespace creditcharges.Views
 
             cmd.Connection.Close();
             SaveImagesAsync(entity, amount, childCard, date);
-            if (!string.IsNullOrEmpty(entity)) MoveImagesAsync(Id, entity);
 
             MessageBox.Show("The record has been saved.", "Success");
             Dispose();
@@ -555,8 +555,10 @@ namespace creditcharges.Views
 
             var filename = stamp+"_"+amount+"_"+child;
             if (!string.IsNullOrEmpty(entity))
+            {
                 filename += "_" + entity;
-
+                DropBoxAPI.sDropBoxPath = $"/Tickets/"+entity+"/";
+            }
             filename = filename.Replace(" ", "_");
 
             query = "INSERT INTO Images (Id, ImgPath) VALUES (@id, @path)";
@@ -580,35 +582,6 @@ namespace creditcharges.Views
                 mainPictureBox.Image = Image.FromFile(imgPaths.ElementAt(0));
             }
             catch { }
-        }
-
-        private void MoveImagesAsync(string id, string entity)
-        {
-            var query = "SELECT * FROM Images WHERE Id = @id";
-            var cmd = new SqlCommand(query, sql);
-            cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = id;
-            cmd.Connection.Open();
-            Task task;
-            using (var reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    var fromPath = reader[1] as string;
-                    var toPath = fromPath.Replace($"{DateTime.Today:yyyy}", entity);
-                    DropBoxAPI.fromPath = fromPath;
-                    DropBoxAPI.toPath = toPath;
-                    query = "UPDATE Images SET ImgPath = @toPath WHERE ImgPath = @fromPath";
-                    var cm2 = new SqlCommand(query, sql);
-                    cm2.Parameters.AddWithValue("@fromPath", SqlDbType.VarChar).Value = fromPath;
-                    cm2.Parameters.AddWithValue("@toPath", SqlDbType.VarChar).Value = toPath;
-                    if(cm2.ExecuteNonQuery() > 0)
-                    {
-                        task = Task.Run(DropBoxAPI.DropBoxMove);
-                        task.Wait();
-                    }
-                }
-            }
-            cmd.Connection.Close();
         }
 
         private void Picture_DragEnter(object sender, DragEventArgs e)

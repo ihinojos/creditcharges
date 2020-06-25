@@ -79,16 +79,5 @@ namespace creditcharges.Models
             catch { }
         }
 
-
-        public static async Task DropBoxMove()
-        {
-            try
-            {
-                var client = new DropboxClient(sToken);
-                await client.Files.MoveV2Async(fromPath, toPath);
-            }
-            catch { }
-        }
-
     }
 }

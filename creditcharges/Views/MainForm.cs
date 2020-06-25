@@ -109,7 +109,7 @@ namespace creditcharges.Views
 
                     cmd.Connection.Close();
                     if (res > 0 && rel > 0 && ret > 0) MessageBox.Show("Record deleted.");
-                    dateEdit1.EditValue = null;
+                    LoadTable();
                 }
             }
             catch (NullReferenceException)
@@ -169,11 +169,10 @@ namespace creditcharges.Views
             try { id = view.GetRowCellValue(view.FocusedRowHandle, "Id").ToString(); }
             catch (NullReferenceException)
             {
-                var msg = "";
                 switch (view.Tag)
                 {
                     case "general":
-                        msg = "Please select a transaction to edit.";
+                        var msg = "Please select a transaction to edit.";
                         MessageBox.Show(msg, "Error");
                         break;
 
