@@ -104,11 +104,6 @@ namespace creditcharges.Views
                     }
                 }
                 cmd.Connection.Close();
-                if (!Data.names.Contains(employee))
-                {
-                    using (StreamWriter w = File.AppendText("Resources\\names.txt")) w.WriteLine(employee);
-                    Data.getData();
-                }
                 Controller.controller.mainForm.LoadTable();
                 Dispose();
             }

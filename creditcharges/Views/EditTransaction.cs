@@ -100,6 +100,9 @@ namespace creditcharges.Views
 
             //Job Name
             jobNameBox.Items.AddRange(Data.jobNames.ToArray());
+
+            //Concept Box
+            conceptBox.Items.AddRange(Data.concept.ToArray());
         }
 
         private void windowsUIButtonPanel1_ButtonClick(object sender, DevExpress.XtraBars.Docking2010.ButtonEventArgs e)
@@ -407,6 +410,7 @@ namespace creditcharges.Views
                         cmd.Parameters.AddWithValue("@plate", SqlDbType.VarChar).Value = plate;
                         cmd.Parameters.AddWithValue("@model", SqlDbType.VarChar).Value = model;
                         cmd.Parameters.AddWithValue("@gallons", SqlDbType.Decimal).Value = gallons;
+                        if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -416,7 +420,7 @@ namespace creditcharges.Views
             }
             else MessageBox.Show("There are empty fields.");
         }
-
+                        
         private void SaveInfo(string Id)
         {
             var employee = employeeBox.Text;
@@ -474,6 +478,7 @@ namespace creditcharges.Views
                     var plate = plateBox.Text;
                     var model = modelBox.Text;
                     var gallons = decimal.Parse(gallonsBox.Text);
+
                     cmd.CommandText = query;
                     cmd.Parameters.AddWithValue("@odometer", SqlDbType.Int).Value = odometer;
                     cmd.Parameters.AddWithValue("@plate", SqlDbType.VarChar).Value = plate;

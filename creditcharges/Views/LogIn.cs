@@ -1,5 +1,7 @@
 ﻿using creditcharges.Models;
+using DevExpress.XtraBars.Ribbon.Accessible;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
@@ -37,8 +39,7 @@ namespace creditcharges.Views
                         switch (Password.Verify(pass, hash))
                         {
                             case true:
-                                var instance = Controller.controller.mainForm = new MainForm(admn);
-                                instance.User = reader[1] as string;
+                                var instance = Controller.controller.mainForm = new MainForm(admn, reader[1] as string);
                                 instance.Show();
                                 Hide();
                                 break;

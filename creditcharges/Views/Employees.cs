@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -16,9 +17,13 @@ namespace creditcharges.Views
 {
     public partial class Employees : Form
     {
+
+        private readonly SqlConnection sql;
+
         public Employees()
         {
             InitializeComponent();
+            sql = new SqlConnection(Data.cn);
             LoadData();
         }
 
@@ -53,39 +58,39 @@ namespace creditcharges.Views
         {
             if (!Data.names.Contains(comboBox1.Text))
             {
-                using (StreamWriter w = File.AppendText("Resources\\names.txt")) w.WriteLine(comboBox1.Text);
+                var query = "INSERT INTO Employees (Id, Name) VALUES (@id, @name)";
+                var cmd = new SqlCommand(query, sql);
+                var id = Guid.NewGuid().ToString("N");
+                var name = comboBox1.Text;
+                cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = id;
+                cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = name;
+                cmd.Connection.Open();
+                var res = cmd.ExecuteNonQuery();
+                cmd.Connection.Close();
+                if (res == 1) MessageBox.Show("Employee added.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Data.getData();
                 LoadData();
-                MessageBox.Show("Employee added");
             }
-            else MessageBox.Show("Employee already exists");
+            else MessageBox.Show("Employee already exists.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void RemoveEmployee()
         {
             if (Data.names.Contains(comboBox1.Text))
             {
-                using (StreamReader sr = new StreamReader("Resources\\names.txt"))
-                {
-                    var allText = sr.ReadToEnd();
-                    allText = allText.Replace(comboBox1.Text, string.Empty);
-                    sr.Close();
-                    StreamWriter sw = new StreamWriter("Resources\\names.txt");
-                    var array = allText.Split(new char[] { '\n','\r' });
-                    foreach (var line in array)
-                    {
-                        if (!string.IsNullOrEmpty(line))
-                        {
-                            sw.WriteLine(line);
-                        }
-                    }
-                    sw.Close();
-                    Data.getData();
-                    LoadData();
-                    MessageBox.Show("Employee deleted");
-                }
+                var query = "DELETE FROM Employees WHERE Name = @name";
+                var cmd = new SqlCommand(query, sql);
+                var name = comboBox1.Text;
+                cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = name;
+                cmd.Connection.Open();
+                var res = cmd.ExecuteNonQuery();
+                cmd.Connection.Close();
+                if (res == 1) MessageBox.Show("Employee deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Data.getData();
+                LoadData();
             }
-            else MessageBox.Show("Employee does not exist");
+            else MessageBox.Show("Employee doesn't exists.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
         }
     }
 }

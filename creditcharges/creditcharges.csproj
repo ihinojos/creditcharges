@@ -25,8 +25,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>2</ApplicationRevision>
-    <ApplicationVersion>2.0.2.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>2.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -287,6 +287,12 @@
     <Compile Include="Views\AddUser.Designer.cs">
       <DependentUpon>AddUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\ChildCards.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ChildCards.Designer.cs">
+      <DependentUpon>ChildCards.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\DateRange.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -349,6 +355,9 @@
     <EmbeddedResource Include="Views\AddUser.resx">
       <DependentUpon>AddUser.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\ChildCards.resx">
+      <DependentUpon>ChildCards.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\DateRange.resx">
       <DependentUpon>DateRange.cs</DependentUpon>
     </EmbeddedResource>
@@ -408,9 +417,6 @@
     <None Include="Resources\addImg.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\names.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="unnamed.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

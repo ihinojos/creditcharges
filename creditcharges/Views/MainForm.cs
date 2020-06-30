@@ -21,9 +21,10 @@ namespace creditcharges.Views
         private readonly SqlConnection sql;
         public string User;
 
-        public MainForm(bool admin)
+        public MainForm(bool admin, string user)
         {
             ADMIN = admin;
+            User = user;
             InitializeComponent();
             sql = new SqlConnection(Data.cn);
             LoadTable();

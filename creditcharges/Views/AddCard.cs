@@ -1,4 +1,5 @@
 ﻿using creditcharges.Models;
+using DevExpress.XtraBars;
 using DevExpress.XtraBars.Docking2010;
 using System;
 using System.Data;
@@ -15,14 +16,8 @@ namespace creditcharges.Views
         {
             InitializeComponent();
             sql = new SqlConnection(Data.cn);
-
-            AutoCompleteStringCollection childs = new AutoCompleteStringCollection();
-            childs.AddRange(Data.childCards.ToArray());
-            childCard.AutoCompleteCustomSource = childs;
-
-            AutoCompleteStringCollection mains = new AutoCompleteStringCollection();
-            mains.AddRange(Data.mainCards.ToArray());
-            mainCard.AutoCompleteCustomSource = mains;
+            entityBox.Items.AddRange(Data.entities.ToArray());
+            GetCards();
         }
 
         private void windowsUIButtonPanel1_ButtonClick(object sender, DevExpress.XtraBars.Docking2010.ButtonEventArgs e)
@@ -38,76 +33,170 @@ namespace creditcharges.Views
                 case "cancel":
                     Dispose();
                     break;
+
+                case "delete":
+                    Delete();
+                    break;
+            }
+        }
+
+        private void UpdateCard()
+        {
+            try
+            {
+                var num = numberBox.Text;
+                var bank = bankBox.Text;
+                var uname = unameBox.Text;
+                var entity = entityBox.Text;
+
+                if (!(string.IsNullOrEmpty(num) || string.IsNullOrEmpty(bank)
+                    || string.IsNullOrEmpty(uname) || string.IsNullOrEmpty(entity)))
+                {
+                    var query = "UPDATE MainCards SET Bank = @bank, Uname = @uname, Entity = @entity " +
+                        "WHERE Number = @num";
+                    var cmd = new SqlCommand(query, sql);
+                    cmd.Parameters.AddWithValue("@num", SqlDbType.VarChar).Value = num;
+                    cmd.Parameters.AddWithValue("@bank", SqlDbType.VarChar).Value = bank;
+                    cmd.Parameters.AddWithValue("@uname", SqlDbType.VarChar).Value = uname;
+                    cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = entity;
+
+                    cmd.Connection.Open();
+                    var res = cmd.ExecuteNonQuery();
+                    cmd.Connection.Close();
+
+                    if (res == 1)
+                    {
+                        MessageBox.Show("Card saved successfully", "Success");
+                    }
+                }
+                else MessageBox.Show("Invalid data, please check fields.", "Error");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
             }
         }
 
         private void SaveCard()
         {
+            if (cardBox.Text == "New card")
+                try
+                {
+                    var num = numberBox.Text;
+                    var bank = bankBox.Text;
+                    var uname = unameBox.Text;
+                    var entity = entityBox.Text;
+
+                    if (!(string.IsNullOrEmpty(num) || string.IsNullOrEmpty(bank)
+                        || string.IsNullOrEmpty(uname) || string.IsNullOrEmpty(entity)))
+                    {
+                        var query = "INSERT INTO MainCards(Number, Bank, Uname, Entity) VALUES (@num, @bank, @uname, @entity)";
+                        var cmd = new SqlCommand(query, sql);
+                        cmd.Parameters.AddWithValue("@num", SqlDbType.VarChar).Value = num;
+                        cmd.Parameters.AddWithValue("@bank", SqlDbType.VarChar).Value = bank;
+                        cmd.Parameters.AddWithValue("@uname", SqlDbType.VarChar).Value = uname;
+                        cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = entity;
+
+                        cmd.Connection.Open();
+                        var res = cmd.ExecuteNonQuery();
+                        cmd.Connection.Close();
+
+                        if (res == 1)
+                        {
+                            MessageBox.Show("Card saved successfully", "Success");
+                        }
+                        GetCards();
+                    }
+                    else MessageBox.Show("Invalid data, please check fields.", "Error");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error");
+                }
+            else UpdateCard();
+        }
+
+        private void Delete()
+        {
+            var main = cardBox.Text;
+            string message = "Do you want to delete this card and all childs associated?";
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result = MessageBox.Show(message, "", buttons, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                int res = 0;
+                var query = "DELETE FROM ChildCards WHERE Main = @main";
+                var cmd = new SqlCommand(query, sql);
+                cmd.Parameters.AddWithValue("@main", SqlDbType.VarChar).Value = main;
+                cmd.Connection.Open();
+                res += cmd.ExecuteNonQuery();
+
+                query = "DELETE FROM MainCards WHERE Number = @main";
+                cmd.CommandText = query;
+                res += cmd.ExecuteNonQuery();
+                cmd.Connection.Close();
+
+                if (res > 0) MessageBox.Show("Card deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void GetCards()
+        {
+            cardBox.Items.Clear();
+            cardBox.Items.Add("New card");
+            cardBox.SelectedIndex = 0;
+            var query = "SELECT * FROM MainCards";
+            var cmd = new SqlCommand(query, sql);
+            cmd.Connection.Open();
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    cardBox.Items.Add(reader[0] as string);
+                }
+                cmd.Connection.Close();
+            }
+        }
+
+        private void cardBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var card = cardBox.SelectedItem.ToString();
+            if (card == "New card")
+            {
+                numberBox.Enabled = true;
+            }
+            else
+            {
+                numberBox.Enabled = false;
+                var query = "SELECT * FROM MainCards WHERE Number = @number";
+                var cmd = new SqlCommand(query, sql);
+                cmd.Parameters.AddWithValue("@number", SqlDbType.VarChar).Value = card;
+                cmd.Connection.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        numberBox.Text = reader[0] as string;
+                        bankBox.Text = reader[1] as string;
+                        unameBox.Text = reader[2] as string;
+                        entityBox.Text = reader[3] as string;
+                    }
+                    cmd.Connection.Close();
+                }
+            }
+        }
+
+        private void view_cards_Btn_Click(object sender, EventArgs e)
+        {
             try
             {
-                var Main = mainCard.Text;
-                var Child = childCard.Text;
-                if (!(string.IsNullOrEmpty(Main) || string.IsNullOrEmpty(Child)))
-                {
-                    var query = "SELECT * FROM MainCards WHERE Card = @main";
-                    SqlCommand cmd = new SqlCommand(query, sql);
-                    cmd.Parameters.AddWithValue("@main", SqlDbType.VarChar).Value = Main;
-                    cmd.Connection.Open();
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            query = "SELECT * FROM ChildCards WHERE Card = @child AND Main = @main";
-                            cmd.CommandText = query;
-                            cmd.Parameters.AddWithValue("@child", SqlDbType.VarChar).Value = Child;
-                            reader.Close();
-                            using (var read = cmd.ExecuteReader())
-                            {
-                                if (read.Read())
-                                {
-                                    MessageBox.Show("Card already exists.");
-                                }
-                                else
-                                {
-                                    read.Close();
-                                    query = "INSERT INTO ChildCards (Card, Main) VALUES (@child, @main)";
-                                    cmd.CommandText = query;
-                                    try
-                                    {
-                                        int res = cmd.ExecuteNonQuery();
-                                        if (res == 1) MessageBox.Show("Card added successfully.");
-                                        else MessageBox.Show("There was an error, please check internet connection");
-                                    }
-                                    catch { }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            reader.Close();
-                            query = "INSERT INTO MainCards (Card) VALUES (@main)";
-                            cmd.CommandText = query;
-                            int res = cmd.ExecuteNonQuery();
-                            if (res == 1)
-                            {
-                                query = "INSERT INTO ChildCards (Card, Main) VALUES (@child, @main)";
-                                cmd.CommandText = query;
-                                cmd.Parameters.AddWithValue("@child", SqlDbType.VarChar).Value = Child;
-                                res = cmd.ExecuteNonQuery();
-                                if (res == 1) MessageBox.Show("Card added successfully.");
-                                else MessageBox.Show("There was an error, please check internet connection");
-                            }
-                        }
-                        childCard.Text = "";
-                        cmd.Connection.Close();
-                    }
-                }
-                else MessageBox.Show("There are empty fields.", "Error");
+                var card = cardBox.SelectedItem.ToString();
+                var instance = Controller.controller.childCards;
+                if (instance != null) instance.Dispose();
+                instance = Controller.controller.childCards = new ChildCards(card);
+                instance.Show();
             }
-            catch (FormatException)
-            {
-                MessageBox.Show("Please check card numbers.", "Error");
-            }
+            catch { }
         }
     }
 }

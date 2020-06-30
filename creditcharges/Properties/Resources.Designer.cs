@@ -80,7 +80,7 @@ namespace creditcharges.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accelerated Harvesting,Airman Development,Alimentos,IMTS,Integrity Autos,Outlier,Pilot,Promised Land,Select Logixtics,Mi Taquito ,Cross,Airman Property Development LLC,Integrated Dairy Consulting .
+        ///   Looks up a localized string similar to Accelerated Harvesting,Airman Property Development,Alimentos,CROSS,IMTS,Integrated Agribussiness,Integrated Dairy Consulting,Integrity Autos,Mi Taquito,Outlier,Pilot Construction,Promised Land,Select Logixtics.
         /// </summary>
         internal static string ENTITIES {
             get {
@@ -94,47 +94,6 @@ namespace creditcharges.Properties {
         internal static string JOBS {
             get {
                 return ResourceManager.GetString("JOBS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Aaron Gonzalez
-        ///Aaron Richard
-        ///Abdel Domingo
-        ///Abdiel Silva
-        ///Abel Espinoza
-        ///Adam Escobar
-        ///Adolfo Molina
-        ///Adonis Suarez
-        ///Adonis Torriente
-        ///Adrian Romero
-        ///Adrian Suarez
-        ///Alberto Valdez
-        ///Alejandro Martinez
-        ///Alex Orozco
-        ///Alexander Gutierrez
-        ///Alexis Briggs
-        ///Alfredo Davila
-        ///Aliesky Dieguez
-        ///Allen Sheets
-        ///Amagrui Montenegro
-        ///Angel Alvarez
-        ///Angel Garcia
-        ///Angel Olivas
-        ///Anna Quevedo
-        ///Anthony Bailey
-        ///Armando Hernandez
-        ///Armando Medrano
-        ///Armando Venereo
-        ///Barbaro Parodis
-        ///Barron Wesley
-        ///Brad Moody
-        ///Brandon Sepeda
-        ///Brian M [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string names {
-            get {
-                return ResourceManager.GetString("names", resourceCulture);
             }
         }
         
