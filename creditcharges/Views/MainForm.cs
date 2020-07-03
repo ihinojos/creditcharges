@@ -1,4 +1,5 @@
 ﻿using creditcharges.Models;
+using creditcharges.Properties;
 using DevExpress.Utils;
 using DevExpress.XtraBars.Docking2010;
 using DevExpress.XtraGrid.Columns;
@@ -18,6 +19,7 @@ namespace creditcharges.Views
     {
         public readonly bool ADMIN;
         private bool report = false;
+        private bool status = false;
         private readonly SqlConnection sql;
         public string User;
 
@@ -70,6 +72,14 @@ namespace creditcharges.Views
         {
             try
             {
+                var status = generalGridView.GetRowCellValue(generalGridView.FocusedRowHandle, "Status").ToString();
+
+                if (status == "Finished")
+                {
+                    MessageBox.Show("Can't delete a finished transaction.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 var id = generalGridView.GetRowCellValue(generalGridView.FocusedRowHandle, "Id").ToString();
 
                 string message = "Do you want to delete this record?";
@@ -136,6 +146,11 @@ namespace creditcharges.Views
             generalGridView.Columns[11].Visible = false;
             generalGridView.Columns[12].Visible = false;
             generalGridView.BestFitColumns();
+
+            status = true;
+            generalGrid.Refresh();
+            generalGridView.RefreshData();
+            status = false;
         }
 
         private void AddTransaction()
@@ -231,7 +246,9 @@ namespace creditcharges.Views
                         Location = reader[5] as string,
                         Date = reader.GetDateTime(6),
                         Notes = reader[7] as string,
-                        Author = reader[8] as string
+                        Author = reader[8] as string,
+                        Status = reader[9] as string,
+                        AuthNum = reader.GetInt32(10)
                     });
                 }
             }
@@ -300,7 +317,7 @@ namespace creditcharges.Views
             BindingList<Transaction> result = new BindingList<Transaction>();
             var tomorrow = end.AddDays(1).ToString("yyyy-MM-dd");
             var query = "SELECT R.Id, R.TDate, R.Card, R.Location, R.Concept, R.Amount, R.CardHolder, " +
-            "Q.Account, Q.Entity, Q.Class, Q.JobNumber, Q.JobName, Q.Card, R.Notes, R.Author " +
+            "Q.Account, Q.Entity, Q.Class, Q.JobNumber, Q.JobName, Q.Card, R.Notes, R.Author, R.Status, R.Inc " +
             "FROM Records R LEFT JOIN QuickBooks Q ON R.Id = Q.Id " +
             "WHERE CAST(R.TDate as DATE) >= CAST(@today as DATE) AND CAST(R.TDate as DATE) < CAST(@tomorrow as DATE)";
 
@@ -328,7 +345,9 @@ namespace creditcharges.Views
                         JobName = reader[11] as string,
                         MainCard = reader[12] as string,
                         Notes = reader[13] as string,
-                        Author = reader[14] as string
+                        Author = reader[14] as string,
+                        Status = reader[15] as string,
+                        AuthNum = reader.GetInt32(16)
                     });
                 }
             }
@@ -340,6 +359,7 @@ namespace creditcharges.Views
             price.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             price.DisplayFormat.FormatString = "c2";
             detailsGridView.BestFitColumns();
+
         }
 
         private void LoadReport()
@@ -475,7 +495,9 @@ namespace creditcharges.Views
                         Location = reader[5] as string,
                         Date = reader.GetDateTime(6),
                         Notes = reader[7] as string,
-                        Author = reader[8] as string
+                        Author = reader[8] as string,
+                        Status = reader[9] as string,
+                        AuthNum = reader.GetInt32(10)
                     });
                 }
             }
@@ -495,11 +517,12 @@ namespace creditcharges.Views
         {
             if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
             {
-                MessageBox.Show("Intelogix México © 2020\n\nCurrent Version: " + System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion);
+                MessageBox.Show("Intelogix México © 2020\n\nCurrent Version: " + System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion,
+                    "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("Not currently deployed.");
+                MessageBox.Show("Not currently deployed.", "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -534,9 +557,22 @@ namespace creditcharges.Views
             }
         }
 
-        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
+        private void generalGridView_RowStyle(object sender, RowStyleEventArgs e)
         {
-
+                try
+                {
+                    var status = generalGridView.GetRowCellValue(e.RowHandle, "Status").ToString();
+                    switch (status)
+                    {
+                        case "New":
+                            e.Appearance.BackColor = Color.LightSteelBlue;
+                            break;
+                        case "Finished":
+                            e.Appearance.BackColor = Color.LightGray;
+                            break;
+                    }
+                }
+                catch { }
         }
     }
 }

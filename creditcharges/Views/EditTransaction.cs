@@ -31,14 +31,14 @@ namespace creditcharges.Views
         private List<string> imgPaths;
         private double value;
         private ImageList imgl;
+        private int lastOdo = 0;
+        private string lastModel = string.Empty;
 
         public EditTransaction(string id, string location, string concept)
         {
             Id = id;
             sql = new SqlConnection(Data.cn);
             InitializeComponent();
-
-            ((Control)tabPage2).Enabled = Controller.controller.mainForm.ADMIN;
 
             imgl = new ImageList
             {
@@ -126,6 +126,37 @@ namespace creditcharges.Views
             }
         }
 
+        private void ShowSavedRecord()
+        {
+            var query = "SELECT CardHolder, Card, Amount, TDate, Inc FROM Records WHERE Id = @id";
+            var cmd = new SqlCommand(query, sql);
+            cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = Id;
+            cmd.Connection.Open();
+            using (var reader = cmd.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    var name = reader[0] as string;
+                    var card = reader[1] as string;
+                    var amount = reader.GetDecimal(2);
+                    var date = reader.GetDateTime(3);
+                    var inc = reader.GetInt32(4);
+                    if (card.Length == 3) card = "**** **** **** 0" + card;
+                    if (card.Length == 4) card = "**** **** **** " + card;
+                    if (card.Length == 5) card = "***** ***** " + card;
+                    var msg = $"{name}\n" +
+                      $"Card: {card}\n" +
+                      $"Amount: {amount:C2}\n" +
+                      $"On: {date}\n" +
+                      $"Auth #: {inc}";
+                    reader.Close();
+                    cmd.Connection.Close();
+                    Clipboard.SetText(msg);
+                    MessageBox.Show(msg, "New transaction", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
         private void Delete()
         {
             string message = "Do you want to delete this record?";
@@ -133,6 +164,8 @@ namespace creditcharges.Views
             DialogResult result = MessageBox.Show(message, "", buttons);
             if (result == DialogResult.Yes)
             {
+
+
                 var query = "SELECT * FROM Images WHERE Id = @id";
                 SqlCommand cmd = new SqlCommand(query, sql);
                 cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = Id;
@@ -215,6 +248,7 @@ namespace creditcharges.Views
                 }
                 LoadFuelTable();
             }
+            if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
             query = "SELECT * FROM Images WHERE Id = @id";
             cmd.CommandText = query;
             using (var reader = cmd.ExecuteReader())
@@ -232,9 +266,11 @@ namespace creditcharges.Views
 
         private void LoadFuelTable()
         {
-            var plate = plateBox.Text;
-            var query = "SELECT R.Id, R.Amount, R.TDate, F.Odometer, F.Plate, F.Model, F.Gallons FROM Records R LEFT JOIN Fuel F On R.Id = F.Id WHERE F.Plate = @plate";
+            var plate = plateBox.Text.ToUpper();
+            plateBox.Text = plate;
+            var query = "SELECT R.Id, R.Amount, R.TDate, F.Odometer, F.Plate, F.Model, F.Gallons FROM Records R LEFT JOIN Fuel F On R.Id = F.Id WHERE F.Plate = @plate ORDER BY R.TDate ASC";
             SqlCommand cmd = new SqlCommand(query, sql);
+            if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
             cmd.Parameters.AddWithValue("@plate", SqlDbType.VarChar).Value = plate;
             BindingList<Fuel> fuel = new BindingList<Fuel>();
             using (var reader = cmd.ExecuteReader())
@@ -251,6 +287,11 @@ namespace creditcharges.Views
                         Model = reader[5] as string,
                         Gallons = reader.GetDecimal(6)
                     });
+
+                    lastOdo = reader.GetInt32(3);
+                    modelBox.Text = reader[5] as string;
+                    lastModel = reader[5] as string;
+
                 }
                 if (fuelControl.DataSource != null) fuelControl.DataSource = null;
                 fuelView.Columns.Clear();
@@ -263,6 +304,7 @@ namespace creditcharges.Views
                 price.DisplayFormat.FormatString = "c2";
                 fuelView.BestFitColumns();
             }
+            cmd.Connection.Close();
         }
 
         private void ImagesFromList(List<string> list)
@@ -338,7 +380,7 @@ namespace creditcharges.Views
         {
             string maincard = "";
             var id = Guid.NewGuid().ToString("N");
-            Id = id;
+           
             var employee = employeeBox.Text;
             var number = cardBoxNum.Text;
             var val = value;
@@ -346,8 +388,10 @@ namespace creditcharges.Views
             var date = dateBox.Value;
             var notes = notesBox.Text;
             var user = Controller.controller.mainForm.User;
-            var query = "INSERT INTO Records (Id, CardHolder, Card, Concept, Amount, TDate, Notes, Author) " +
-                            "VALUES (@id, @name, @card, @concept, @amount, @date, @notes, @user)";
+            var status = listView1.Items.Count == 0 ? "New" : "Finished";
+
+            var query = "INSERT INTO Records (Id, CardHolder, Card, Concept, Amount, TDate, Notes, Author, Status) " +
+                            "VALUES (@id, @name, @card, @concept, @amount, @date, @notes, @user, @status)";
 
             SqlCommand cmd = new SqlCommand(query, sql);
             cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = id;
@@ -358,8 +402,16 @@ namespace creditcharges.Views
             cmd.Parameters.AddWithValue("@date", SqlDbType.DateTime).Value = date;
             cmd.Parameters.AddWithValue("@notes", SqlDbType.Text).Value = notes;
             cmd.Parameters.AddWithValue("@user", SqlDbType.VarChar).Value = user;
+            cmd.Parameters.AddWithValue("@status", SqlDbType.VarChar).Value = status;
+
+            if (concept == "Gasolina/Automóvil" && !checkBox1.Checked)
+            {
+                MessageBox.Show("Por favor, captura la información del combustible en la pestaña correspondiente.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (!(string.IsNullOrEmpty(employee) || string.IsNullOrEmpty(number) || string.IsNullOrEmpty(concept) || string.IsNullOrEmpty(number)))
             {
+                Id = id;
                 cmd.Connection.Open();
                 var rel = cmd.ExecuteNonQuery();
                 if (rel > 0)
@@ -396,8 +448,6 @@ namespace creditcharges.Views
                     var res = cmd.ExecuteNonQuery();
                     if (imgPaths.Count > 0)
                         SaveImagesAsync(entity, value.ToString(), number, date);
-                    if (res == 1) MessageBox.Show("Record saved successfully.", "Success");
-                    else MessageBox.Show("Please check your internet connection.", "Error");
                     if (checkBox1.Checked)
                     {
                         query = "INSERT INTO Fuel (Id, Odometer, Plate, Model, Gallons) VALUES (@id, @odometer, @plate, @model, @gallons)";
@@ -410,17 +460,29 @@ namespace creditcharges.Views
                         cmd.Parameters.AddWithValue("@plate", SqlDbType.VarChar).Value = plate;
                         cmd.Parameters.AddWithValue("@model", SqlDbType.VarChar).Value = model;
                         cmd.Parameters.AddWithValue("@gallons", SqlDbType.Decimal).Value = gallons;
+
                         if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
+
+                        if(model != lastModel)
+                        {
+                            cmd.CommandText = "UPDATE Fuel SET Model = @model WHERE Plate = @plate";
+                            cmd.ExecuteNonQuery();
+                        }
+
                     }
+
+                    if (res == 1) MessageBox.Show("Record saved successfully.", "Success");
+                    else MessageBox.Show("Please check your internet connection.", "Error");
                 }
                 cmd.Connection.Close();
                 Controller.controller.mainForm.LoadTable();
+                ShowSavedRecord();
                 Dispose();
             }
             else MessageBox.Show("There are empty fields.");
         }
-                        
+
         private void SaveInfo(string Id)
         {
             var employee = employeeBox.Text;
@@ -438,9 +500,10 @@ namespace creditcharges.Views
             var amount = amountBox.Text.Replace("$", "").Replace(",", "");
             var card = cardBoxNum.Text;
             var author = Controller.controller.mainForm.User;
+            var status = listView1.Items.Count == 0 ? "New" : "Finished";
 
             var query = "UPDATE Records SET Concept = @concept, Location = @location, Notes = @notes, Amount = @amount, Card = @card, Author = @author," +
-                "TDate = @date, CardHolder = @employee WHERE Id = @id";
+                "TDate = @date, CardHolder = @employee, Status = @status WHERE Id = @id";
             SqlCommand cmd = new SqlCommand(query, sql);
             cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = Id;
             cmd.Parameters.AddWithValue("@concept", SqlDbType.VarChar).Value = concept;
@@ -451,6 +514,7 @@ namespace creditcharges.Views
             cmd.Parameters.AddWithValue("@author", SqlDbType.VarChar).Value = author;
             cmd.Parameters.AddWithValue("@date", SqlDbType.DateTime).Value = date;
             cmd.Parameters.AddWithValue("@employee", SqlDbType.VarChar).Value = employee;
+            cmd.Parameters.AddWithValue("@status", SqlDbType.VarChar).Value = status;
 
             cmd.Connection.Open();
             cmd.ExecuteNonQuery();
@@ -488,16 +552,16 @@ namespace creditcharges.Views
                 }
                 catch
                 {
-                    MessageBox.Show("Please try again.", "Error");
+                    MessageBox.Show("Error while saving fuel data, please try again.", "Error");
                     cmd.Connection.Close();
-                    return;
                 }
             }
 
             cmd.Connection.Close();
             SaveImagesAsync(entity, amount, childCard, date);
-
             MessageBox.Show("The record has been saved.", "Success");
+            Controller.controller.mainForm.LoadTable();
+            ShowSavedRecord();
             Dispose();
         }
 
@@ -537,8 +601,8 @@ namespace creditcharges.Views
             var query = "SELECT * FROM Images WHERE Id = @id";
             SqlCommand cmd = new SqlCommand(query, sql);
             cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = Id;
-            if(cmd.Connection.State != ConnectionState.Open)
-            cmd.Connection.Open();
+            if (cmd.Connection.State != ConnectionState.Open)
+                cmd.Connection.Open();
             Task task;
             using (var reader = cmd.ExecuteReader())
             {
@@ -558,11 +622,11 @@ namespace creditcharges.Views
             original.Image.Dispose();
             DropBoxAPI.sDropBoxPath = $"/Tickets/{DateTime.Today:yyyy}/";
 
-            var filename = stamp+"_"+amount+"_"+child;
+            var filename = stamp + "_" + amount + "_" + child;
             if (!string.IsNullOrEmpty(entity))
             {
                 filename += "_" + entity;
-                DropBoxAPI.sDropBoxPath = $"/Tickets/"+entity+"/";
+                DropBoxAPI.sDropBoxPath = $"/Tickets/" + entity + "/";
             }
             filename = filename.Replace(" ", "_");
 
@@ -800,6 +864,41 @@ namespace creditcharges.Views
                 {
 
                 }
+            }
+        }
+
+        private void plateBox_Leave(object sender, EventArgs e)
+        {
+            if (plateBox.Text.Split(new char[] { ' ' }).Length != 2)
+            {
+                MessageBox.Show("El formato de las placas es erróneo, debe llevar espacio entre los valores, ejemplo: \"ABC 1234\"." +
+                    "\nPor favor vuelva a reintroducir el valor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                plateBox.Text = string.Empty;
+            }
+            else
+            {
+                try
+                {
+                    LoadFuelTable();
+                }
+                catch { }
+            }
+        }
+
+        private void odometerBox_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                var odo = int.Parse(odometerBox.Text);
+                if (odo <= lastOdo)
+                {
+                    MessageBox.Show("Las millas ingresadas son menores al último registro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    odometerBox.Text = string.Empty;
+                }
+            }catch
+            {
+                odometerBox.Text = string.Empty;
             }
         }
     }

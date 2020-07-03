@@ -11,25 +11,21 @@ namespace creditcharges.Models
         private static string[] concepts = {"Alojamiento","Atención Médica", "Gasolina/Automóvil", "Internet", "Mercancía", "Otra Opción",
             "Otros Servicios", "Pago/crédito", "Seguros", "Servicios Profesionales", "Servicios Púbilcos", "Teléfono/Cable"};
 
-        public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=TESTTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
-        //public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=PRODTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
+        //public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=TESTTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
+        public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=PRODTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
 
         //more data bout cards
             // number
-            // date of expiration \\ date of issue
-            // cardholder 
             // distributor 
             // account 
 
         //more data about employees
             // name
             // dept
-            // avg compras
+            // avg compras (implemented outside database) 
 
-        //company data 
+        //company data (David needs to proide further information).
             // name 
-            // address
-            // phone
 
         //quickbook settings dependant on the entity selected.
             //will have to check around which one goes where

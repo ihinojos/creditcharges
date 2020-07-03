@@ -66,14 +66,14 @@ namespace creditcharges.Views
 
                     if (res == 1)
                     {
-                        MessageBox.Show("Card saved successfully", "Success");
+                        MessageBox.Show("Card saved successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
-                else MessageBox.Show("Invalid data, please check fields.", "Error");
+                else MessageBox.Show("Invalid data, please check fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -103,15 +103,15 @@ namespace creditcharges.Views
 
                         if (res == 1)
                         {
-                            MessageBox.Show("Card saved successfully", "Success");
+                            MessageBox.Show("Card saved successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         GetCards();
                     }
-                    else MessageBox.Show("Invalid data, please check fields.", "Error");
+                    else MessageBox.Show("Invalid data, please check fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Error");
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             else UpdateCard();
         }
@@ -164,6 +164,10 @@ namespace creditcharges.Views
             if (card == "New card")
             {
                 numberBox.Enabled = true;
+                numberBox.Text = string.Empty;
+                entityBox.SelectedItem = null;
+                unameBox.Text = string.Empty;
+                bankBox.Text = string.Empty;
             }
             else
             {

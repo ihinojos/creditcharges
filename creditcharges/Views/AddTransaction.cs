@@ -8,6 +8,7 @@ using System.Windows.Forms;
 
 namespace creditcharges.Views
 {
+    [Obsolete]
     public partial class AddTransaction : Form
     {
         private double value;

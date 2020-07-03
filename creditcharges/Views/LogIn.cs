@@ -21,7 +21,6 @@ namespace creditcharges.Views
 
         private void LogInAccount()
         {
-
             var user = userBox.Text;
             var pass = passBox.Text;
             if (!string.IsNullOrEmpty(user) && !string.IsNullOrEmpty(pass))

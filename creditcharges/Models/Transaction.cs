@@ -26,5 +26,7 @@ namespace creditcharges.Models
         public string JobNumber { get; set; }
         public string JobName { get; set; }
         public string Author { get; set; }
+        public string Status { get; set; }
+        public int AuthNum { get; set; }
     }
 }
