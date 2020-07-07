@@ -559,20 +559,25 @@ namespace creditcharges.Views
 
         private void generalGridView_RowStyle(object sender, RowStyleEventArgs e)
         {
-                try
+            try
+            {
+                var status = generalGridView.GetRowCellValue(e.RowHandle, "Status").ToString();
+                switch (status)
                 {
-                    var status = generalGridView.GetRowCellValue(e.RowHandle, "Status").ToString();
-                    switch (status)
-                    {
-                        case "New":
-                            e.Appearance.BackColor = Color.LightSteelBlue;
-                            break;
-                        case "Finished":
-                            e.Appearance.BackColor = Color.LightGray;
-                            break;
-                    }
+                    case "No Ticket":
+                        e.Appearance.BackColor = Color.LightSalmon;
+                        break;
+                    case "Finished":
+                        e.Appearance.BackColor = Color.LightGray;
+                        break;
                 }
-                catch { }
+            }
+            catch { }
+        }
+
+        private void windowsUIButtonPanel4_ButtonClick(object sender, ButtonEventArgs e)
+        {
+
         }
     }
 }

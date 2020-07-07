@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions7 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions1 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditTransaction));
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions8 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions9 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions10 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions11 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions12 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions2 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions3 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions4 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions5 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions6 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.windowsUIButtonPanel1 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel();
@@ -45,9 +45,9 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.employeeBox = new System.Windows.Forms.TextBox();
             this.conceptBox = new System.Windows.Forms.ComboBox();
             this.cardBoxNum = new System.Windows.Forms.ComboBox();
-            this.employeeBox = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
             this.locationBox = new System.Windows.Forms.TextBox();
             this.dateBox = new System.Windows.Forms.DateTimePicker();
@@ -149,14 +149,14 @@
             // 
             // windowsUIButtonPanel1
             // 
-            windowsUIButtonImageOptions7.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions7.SvgImage")));
-            windowsUIButtonImageOptions8.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions8.SvgImage")));
-            windowsUIButtonImageOptions9.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions9.SvgImage")));
+            windowsUIButtonImageOptions1.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions1.SvgImage")));
+            windowsUIButtonImageOptions2.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions2.SvgImage")));
+            windowsUIButtonImageOptions3.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions3.SvgImage")));
             this.windowsUIButtonPanel1.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Save & Close", true, windowsUIButtonImageOptions7, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "save", -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Cancel", true, windowsUIButtonImageOptions8, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "cancel", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Save & Close", true, windowsUIButtonImageOptions1, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "save", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Cancel", true, windowsUIButtonImageOptions2, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "cancel", -1, false),
             new DevExpress.XtraBars.Docking2010.WindowsUISeparator(),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Delete", true, windowsUIButtonImageOptions9, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "delete", -1, false)});
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Delete", true, windowsUIButtonImageOptions3, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "delete", -1, false)});
             this.windowsUIButtonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.windowsUIButtonPanel1.Location = new System.Drawing.Point(18, 551);
             this.windowsUIButtonPanel1.Name = "windowsUIButtonPanel1";
@@ -169,7 +169,7 @@
             // 
             this.tableLayoutPanel2.AllowDrop = true;
             this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 317F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 449F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel4, 1, 0);
@@ -194,7 +194,7 @@
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 71.42857F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28.57143F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(311, 501);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(443, 501);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // groupBox1
@@ -205,7 +205,7 @@
             this.groupBox1.Controls.Add(this.notesBox);
             this.groupBox1.Location = new System.Drawing.Point(3, 360);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(305, 138);
+            this.groupBox1.Size = new System.Drawing.Size(437, 138);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Notes";
@@ -215,7 +215,7 @@
             this.notesBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.notesBox.Location = new System.Drawing.Point(3, 16);
             this.notesBox.Name = "notesBox";
-            this.notesBox.Size = new System.Drawing.Size(299, 119);
+            this.notesBox.Size = new System.Drawing.Size(431, 119);
             this.notesBox.TabIndex = 0;
             this.notesBox.Text = "";
             // 
@@ -228,7 +228,7 @@
             this.tabControl1.Location = new System.Drawing.Point(3, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(305, 351);
+            this.tabControl1.Size = new System.Drawing.Size(437, 351);
             this.tabControl1.TabIndex = 12;
             // 
             // tabPage1
@@ -237,7 +237,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(297, 325);
+            this.tabPage1.Size = new System.Drawing.Size(429, 325);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "General";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -246,9 +246,9 @@
             // 
             this.panel1.AllowDrop = true;
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.employeeBox);
             this.panel1.Controls.Add(this.conceptBox);
             this.panel1.Controls.Add(this.cardBoxNum);
-            this.panel1.Controls.Add(this.employeeBox);
             this.panel1.Controls.Add(this.label13);
             this.panel1.Controls.Add(this.locationBox);
             this.panel1.Controls.Add(this.dateBox);
@@ -261,8 +261,17 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(291, 319);
+            this.panel1.Size = new System.Drawing.Size(423, 319);
             this.panel1.TabIndex = 13;
+            // 
+            // employeeBox
+            // 
+            this.employeeBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.employeeBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.employeeBox.Location = new System.Drawing.Point(6, 16);
+            this.employeeBox.Name = "employeeBox";
+            this.employeeBox.Size = new System.Drawing.Size(412, 20);
+            this.employeeBox.TabIndex = 15;
             // 
             // conceptBox
             // 
@@ -272,7 +281,7 @@
             this.conceptBox.FormattingEnabled = true;
             this.conceptBox.Location = new System.Drawing.Point(6, 94);
             this.conceptBox.Name = "conceptBox";
-            this.conceptBox.Size = new System.Drawing.Size(280, 21);
+            this.conceptBox.Size = new System.Drawing.Size(412, 21);
             this.conceptBox.Sorted = true;
             this.conceptBox.TabIndex = 14;
             // 
@@ -284,21 +293,9 @@
             this.cardBoxNum.FormattingEnabled = true;
             this.cardBoxNum.Location = new System.Drawing.Point(6, 55);
             this.cardBoxNum.Name = "cardBoxNum";
-            this.cardBoxNum.Size = new System.Drawing.Size(280, 21);
+            this.cardBoxNum.Size = new System.Drawing.Size(412, 21);
             this.cardBoxNum.Sorted = true;
             this.cardBoxNum.TabIndex = 13;
-            // 
-            // employeeBox
-            // 
-            this.employeeBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.employeeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.employeeBox.FormattingEnabled = true;
-            this.employeeBox.Location = new System.Drawing.Point(6, 15);
-            this.employeeBox.Name = "employeeBox";
-            this.employeeBox.Size = new System.Drawing.Size(280, 21);
-            this.employeeBox.Sorted = true;
-            this.employeeBox.TabIndex = 12;
             // 
             // label13
             // 
@@ -315,7 +312,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.locationBox.Location = new System.Drawing.Point(6, 172);
             this.locationBox.Name = "locationBox";
-            this.locationBox.Size = new System.Drawing.Size(280, 20);
+            this.locationBox.Size = new System.Drawing.Size(412, 20);
             this.locationBox.TabIndex = 4;
             // 
             // dateBox
@@ -326,7 +323,7 @@
             this.dateBox.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateBox.Location = new System.Drawing.Point(6, 211);
             this.dateBox.Name = "dateBox";
-            this.dateBox.Size = new System.Drawing.Size(280, 20);
+            this.dateBox.Size = new System.Drawing.Size(412, 20);
             this.dateBox.TabIndex = 5;
             this.dateBox.Value = new System.DateTime(2020, 6, 9, 12, 57, 44, 0);
             // 
@@ -345,7 +342,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.amountBox.Location = new System.Drawing.Point(6, 133);
             this.amountBox.Name = "amountBox";
-            this.amountBox.Size = new System.Drawing.Size(280, 20);
+            this.amountBox.Size = new System.Drawing.Size(412, 20);
             this.amountBox.TabIndex = 3;
             this.amountBox.Leave += new System.EventHandler(this.amountBox_Leave);
             // 
@@ -391,7 +388,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(297, 325);
+            this.tabPage2.Size = new System.Drawing.Size(429, 325);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Quickbooks";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -415,7 +412,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(291, 319);
+            this.panel2.Size = new System.Drawing.Size(423, 319);
             this.panel2.TabIndex = 14;
             // 
             // classBox
@@ -426,7 +423,7 @@
             this.classBox.FormattingEnabled = true;
             this.classBox.Location = new System.Drawing.Point(6, 94);
             this.classBox.Name = "classBox";
-            this.classBox.Size = new System.Drawing.Size(280, 21);
+            this.classBox.Size = new System.Drawing.Size(412, 21);
             this.classBox.Sorted = true;
             this.classBox.TabIndex = 15;
             // 
@@ -438,7 +435,7 @@
             this.entityBox.FormattingEnabled = true;
             this.entityBox.Location = new System.Drawing.Point(6, 55);
             this.entityBox.Name = "entityBox";
-            this.entityBox.Size = new System.Drawing.Size(280, 21);
+            this.entityBox.Size = new System.Drawing.Size(412, 21);
             this.entityBox.Sorted = true;
             this.entityBox.TabIndex = 14;
             // 
@@ -450,7 +447,7 @@
             this.accountBox.FormattingEnabled = true;
             this.accountBox.Location = new System.Drawing.Point(6, 15);
             this.accountBox.Name = "accountBox";
-            this.accountBox.Size = new System.Drawing.Size(280, 21);
+            this.accountBox.Size = new System.Drawing.Size(412, 21);
             this.accountBox.Sorted = true;
             this.accountBox.TabIndex = 13;
             // 
@@ -462,7 +459,7 @@
             this.jobNameBox.FormattingEnabled = true;
             this.jobNameBox.Location = new System.Drawing.Point(6, 171);
             this.jobNameBox.Name = "jobNameBox";
-            this.jobNameBox.Size = new System.Drawing.Size(280, 21);
+            this.jobNameBox.Size = new System.Drawing.Size(412, 21);
             this.jobNameBox.TabIndex = 4;
             this.jobNameBox.SelectedIndexChanged += new System.EventHandler(this.jobNameBox_SelectedIndexChanged);
             // 
@@ -474,7 +471,7 @@
             this.jobNumBox.FormattingEnabled = true;
             this.jobNumBox.Location = new System.Drawing.Point(6, 132);
             this.jobNumBox.Name = "jobNumBox";
-            this.jobNumBox.Size = new System.Drawing.Size(280, 21);
+            this.jobNumBox.Size = new System.Drawing.Size(412, 21);
             this.jobNumBox.TabIndex = 3;
             this.jobNumBox.SelectedIndexChanged += new System.EventHandler(this.jobNumBox_SelectedIndexChanged);
             // 
@@ -485,7 +482,7 @@
             this.mainCardBox.Enabled = false;
             this.mainCardBox.Location = new System.Drawing.Point(6, 211);
             this.mainCardBox.Name = "mainCardBox";
-            this.mainCardBox.Size = new System.Drawing.Size(280, 20);
+            this.mainCardBox.Size = new System.Drawing.Size(412, 20);
             this.mainCardBox.TabIndex = 5;
             // 
             // label12
@@ -548,7 +545,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(297, 325);
+            this.tabPage3.Size = new System.Drawing.Size(429, 325);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Fuel";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -565,7 +562,7 @@
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 190F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(291, 319);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(423, 319);
             this.tableLayoutPanel5.TabIndex = 0;
             // 
             // panel4
@@ -582,7 +579,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(3, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(285, 184);
+            this.panel4.Size = new System.Drawing.Size(417, 184);
             this.panel4.TabIndex = 1;
             // 
             // checkBox1
@@ -603,7 +600,7 @@
             this.gallonsBox.Enabled = false;
             this.gallonsBox.Location = new System.Drawing.Point(0, 159);
             this.gallonsBox.Name = "gallonsBox";
-            this.gallonsBox.Size = new System.Drawing.Size(282, 20);
+            this.gallonsBox.Size = new System.Drawing.Size(414, 20);
             this.gallonsBox.TabIndex = 7;
             // 
             // label17
@@ -622,7 +619,7 @@
             this.odometerBox.Enabled = false;
             this.odometerBox.Location = new System.Drawing.Point(0, 120);
             this.odometerBox.Name = "odometerBox";
-            this.odometerBox.Size = new System.Drawing.Size(282, 20);
+            this.odometerBox.Size = new System.Drawing.Size(414, 20);
             this.odometerBox.TabIndex = 5;
             this.odometerBox.Leave += new System.EventHandler(this.odometerBox_Leave);
             // 
@@ -642,7 +639,7 @@
             this.modelBox.Enabled = false;
             this.modelBox.Location = new System.Drawing.Point(0, 78);
             this.modelBox.Name = "modelBox";
-            this.modelBox.Size = new System.Drawing.Size(282, 20);
+            this.modelBox.Size = new System.Drawing.Size(414, 20);
             this.modelBox.TabIndex = 3;
             // 
             // label15
@@ -661,7 +658,7 @@
             this.plateBox.Enabled = false;
             this.plateBox.Location = new System.Drawing.Point(0, 39);
             this.plateBox.Name = "plateBox";
-            this.plateBox.Size = new System.Drawing.Size(282, 20);
+            this.plateBox.Size = new System.Drawing.Size(414, 20);
             this.plateBox.TabIndex = 1;
             this.plateBox.Leave += new System.EventHandler(this.plateBox_Leave);
             // 
@@ -680,7 +677,7 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(3, 193);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(285, 123);
+            this.panel5.Size = new System.Drawing.Size(417, 123);
             this.panel5.TabIndex = 2;
             // 
             // fuelControl
@@ -689,7 +686,7 @@
             this.fuelControl.Location = new System.Drawing.Point(0, 0);
             this.fuelControl.MainView = this.fuelView;
             this.fuelControl.Name = "fuelControl";
-            this.fuelControl.Size = new System.Drawing.Size(285, 123);
+            this.fuelControl.Size = new System.Drawing.Size(417, 123);
             this.fuelControl.TabIndex = 3;
             this.fuelControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.fuelView});
@@ -712,12 +709,12 @@
             this.tableLayoutPanel4.Controls.Add(this.panel3, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.panel6, 1, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(320, 3);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(452, 3);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(812, 501);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(680, 501);
             this.tableLayoutPanel4.TabIndex = 1;
             // 
             // panel3
@@ -731,7 +728,7 @@
             this.panel3.Controls.Add(this.mainPictureBox);
             this.panel3.Location = new System.Drawing.Point(3, 3);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(622, 495);
+            this.panel3.Size = new System.Drawing.Size(490, 495);
             this.panel3.TabIndex = 3;
             // 
             // mainPictureBox
@@ -751,7 +748,7 @@
             this.panel6.Controls.Add(this.windowsUIButtonPanel2);
             this.panel6.Controls.Add(this.listView1);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel6.Location = new System.Drawing.Point(631, 3);
+            this.panel6.Location = new System.Drawing.Point(499, 3);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(178, 495);
             this.panel6.TabIndex = 4;
@@ -771,13 +768,13 @@
             // windowsUIButtonPanel2
             // 
             this.windowsUIButtonPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            windowsUIButtonImageOptions10.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions10.SvgImage")));
-            windowsUIButtonImageOptions11.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions11.SvgImage")));
-            windowsUIButtonImageOptions12.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions12.SvgImage")));
+            windowsUIButtonImageOptions4.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions4.SvgImage")));
+            windowsUIButtonImageOptions5.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions5.SvgImage")));
+            windowsUIButtonImageOptions6.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions6.SvgImage")));
             this.windowsUIButtonPanel2.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Add", true, windowsUIButtonImageOptions10, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "add", -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Remove", true, windowsUIButtonImageOptions11, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "remove", -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Clear", true, windowsUIButtonImageOptions12, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "clear", -1, false)});
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Add", true, windowsUIButtonImageOptions4, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "add", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Remove", true, windowsUIButtonImageOptions5, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "remove", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Clear", true, windowsUIButtonImageOptions6, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "clear", -1, false)});
             this.windowsUIButtonPanel2.Location = new System.Drawing.Point(29, 432);
             this.windowsUIButtonPanel2.Name = "windowsUIButtonPanel2";
             this.windowsUIButtonPanel2.Size = new System.Drawing.Size(149, 66);
@@ -890,7 +887,6 @@
         private System.Windows.Forms.Panel panel5;
         private DevExpress.XtraGrid.GridControl fuelControl;
         private DevExpress.XtraGrid.Views.Grid.GridView fuelView;
-        private System.Windows.Forms.ComboBox employeeBox;
         private System.Windows.Forms.ComboBox cardBoxNum;
         private System.Windows.Forms.ComboBox accountBox;
         private System.Windows.Forms.ComboBox entityBox;
@@ -900,5 +896,6 @@
         private DevExpress.XtraEditors.ZoomTrackBarControl zoomBar;
         private DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel windowsUIButtonPanel2;
         private System.Windows.Forms.ComboBox conceptBox;
+        private System.Windows.Forms.TextBox employeeBox;
     }
 }

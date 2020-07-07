@@ -38,12 +38,16 @@
             DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions7 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
             DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions8 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
             DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions9 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions10 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions11 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions12 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.employeesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setMessageDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPane1 = new DevExpress.XtraBars.Navigation.TabPane();
             this.General = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -59,6 +63,13 @@
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.windowsUIButtonPanel2 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel();
             this.windowsUIButtonPanel3 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel();
+            this.tabNavigationPage1 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.dieselGrid = new DevExpress.XtraGrid.GridControl();
+            this.dieselGridView = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.windowsUIButtonPanel4 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel();
+            this.windowsUIButtonPanel5 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabPane1)).BeginInit();
             this.tabPane1.SuspendLayout();
@@ -74,6 +85,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.detailsGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.detailsGridView)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
+            this.tabNavigationPage1.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dieselGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dieselGridView)).BeginInit();
+            this.tableLayoutPanel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -99,7 +115,8 @@
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addUserToolStripMenuItem,
             this.toolStripMenuItem1,
-            this.employeesToolStripMenuItem});
+            this.employeesToolStripMenuItem,
+            this.setMessageDetailsToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
@@ -107,34 +124,42 @@
             // addUserToolStripMenuItem
             // 
             this.addUserToolStripMenuItem.Name = "addUserToolStripMenuItem";
-            this.addUserToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.addUserToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.addUserToolStripMenuItem.Text = "Add User";
             this.addUserToolStripMenuItem.Click += new System.EventHandler(this.addUserToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(131, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 22);
             this.toolStripMenuItem1.Text = "Cards";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.addCardToolStripMenuItem_Click);
             // 
             // employeesToolStripMenuItem
             // 
             this.employeesToolStripMenuItem.Name = "employeesToolStripMenuItem";
-            this.employeesToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.employeesToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.employeesToolStripMenuItem.Text = "Employees";
             this.employeesToolStripMenuItem.Click += new System.EventHandler(this.employeesToolStripMenuItem_Click);
+            // 
+            // setMessageDetailsToolStripMenuItem
+            // 
+            this.setMessageDetailsToolStripMenuItem.Name = "setMessageDetailsToolStripMenuItem";
+            this.setMessageDetailsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.setMessageDetailsToolStripMenuItem.Text = "Set Message Details";
             // 
             // tabPane1
             // 
             this.tabPane1.Controls.Add(this.General);
             this.tabPane1.Controls.Add(this.Details);
+            this.tabPane1.Controls.Add(this.tabNavigationPage1);
             this.tabPane1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabPane1.Location = new System.Drawing.Point(0, 24);
             this.tabPane1.Name = "tabPane1";
             this.tabPane1.Pages.AddRange(new DevExpress.XtraBars.Navigation.NavigationPageBase[] {
             this.General,
-            this.Details});
+            this.Details,
+            this.tabNavigationPage1});
             this.tabPane1.RegularSize = new System.Drawing.Size(800, 426);
             this.tabPane1.SelectedPage = this.General;
             this.tabPane1.Size = new System.Drawing.Size(800, 426);
@@ -336,6 +361,94 @@
             this.windowsUIButtonPanel3.Text = "windowsUIButtonPanel3";
             this.windowsUIButtonPanel3.ButtonClick += new DevExpress.XtraBars.Docking2010.ButtonEventHandler(this.windowsUIButtonPanel3_ButtonClick);
             // 
+            // tabNavigationPage1
+            // 
+            this.tabNavigationPage1.Caption = "Diesel";
+            this.tabNavigationPage1.Controls.Add(this.tableLayoutPanel4);
+            this.tabNavigationPage1.Name = "tabNavigationPage1";
+            this.tabNavigationPage1.Size = new System.Drawing.Size(800, 399);
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 1;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.Controls.Add(this.dieselGrid, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel5, 0, 0);
+            this.tableLayoutPanel4.Cursor = System.Windows.Forms.Cursors.Default;
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 2;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(800, 399);
+            this.tableLayoutPanel4.TabIndex = 1;
+            // 
+            // dieselGrid
+            // 
+            this.dieselGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dieselGrid.Location = new System.Drawing.Point(3, 78);
+            this.dieselGrid.MainView = this.dieselGridView;
+            this.dieselGrid.Name = "dieselGrid";
+            this.dieselGrid.Size = new System.Drawing.Size(794, 318);
+            this.dieselGrid.TabIndex = 0;
+            this.dieselGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.dieselGridView});
+            // 
+            // dieselGridView
+            // 
+            this.dieselGridView.GridControl = this.dieselGrid;
+            this.dieselGridView.Name = "dieselGridView";
+            this.dieselGridView.OptionsBehavior.Editable = false;
+            this.dieselGridView.OptionsView.ShowGroupPanel = false;
+            this.dieselGridView.Tag = "detail";
+            // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.ColumnCount = 2;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel5.Controls.Add(this.windowsUIButtonPanel4, 0, 0);
+            this.tableLayoutPanel5.Controls.Add(this.windowsUIButtonPanel5, 1, 0);
+            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 1;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(794, 69);
+            this.tableLayoutPanel5.TabIndex = 1;
+            // 
+            // windowsUIButtonPanel4
+            // 
+            windowsUIButtonImageOptions10.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions10.SvgImage")));
+            windowsUIButtonImageOptions11.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions11.SvgImage")));
+            this.windowsUIButtonPanel4.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
+            new DevExpress.XtraBars.Docking2010.WindowsUISeparator(),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Load Details", true, windowsUIButtonImageOptions10, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "details", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUISeparator(),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Export & Print", true, windowsUIButtonImageOptions11, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "print", -1, false)});
+            this.windowsUIButtonPanel4.ContentAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.windowsUIButtonPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.windowsUIButtonPanel4.Location = new System.Drawing.Point(3, 3);
+            this.windowsUIButtonPanel4.Name = "windowsUIButtonPanel4";
+            this.windowsUIButtonPanel4.Size = new System.Drawing.Size(688, 63);
+            this.windowsUIButtonPanel4.TabIndex = 2;
+            this.windowsUIButtonPanel4.Text = "windowsUIButtonPanel4";
+            this.windowsUIButtonPanel4.ButtonClick += new DevExpress.XtraBars.Docking2010.ButtonEventHandler(this.windowsUIButtonPanel4_ButtonClick);
+            // 
+            // windowsUIButtonPanel5
+            // 
+            windowsUIButtonImageOptions12.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions12.SvgImage")));
+            this.windowsUIButtonPanel5.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Clear Table", true, windowsUIButtonImageOptions12, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "clear", -1, false)});
+            this.windowsUIButtonPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.windowsUIButtonPanel5.Location = new System.Drawing.Point(697, 3);
+            this.windowsUIButtonPanel5.Name = "windowsUIButtonPanel5";
+            this.windowsUIButtonPanel5.Size = new System.Drawing.Size(94, 63);
+            this.windowsUIButtonPanel5.TabIndex = 3;
+            this.windowsUIButtonPanel5.Text = "windowsUIButtonPanel5";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -366,6 +479,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.detailsGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.detailsGridView)).EndInit();
             this.tableLayoutPanel3.ResumeLayout(false);
+            this.tabNavigationPage1.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dieselGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dieselGridView)).EndInit();
+            this.tableLayoutPanel5.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -394,5 +512,13 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel windowsUIButtonPanel2;
         private DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel windowsUIButtonPanel3;
+        private System.Windows.Forms.ToolStripMenuItem setMessageDetailsToolStripMenuItem;
+        private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private DevExpress.XtraGrid.GridControl dieselGrid;
+        private DevExpress.XtraGrid.Views.Grid.GridView dieselGridView;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel windowsUIButtonPanel4;
+        private DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel windowsUIButtonPanel5;
     }
 }
