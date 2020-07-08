@@ -4,6 +4,7 @@ using DevExpress.Utils;
 using DevExpress.XtraBars.Docking2010;
 using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraRichEdit.Model;
 using Microsoft.VisualBasic.FileIO;
 using System;
 using System.ComponentModel;
@@ -296,19 +297,102 @@ namespace creditcharges.Views
                         break;
 
                     case "details":
-                        DateRangeForm();
+                        DateRangeForm("report");
                         break;
                 }
             }
             catch { }
         }
 
-        private void DateRangeForm()
+        private void DateRangeForm(string sender)
         {
             var instance = Controller.controller.dateRange;
             if (instance != null) instance.Dispose();
-            instance = Controller.controller.dateRange = new DateRange();
+            instance = Controller.controller.dateRange = new DateRange(sender);
             instance.Show();
+        }
+
+        public void GetDieselSource(DateTime start, DateTime end)
+        {
+            var lastOdo = 0;
+            decimal lastGall = 0;
+            var lastPlate = "";
+            BindingList<Fuel> result = new BindingList<Fuel>();
+            var tomorrow = end.AddDays(1).ToString("yyyy-MM-dd");
+            var query = "SELECT R.Id, R.Amount, R.TDate, F.Odometer, F.Plate, F.Model, F.Gallons, (R.Amount/F.Gallons) as PPG " +
+                "FROM Fuel F LEFT JOIN Records R On R.Id = F.Id " +
+                "WHERE CAST(R.TDate as DATE) >= CAST(@today as DATE) AND CAST(R.TDate as DATE) < CAST(@tomorrow as DATE) " +
+                "ORDER BY F.Plate, R.TDate ASC";
+
+            SqlCommand cmd = new SqlCommand(query, sql);
+            cmd.Parameters.AddWithValue("@today", SqlDbType.DateTime).Value = start;
+            cmd.Parameters.AddWithValue("@tomorrow", SqlDbType.DateTime).Value = tomorrow;
+            cmd.Connection.Open();
+
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    decimal mpg = 0;
+                    try
+                    {
+                        if (reader[4] as string != lastPlate)
+                        {
+                            lastOdo = 0;
+                            lastGall = 0;
+                        }
+                        var distance = reader.GetInt32(3) - lastOdo;
+                        try
+                        {
+                            mpg = distance / lastGall;
+                        }
+                        catch
+                        {
+                            mpg = 0;
+                        }
+                    }
+                    catch { }
+
+                    lastOdo = reader.GetInt32(3);
+                    lastGall = reader.GetDecimal(6);
+                    lastPlate = reader[4] as string;
+
+                    result.Add(new Fuel()
+                    {
+                        Id = reader[0] as string,
+                        Amount = reader.GetDecimal(1),
+                        Date = reader.GetDateTime(2),
+                        Odometer = reader.GetInt32(3),
+                        Plate = reader[4] as string,
+                        Model = reader[5] as string,
+                        Gallons = reader.GetDecimal(6),
+                        PPG = reader.GetDecimal(7),
+                        MPG = mpg
+                    });
+                }
+            }
+
+            cmd.Connection.Close();
+            if (dieselGrid.DataSource != null) dieselGrid.DataSource = null;
+            dieselGridView.Columns.Clear();
+            dieselGrid.DataSource = result;
+            GridColumn price = dieselGridView.Columns["Amount"];
+            price.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            price.DisplayFormat.FormatString = "c2";
+
+
+            GridColumn ppg = dieselGridView.Columns["PPG"];
+            ppg.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            ppg.DisplayFormat.FormatString = "c2";
+
+
+            GridColumn mpgR = dieselGridView.Columns["MPG"];
+            mpgR.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            mpgR.DisplayFormat.FormatString = "n3";
+
+            dieselGridView.Columns[1].Visible = false;
+
+            dieselGridView.BestFitColumns();
         }
 
         public void GetDataSource(DateTime start, DateTime end)
@@ -364,6 +448,7 @@ namespace creditcharges.Views
 
         private void LoadReport()
         {
+            report = false;
             BindingList<Report> result = new BindingList<Report>();
             OpenFileDialog open = new OpenFileDialog
             {
@@ -374,7 +459,7 @@ namespace creditcharges.Views
                 var csv = open.FileName;
                 using (TextFieldParser parser = new TextFieldParser(csv, System.Text.Encoding.UTF8))
                 {
-                    parser.TextFieldType = FieldType.Delimited;
+                    parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
                     parser.SetDelimiters(",");
                     var fields = parser.ReadFields();
                     while (!parser.EndOfData)
@@ -578,6 +663,39 @@ namespace creditcharges.Views
         private void windowsUIButtonPanel4_ButtonClick(object sender, ButtonEventArgs e)
         {
 
+            try
+            {
+                var tag = ((WindowsUIButton)e.Button).Tag.ToString();
+                switch (tag)
+                {
+
+                    case "print":
+                        dieselGrid.ShowRibbonPrintPreview();
+                        break;
+
+                    case "details":
+                        DateRangeForm("diesel");
+                        break;
+                }
+            }
+            catch { }
+        }
+
+        private void windowsUIButtonPanel5_ButtonClick(object sender, ButtonEventArgs e)
+        {
+            try
+            {
+                var tag = ((WindowsUIButton)e.Button).Tag.ToString();
+                switch (tag)
+                {
+
+                    case "clear":
+                        dieselGridView.Columns.Clear();
+                        dieselGrid.DataSource = null;
+                        break;
+                }
+            }
+            catch { }
         }
     }
 }

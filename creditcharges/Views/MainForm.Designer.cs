@@ -448,6 +448,7 @@
             this.windowsUIButtonPanel5.Size = new System.Drawing.Size(94, 63);
             this.windowsUIButtonPanel5.TabIndex = 3;
             this.windowsUIButtonPanel5.Text = "windowsUIButtonPanel5";
+            this.windowsUIButtonPanel5.ButtonClick += new DevExpress.XtraBars.Docking2010.ButtonEventHandler(this.windowsUIButtonPanel5_ButtonClick);
             // 
             // MainForm
             // 

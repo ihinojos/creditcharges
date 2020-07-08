@@ -6,8 +6,11 @@ namespace creditcharges.Views
 {
     public partial class DateRange : Form
     {
-        public DateRange()
+        private string sender;
+
+        public DateRange(string sender)
         {
+            this.sender = sender;
             InitializeComponent();
         }
 
@@ -17,10 +20,17 @@ namespace creditcharges.Views
             {
                 var date1 = (DateTime)dateEdit1.EditValue;
                 var date2 = (DateTime)dateEdit2.EditValue;
-                Controller.controller.mainForm.GetDataSource(date1, date2);
-                Dispose();
+                if(this.sender == "report")
+                    Controller.controller.mainForm.GetDataSource(date1, date2);
+                else if (this.sender == "diesel")
+                    Controller.controller.mainForm.GetDieselSource(date1, date2);
+
             }
             catch { }
+            finally
+            {
+                Dispose();
+            }
         }
     }
 }
