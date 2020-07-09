@@ -159,9 +159,9 @@ namespace creditcharges.Views
                     if (main.Length == 5) main = "***** ***** " + main;
                     var msg = $"{name}\n" +
                       $"Card: {card}\n" +
-                      $"Main card: {main}\n"+
+                      $"Main card: {main}\n" +
                       $"Amount: {amount:C2}\n" +
-                      $"On: {date}\n" + 
+                      $"On: {date}\n" +
                       $"Entity:{entity}\n" +
                       $"Concept: {concept}\n" +
                       $"Auth #: {inc}\n" +
@@ -419,6 +419,18 @@ namespace creditcharges.Views
             return images;
         }
 
+        private bool GasCompleted()
+        {
+            var plate = plateBox.Text;
+            var model = modelBox.Text;
+            var odom = odometerBox.Text;
+            var gall = gallonsBox.Text;
+
+            if (string.IsNullOrEmpty(plate) || string.IsNullOrEmpty(model) || string.IsNullOrEmpty(odom) || string.IsNullOrEmpty(gall))
+                return false;
+            return true;
+        }
+
         private void SaveNewInfo()
         {
             string maincard = "";
@@ -458,11 +470,6 @@ namespace creditcharges.Views
                 cmd.Parameters.AddWithValue("@status", SqlDbType.VarChar).Value = status;
                 cmd.Parameters.AddWithValue("@location", SqlDbType.VarChar).Value = location;
 
-                if (concept == "Gasolina/Automóvil" && !checkBox1.Checked)
-                {
-                    MessageBox.Show("Por favor, captura la información del combustible en la pestaña correspondiente.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
                 if (!(string.IsNullOrEmpty(employee) || string.IsNullOrEmpty(number) || string.IsNullOrEmpty(concept) || string.IsNullOrEmpty(number)))
                 {
                     Id = id;
@@ -499,9 +506,20 @@ namespace creditcharges.Views
                         cmd.Parameters.AddWithValue("@jobName", SqlDbType.VarChar).Value = jobName;
                         cmd.CommandText = query;
                         cmd.Parameters.AddWithValue("@main", SqlDbType.VarChar).Value = maincard;
-                        var res = cmd.ExecuteNonQuery();
-                        if (imgPaths.Count > 0)
-                            SaveImagesAsync(entity, value.ToString(), number, date);
+
+                        var res = 0;
+
+                        if (concept == "Gasolina/Automóvil")
+                        {
+                            if (GasCompleted()) res = cmd.ExecuteNonQuery();
+                            else
+                                MessageBox.Show("Por favor, captura la información del combustible en la pestaña correspondiente.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        else
+                        {
+                            res = cmd.ExecuteNonQuery();
+                        }
                         if (checkBox1.Checked)
                         {
                             query = "INSERT INTO Fuel (Id, Odometer, Plate, Model, Gallons) VALUES (@id, @odometer, @plate, @model, @gallons)";
@@ -517,15 +535,14 @@ namespace creditcharges.Views
 
                             if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                             cmd.ExecuteNonQuery();
-
                             if (model != lastModel)
                             {
                                 cmd.CommandText = "UPDATE Fuel SET Model = @model WHERE Plate = @plate";
                                 cmd.ExecuteNonQuery();
                             }
-
                         }
-
+                        if (imgPaths.Count > 0)
+                            SaveImagesAsync(entity, value.ToString(), number, date);
                         if (res == 1) MessageBox.Show("Record saved successfully.", "Success");
                         else MessageBox.Show("Please check your internet connection.", "Error");
                     }

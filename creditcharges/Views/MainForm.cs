@@ -164,9 +164,7 @@ namespace creditcharges.Views
 
         private void AddTransactionFromReport(GridView view)
         {
-            //date,card,location,concept,amount
-            var date_ = view.GetRowCellValue(view.FocusedRowHandle, "Date").ToString();
-            var date = DateTime.Parse(date_);
+            var date = DateTime.Parse(view.GetRowCellValue(view.FocusedRowHandle, "Date").ToString());
             var card = view.GetRowCellValue(view.FocusedRowHandle, "Card").ToString();
             var location = view.GetRowCellValue(view.FocusedRowHandle, "Location").ToString();
             var concept = view.GetRowCellValue(view.FocusedRowHandle, "Concept").ToString();
