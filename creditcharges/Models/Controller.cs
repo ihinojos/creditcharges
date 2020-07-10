@@ -18,6 +18,8 @@ namespace creditcharges.Models
         public DateRange dateRange { get; set; }
         public Employees employees { get; set; }
         public ChildCards childCards { get; set; }
+        public Entities entities { get; set; }
+        public Classes classes { get; set; }
         public static Controller controller { get; } = new Controller();
     }
 }

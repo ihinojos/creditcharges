@@ -11,8 +11,8 @@ namespace creditcharges.Models
         private static string[] concepts = {"Alojamiento","Atención Médica", "Gasolina/Automóvil", "Internet", "Mercancía", "Otra Opción",
             "Otros Servicios", "Pago/crédito", "Seguros", "Servicios Profesionales", "Servicios Púbilcos", "Teléfono/Cable"};
 
-        //public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=TESTTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
-        public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=PRODTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
+        public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=TESTTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
+        //public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=PRODTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
 
         //more data bout cards
             // number
@@ -62,7 +62,6 @@ namespace creditcharges.Models
                 jobNames.Add(num[1].Trim().ToString());
             }
 
-            classes = new List<string>(Properties.Resources.CLASS.Split(new char[] { ',' }));
 
             
 
@@ -82,23 +81,35 @@ namespace creditcharges.Models
             }
 
 
-            cmd.CommandText = "SELECT Name FROM Entities";
+            cmd.CommandText = "SELECT Name FROM Entities ORDER BY Name ASC";
             using (var reader = cmd.ExecuteReader())
             {
                 entities = new List<string>();
                 while (reader.Read()) entities.Add(reader[0] as string);
             }
 
-            cmd.CommandText = "Select Name FROM Employees";
+            cmd.CommandText = "Select Name FROM Employees ORDER BY Name ASC";
             using (var reader = cmd.ExecuteReader())
             {
                 names = new List<string>();
                 while (reader.Read()) names.Add(reader[0] as string);
             }
-            
+
+            cmd.CommandText = "Select Class FROM Classes ORDER BY Class ASC";
+            using (var reader = cmd.ExecuteReader())
+            {
+                classes = new List<string>();
+                while (reader.Read()) classes.Add(reader[0] as string);
+            }
+
             cmd.Connection.Close();
         }
 
+
+        /*
+         
+         
+         */
 
         //To save daata about cards i need the following
 

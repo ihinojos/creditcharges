@@ -51,18 +51,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>831715BC09E2A19A2B654C1542DC58556AEE5AF0</ManifestCertificateThumbprint>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestKeyFile>creditcharges_TemporaryKey.pfx</ManifestKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignManifests>true</SignManifests>
-  </PropertyGroup>
-  <PropertyGroup>
     <ApplicationIcon>unnamed.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
@@ -293,6 +281,12 @@
     <Compile Include="Views\ChildCards.Designer.cs">
       <DependentUpon>ChildCards.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Classes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Classes.Designer.cs">
+      <DependentUpon>Classes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\DateRange.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -316,6 +310,12 @@
     </Compile>
     <Compile Include="Views\Employees.Designer.cs">
       <DependentUpon>Employees.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Entities.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Entities.Designer.cs">
+      <DependentUpon>Entities.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\LogIn.cs">
       <SubType>Form</SubType>
@@ -364,6 +364,9 @@
     <EmbeddedResource Include="Views\ChildCards.resx">
       <DependentUpon>ChildCards.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\Classes.resx">
+      <DependentUpon>Classes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\DateRange.resx">
       <DependentUpon>DateRange.cs</DependentUpon>
     </EmbeddedResource>
@@ -375,6 +378,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Employees.resx">
       <DependentUpon>Employees.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Entities.resx">
+      <DependentUpon>Entities.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LogIn.resx">
       <DependentUpon>LogIn.cs</DependentUpon>

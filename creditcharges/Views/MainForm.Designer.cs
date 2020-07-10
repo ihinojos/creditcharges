@@ -28,26 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions1 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions73 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions2 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions3 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions4 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions5 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions6 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions7 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions8 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions9 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions10 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions11 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions12 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions74 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions75 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions76 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions77 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions78 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions79 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions80 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions81 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions82 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions83 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions84 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.employeesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.setMessageDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.entitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.entitiesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.classesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPane1 = new DevExpress.XtraBars.Navigation.TabPane();
             this.General = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -70,6 +70,8 @@
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.windowsUIButtonPanel4 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel();
             this.windowsUIButtonPanel5 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel();
+            this.cardsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.employeesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabPane1)).BeginInit();
             this.tabPane1.SuspendLayout();
@@ -114,9 +116,7 @@
             // 
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addUserToolStripMenuItem,
-            this.toolStripMenuItem1,
-            this.employeesToolStripMenuItem,
-            this.setMessageDetailsToolStripMenuItem});
+            this.entitiesToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
@@ -124,29 +124,34 @@
             // addUserToolStripMenuItem
             // 
             this.addUserToolStripMenuItem.Name = "addUserToolStripMenuItem";
-            this.addUserToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.addUserToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addUserToolStripMenuItem.Text = "Add User";
             this.addUserToolStripMenuItem.Click += new System.EventHandler(this.addUserToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem1
+            // entitiesToolStripMenuItem
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 22);
-            this.toolStripMenuItem1.Text = "Cards";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.addCardToolStripMenuItem_Click);
+            this.entitiesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.entitiesToolStripMenuItem1,
+            this.classesToolStripMenuItem,
+            this.cardsToolStripMenuItem,
+            this.employeesToolStripMenuItem1});
+            this.entitiesToolStripMenuItem.Name = "entitiesToolStripMenuItem";
+            this.entitiesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.entitiesToolStripMenuItem.Text = "Data";
             // 
-            // employeesToolStripMenuItem
+            // entitiesToolStripMenuItem1
             // 
-            this.employeesToolStripMenuItem.Name = "employeesToolStripMenuItem";
-            this.employeesToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.employeesToolStripMenuItem.Text = "Employees";
-            this.employeesToolStripMenuItem.Click += new System.EventHandler(this.employeesToolStripMenuItem_Click);
+            this.entitiesToolStripMenuItem1.Name = "entitiesToolStripMenuItem1";
+            this.entitiesToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.entitiesToolStripMenuItem1.Text = "Entities";
+            this.entitiesToolStripMenuItem1.Click += new System.EventHandler(this.entitiesToolStripMenuItem1_Click);
             // 
-            // setMessageDetailsToolStripMenuItem
+            // classesToolStripMenuItem
             // 
-            this.setMessageDetailsToolStripMenuItem.Name = "setMessageDetailsToolStripMenuItem";
-            this.setMessageDetailsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.setMessageDetailsToolStripMenuItem.Text = "Set Message Details";
+            this.classesToolStripMenuItem.Name = "classesToolStripMenuItem";
+            this.classesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.classesToolStripMenuItem.Text = "Classes";
+            this.classesToolStripMenuItem.Click += new System.EventHandler(this.classesToolStripMenuItem_Click);
             // 
             // tabPane1
             // 
@@ -215,20 +220,20 @@
             // 
             // windowsUIButtonPanel1
             // 
-            windowsUIButtonImageOptions1.Image = ((System.Drawing.Image)(resources.GetObject("windowsUIButtonImageOptions1.Image")));
-            windowsUIButtonImageOptions1.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
-            windowsUIButtonImageOptions2.Image = ((System.Drawing.Image)(resources.GetObject("windowsUIButtonImageOptions2.Image")));
-            windowsUIButtonImageOptions3.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions3.SvgImage")));
-            windowsUIButtonImageOptions3.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
-            windowsUIButtonImageOptions4.Image = ((System.Drawing.Image)(resources.GetObject("windowsUIButtonImageOptions4.Image")));
+            windowsUIButtonImageOptions73.Image = ((System.Drawing.Image)(resources.GetObject("windowsUIButtonImageOptions73.Image")));
+            windowsUIButtonImageOptions73.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
+            windowsUIButtonImageOptions74.Image = ((System.Drawing.Image)(resources.GetObject("windowsUIButtonImageOptions74.Image")));
+            windowsUIButtonImageOptions75.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions75.SvgImage")));
+            windowsUIButtonImageOptions75.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
+            windowsUIButtonImageOptions76.Image = ((System.Drawing.Image)(resources.GetObject("windowsUIButtonImageOptions76.Image")));
             this.windowsUIButtonPanel1.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
             new DevExpress.XtraBars.Docking2010.WindowsUISeparator(),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("New", true, windowsUIButtonImageOptions1, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "new", -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Edit", true, windowsUIButtonImageOptions2, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "edit", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("New", true, windowsUIButtonImageOptions73, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "new", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Edit", true, windowsUIButtonImageOptions74, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "edit", -1, false),
             new DevExpress.XtraBars.Docking2010.WindowsUISeparator(),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Delete", true, windowsUIButtonImageOptions3, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "delete", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Delete", true, windowsUIButtonImageOptions75, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "delete", -1, false),
             new DevExpress.XtraBars.Docking2010.WindowsUISeparator(),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Refresh", true, windowsUIButtonImageOptions4, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "refresh", -1, false)});
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Refresh", true, windowsUIButtonImageOptions76, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "refresh", -1, false)});
             this.windowsUIButtonPanel1.ContentAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.windowsUIButtonPanel1.Controls.Add(this.label1);
             this.windowsUIButtonPanel1.Controls.Add(this.dateEdit1);
@@ -327,18 +332,18 @@
             // 
             // windowsUIButtonPanel2
             // 
-            windowsUIButtonImageOptions5.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions5.SvgImage")));
-            windowsUIButtonImageOptions6.Image = ((System.Drawing.Image)(resources.GetObject("windowsUIButtonImageOptions6.Image")));
-            windowsUIButtonImageOptions7.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions7.SvgImage")));
-            windowsUIButtonImageOptions8.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions8.SvgImage")));
+            windowsUIButtonImageOptions77.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions77.SvgImage")));
+            windowsUIButtonImageOptions78.Image = ((System.Drawing.Image)(resources.GetObject("windowsUIButtonImageOptions78.Image")));
+            windowsUIButtonImageOptions79.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions79.SvgImage")));
+            windowsUIButtonImageOptions80.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions80.SvgImage")));
             this.windowsUIButtonPanel2.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
             new DevExpress.XtraBars.Docking2010.WindowsUISeparator(),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Load Report", true, windowsUIButtonImageOptions5, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "load", -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Fill Details", true, windowsUIButtonImageOptions6, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "fill", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Load Report", true, windowsUIButtonImageOptions77, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "load", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Fill Details", true, windowsUIButtonImageOptions78, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "fill", -1, false),
             new DevExpress.XtraBars.Docking2010.WindowsUISeparator(),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Load Details", true, windowsUIButtonImageOptions7, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "details", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Load Details", true, windowsUIButtonImageOptions79, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "details", -1, false),
             new DevExpress.XtraBars.Docking2010.WindowsUISeparator(),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Export & Print", true, windowsUIButtonImageOptions8, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "print", -1, false)});
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Export & Print", true, windowsUIButtonImageOptions80, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "print", -1, false)});
             this.windowsUIButtonPanel2.ContentAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.windowsUIButtonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.windowsUIButtonPanel2.Location = new System.Drawing.Point(3, 3);
@@ -350,9 +355,9 @@
             // 
             // windowsUIButtonPanel3
             // 
-            windowsUIButtonImageOptions9.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions9.SvgImage")));
+            windowsUIButtonImageOptions81.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions81.SvgImage")));
             this.windowsUIButtonPanel3.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Clear Table", true, windowsUIButtonImageOptions9, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "clear", -1, false)});
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Clear Table", true, windowsUIButtonImageOptions81, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "clear", -1, false)});
             this.windowsUIButtonPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.windowsUIButtonPanel3.Location = new System.Drawing.Point(697, 3);
             this.windowsUIButtonPanel3.Name = "windowsUIButtonPanel3";
@@ -421,13 +426,13 @@
             // 
             // windowsUIButtonPanel4
             // 
-            windowsUIButtonImageOptions10.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions10.SvgImage")));
-            windowsUIButtonImageOptions11.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions11.SvgImage")));
+            windowsUIButtonImageOptions82.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions82.SvgImage")));
+            windowsUIButtonImageOptions83.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions83.SvgImage")));
             this.windowsUIButtonPanel4.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
             new DevExpress.XtraBars.Docking2010.WindowsUISeparator(),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Load Details", true, windowsUIButtonImageOptions10, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "details", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Load Details", true, windowsUIButtonImageOptions82, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "details", -1, false),
             new DevExpress.XtraBars.Docking2010.WindowsUISeparator(),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Export & Print", true, windowsUIButtonImageOptions11, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "print", -1, false)});
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Export & Print", true, windowsUIButtonImageOptions83, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "print", -1, false)});
             this.windowsUIButtonPanel4.ContentAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.windowsUIButtonPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.windowsUIButtonPanel4.Location = new System.Drawing.Point(3, 3);
@@ -439,9 +444,9 @@
             // 
             // windowsUIButtonPanel5
             // 
-            windowsUIButtonImageOptions12.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions12.SvgImage")));
+            windowsUIButtonImageOptions84.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions84.SvgImage")));
             this.windowsUIButtonPanel5.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Clear Table", true, windowsUIButtonImageOptions12, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "clear", -1, false)});
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Clear Table", true, windowsUIButtonImageOptions84, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "clear", -1, false)});
             this.windowsUIButtonPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.windowsUIButtonPanel5.Location = new System.Drawing.Point(697, 3);
             this.windowsUIButtonPanel5.Name = "windowsUIButtonPanel5";
@@ -449,6 +454,20 @@
             this.windowsUIButtonPanel5.TabIndex = 3;
             this.windowsUIButtonPanel5.Text = "windowsUIButtonPanel5";
             this.windowsUIButtonPanel5.ButtonClick += new DevExpress.XtraBars.Docking2010.ButtonEventHandler(this.windowsUIButtonPanel5_ButtonClick);
+            // 
+            // cardsToolStripMenuItem
+            // 
+            this.cardsToolStripMenuItem.Name = "cardsToolStripMenuItem";
+            this.cardsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cardsToolStripMenuItem.Text = "Cards";
+            this.cardsToolStripMenuItem.Click += new System.EventHandler(this.cardsToolStripMenuItem_Click);
+            // 
+            // employeesToolStripMenuItem1
+            // 
+            this.employeesToolStripMenuItem1.Name = "employeesToolStripMenuItem1";
+            this.employeesToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.employeesToolStripMenuItem1.Text = "Employees";
+            this.employeesToolStripMenuItem1.Click += new System.EventHandler(this.employeesToolStripMenuItem1_Click);
             // 
             // MainForm
             // 
@@ -505,15 +524,12 @@
         private DevExpress.XtraGrid.Views.Grid.GridView generalGridView;
         private DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel windowsUIButtonPanel1;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private DevExpress.XtraEditors.DateEdit dateEdit1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem addUserToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem employeesToolStripMenuItem;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel windowsUIButtonPanel2;
         private DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel windowsUIButtonPanel3;
-        private System.Windows.Forms.ToolStripMenuItem setMessageDetailsToolStripMenuItem;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private DevExpress.XtraGrid.GridControl dieselGrid;
@@ -521,5 +537,10 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel windowsUIButtonPanel4;
         private DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel windowsUIButtonPanel5;
+        private System.Windows.Forms.ToolStripMenuItem entitiesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem entitiesToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem classesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cardsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem employeesToolStripMenuItem1;
     }
 }

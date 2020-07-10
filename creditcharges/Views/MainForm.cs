@@ -137,7 +137,7 @@ namespace creditcharges.Views
                 generalGrid.DataSource = GetDataSource();
             else generalGrid.DataSource = GetDataSource((DateTime)dateEdit1.EditValue);
             GridColumn price = generalGridView.Columns["Amount"];
-            price.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            price.DisplayFormat.FormatType = FormatType.Numeric;
             price.DisplayFormat.FormatString = "c2";
             generalGridView.Columns[2].Visible = false;
             generalGridView.Columns[7].Visible = false;
@@ -609,14 +609,6 @@ namespace creditcharges.Views
             }
         }
 
-        private void employeesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var instance = Controller.controller.employees;
-            if (instance != null) instance.Dispose();
-            instance = Controller.controller.employees = new Employees();
-            instance.Show();
-        }
-
         private void generalGridView_DoubleClick(object sender, EventArgs e)
         {
             EditTransaction(generalGridView);
@@ -694,6 +686,43 @@ namespace creditcharges.Views
                 }
             }
             catch { }
+        }
+
+
+        private void entitiesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var instance = Controller.controller.entities;
+            if (instance != null) instance.Dispose();
+            instance = Controller.controller.entities = new Entities();
+            instance.Show();
+        }
+
+        private void classesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var instance = Controller.controller.classes;
+            if (instance != null) instance.Dispose();
+            instance = Controller.controller.classes = new Classes();
+            instance.Show();
+        }
+
+        private void cardsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            var instance = Controller.controller.addCard;
+            if (instance != null) instance.Dispose();
+
+            instance = Controller.controller.addCard = new AddCard();
+
+            instance.Show();
+        }
+
+        private void employeesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+            var instance = Controller.controller.employees;
+            if (instance != null) instance.Dispose();
+            instance = Controller.controller.employees = new Employees();
+            instance.Show();
         }
     }
 }

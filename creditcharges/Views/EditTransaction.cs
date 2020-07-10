@@ -47,6 +47,7 @@ namespace creditcharges.Views
                 ImageSize = new Size(75, 50),
                 ColorDepth = ColorDepth.Depth32Bit
             };
+
             imgPaths = new List<string>();
 
             listView1.View = View.SmallIcon;
