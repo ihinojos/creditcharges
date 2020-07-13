@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions1 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions19 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditTransaction));
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions2 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions3 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions4 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions5 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions6 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions20 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions21 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions22 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions23 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions24 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.windowsUIButtonPanel1 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel();
@@ -74,15 +74,19 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.SelectVehicleBtn = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.avgMpgLabel = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.vTypeL = new System.Windows.Forms.Label();
+            this.vModelL = new System.Windows.Forms.Label();
+            this.vNameL = new System.Windows.Forms.Label();
+            this.plateL = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.gallonsBox = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.odometerBox = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
-            this.modelBox = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.plateBox = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.fuelControl = new DevExpress.XtraGrid.GridControl();
             this.fuelView = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -105,6 +109,7 @@
             this.tabPage3.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.panel4.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fuelControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fuelView)).BeginInit();
@@ -149,14 +154,14 @@
             // 
             // windowsUIButtonPanel1
             // 
-            windowsUIButtonImageOptions1.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions1.SvgImage")));
-            windowsUIButtonImageOptions2.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions2.SvgImage")));
-            windowsUIButtonImageOptions3.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions3.SvgImage")));
+            windowsUIButtonImageOptions19.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions19.SvgImage")));
+            windowsUIButtonImageOptions20.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions20.SvgImage")));
+            windowsUIButtonImageOptions21.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions21.SvgImage")));
             this.windowsUIButtonPanel1.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Save & Close", true, windowsUIButtonImageOptions1, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "save", -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Cancel", true, windowsUIButtonImageOptions2, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "cancel", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Save & Close", true, windowsUIButtonImageOptions19, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "save", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Cancel", true, windowsUIButtonImageOptions20, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "cancel", -1, false),
             new DevExpress.XtraBars.Docking2010.WindowsUISeparator(),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Delete", true, windowsUIButtonImageOptions3, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "delete", -1, false)});
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Delete", true, windowsUIButtonImageOptions21, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "delete", -1, false)});
             this.windowsUIButtonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.windowsUIButtonPanel1.Location = new System.Drawing.Point(18, 551);
             this.windowsUIButtonPanel1.Name = "windowsUIButtonPanel1";
@@ -169,7 +174,7 @@
             // 
             this.tableLayoutPanel2.AllowDrop = true;
             this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 449F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 413F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel4, 1, 0);
@@ -194,7 +199,7 @@
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 71.42857F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28.57143F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(443, 501);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(407, 501);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // groupBox1
@@ -205,7 +210,7 @@
             this.groupBox1.Controls.Add(this.notesBox);
             this.groupBox1.Location = new System.Drawing.Point(3, 360);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(437, 138);
+            this.groupBox1.Size = new System.Drawing.Size(401, 138);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Notes";
@@ -215,7 +220,7 @@
             this.notesBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.notesBox.Location = new System.Drawing.Point(3, 16);
             this.notesBox.Name = "notesBox";
-            this.notesBox.Size = new System.Drawing.Size(431, 119);
+            this.notesBox.Size = new System.Drawing.Size(395, 119);
             this.notesBox.TabIndex = 0;
             this.notesBox.Text = "";
             // 
@@ -228,7 +233,7 @@
             this.tabControl1.Location = new System.Drawing.Point(3, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(437, 351);
+            this.tabControl1.Size = new System.Drawing.Size(401, 351);
             this.tabControl1.TabIndex = 12;
             // 
             // tabPage1
@@ -237,7 +242,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(429, 325);
+            this.tabPage1.Size = new System.Drawing.Size(393, 325);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "General";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -261,7 +266,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(423, 319);
+            this.panel1.Size = new System.Drawing.Size(387, 319);
             this.panel1.TabIndex = 13;
             // 
             // employeeBox
@@ -270,7 +275,7 @@
             this.employeeBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.employeeBox.Location = new System.Drawing.Point(6, 16);
             this.employeeBox.Name = "employeeBox";
-            this.employeeBox.Size = new System.Drawing.Size(412, 20);
+            this.employeeBox.Size = new System.Drawing.Size(376, 20);
             this.employeeBox.TabIndex = 15;
             // 
             // conceptBox
@@ -281,7 +286,7 @@
             this.conceptBox.FormattingEnabled = true;
             this.conceptBox.Location = new System.Drawing.Point(6, 94);
             this.conceptBox.Name = "conceptBox";
-            this.conceptBox.Size = new System.Drawing.Size(412, 21);
+            this.conceptBox.Size = new System.Drawing.Size(376, 21);
             this.conceptBox.Sorted = true;
             this.conceptBox.TabIndex = 14;
             // 
@@ -293,7 +298,7 @@
             this.cardBoxNum.FormattingEnabled = true;
             this.cardBoxNum.Location = new System.Drawing.Point(6, 55);
             this.cardBoxNum.Name = "cardBoxNum";
-            this.cardBoxNum.Size = new System.Drawing.Size(412, 21);
+            this.cardBoxNum.Size = new System.Drawing.Size(376, 21);
             this.cardBoxNum.Sorted = true;
             this.cardBoxNum.TabIndex = 13;
             // 
@@ -312,7 +317,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.locationBox.Location = new System.Drawing.Point(6, 172);
             this.locationBox.Name = "locationBox";
-            this.locationBox.Size = new System.Drawing.Size(412, 20);
+            this.locationBox.Size = new System.Drawing.Size(376, 20);
             this.locationBox.TabIndex = 4;
             // 
             // dateBox
@@ -323,7 +328,7 @@
             this.dateBox.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateBox.Location = new System.Drawing.Point(6, 211);
             this.dateBox.Name = "dateBox";
-            this.dateBox.Size = new System.Drawing.Size(412, 20);
+            this.dateBox.Size = new System.Drawing.Size(376, 20);
             this.dateBox.TabIndex = 5;
             this.dateBox.Value = new System.DateTime(2020, 6, 9, 12, 57, 44, 0);
             // 
@@ -342,7 +347,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.amountBox.Location = new System.Drawing.Point(6, 133);
             this.amountBox.Name = "amountBox";
-            this.amountBox.Size = new System.Drawing.Size(412, 20);
+            this.amountBox.Size = new System.Drawing.Size(376, 20);
             this.amountBox.TabIndex = 3;
             this.amountBox.Leave += new System.EventHandler(this.amountBox_Leave);
             // 
@@ -545,7 +550,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(429, 325);
+            this.tabPage3.Size = new System.Drawing.Size(393, 325);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Fuel";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -562,25 +567,107 @@
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 190F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(423, 319);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(387, 319);
             this.tableLayoutPanel5.TabIndex = 0;
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.SelectVehicleBtn);
+            this.panel4.Controls.Add(this.groupBox2);
             this.panel4.Controls.Add(this.checkBox1);
             this.panel4.Controls.Add(this.gallonsBox);
             this.panel4.Controls.Add(this.label17);
             this.panel4.Controls.Add(this.odometerBox);
             this.panel4.Controls.Add(this.label16);
-            this.panel4.Controls.Add(this.modelBox);
-            this.panel4.Controls.Add(this.label15);
-            this.panel4.Controls.Add(this.plateBox);
-            this.panel4.Controls.Add(this.label14);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(3, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(417, 184);
+            this.panel4.Size = new System.Drawing.Size(381, 184);
             this.panel4.TabIndex = 1;
+            // 
+            // SelectVehicleBtn
+            // 
+            this.SelectVehicleBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.SelectVehicleBtn.Enabled = false;
+            this.SelectVehicleBtn.Location = new System.Drawing.Point(303, 26);
+            this.SelectVehicleBtn.Name = "SelectVehicleBtn";
+            this.SelectVehicleBtn.Size = new System.Drawing.Size(78, 75);
+            this.SelectVehicleBtn.TabIndex = 10;
+            this.SelectVehicleBtn.Text = "Select Vehicle";
+            this.SelectVehicleBtn.UseVisualStyleBackColor = true;
+            this.SelectVehicleBtn.Click += new System.EventHandler(this.SelectVehicleBtn_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.avgMpgLabel);
+            this.groupBox2.Controls.Add(this.label20);
+            this.groupBox2.Controls.Add(this.vTypeL);
+            this.groupBox2.Controls.Add(this.vModelL);
+            this.groupBox2.Controls.Add(this.vNameL);
+            this.groupBox2.Controls.Add(this.plateL);
+            this.groupBox2.Location = new System.Drawing.Point(3, 26);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(294, 75);
+            this.groupBox2.TabIndex = 9;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Vehicle";
+            // 
+            // avgMpgLabel
+            // 
+            this.avgMpgLabel.AutoSize = true;
+            this.avgMpgLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.avgMpgLabel.Location = new System.Drawing.Point(210, 43);
+            this.avgMpgLabel.Name = "avgMpgLabel";
+            this.avgMpgLabel.Size = new System.Drawing.Size(0, 29);
+            this.avgMpgLabel.TabIndex = 5;
+            this.avgMpgLabel.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(154, 49);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(56, 13);
+            this.label20.TabIndex = 4;
+            this.label20.Text = "Avg MPG:";
+            // 
+            // vTypeL
+            // 
+            this.vTypeL.AutoSize = true;
+            this.vTypeL.Location = new System.Drawing.Point(186, 22);
+            this.vTypeL.Name = "vTypeL";
+            this.vTypeL.Size = new System.Drawing.Size(34, 13);
+            this.vTypeL.TabIndex = 3;
+            this.vTypeL.Text = "Type:";
+            // 
+            // vModelL
+            // 
+            this.vModelL.AutoSize = true;
+            this.vModelL.Location = new System.Drawing.Point(6, 53);
+            this.vModelL.Name = "vModelL";
+            this.vModelL.Size = new System.Drawing.Size(39, 13);
+            this.vModelL.TabIndex = 2;
+            this.vModelL.Text = "Model:";
+            // 
+            // vNameL
+            // 
+            this.vNameL.AutoSize = true;
+            this.vNameL.Location = new System.Drawing.Point(6, 34);
+            this.vNameL.Name = "vNameL";
+            this.vNameL.Size = new System.Drawing.Size(76, 13);
+            this.vNameL.TabIndex = 1;
+            this.vNameL.Text = "Vehicle Name:";
+            // 
+            // plateL
+            // 
+            this.plateL.AutoSize = true;
+            this.plateL.Location = new System.Drawing.Point(6, 16);
+            this.plateL.Name = "plateL";
+            this.plateL.Size = new System.Drawing.Size(77, 13);
+            this.plateL.TabIndex = 0;
+            this.plateL.Text = "License Plate: ";
             // 
             // checkBox1
             // 
@@ -600,7 +687,7 @@
             this.gallonsBox.Enabled = false;
             this.gallonsBox.Location = new System.Drawing.Point(0, 159);
             this.gallonsBox.Name = "gallonsBox";
-            this.gallonsBox.Size = new System.Drawing.Size(414, 20);
+            this.gallonsBox.Size = new System.Drawing.Size(381, 20);
             this.gallonsBox.TabIndex = 7;
             // 
             // label17
@@ -619,7 +706,7 @@
             this.odometerBox.Enabled = false;
             this.odometerBox.Location = new System.Drawing.Point(0, 120);
             this.odometerBox.Name = "odometerBox";
-            this.odometerBox.Size = new System.Drawing.Size(414, 20);
+            this.odometerBox.Size = new System.Drawing.Size(381, 20);
             this.odometerBox.TabIndex = 5;
             this.odometerBox.Leave += new System.EventHandler(this.odometerBox_Leave);
             // 
@@ -632,52 +719,13 @@
             this.label16.TabIndex = 4;
             this.label16.Text = "Odometer (Miles):";
             // 
-            // modelBox
-            // 
-            this.modelBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.modelBox.Enabled = false;
-            this.modelBox.Location = new System.Drawing.Point(0, 78);
-            this.modelBox.Name = "modelBox";
-            this.modelBox.Size = new System.Drawing.Size(414, 20);
-            this.modelBox.TabIndex = 3;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(0, 62);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(76, 13);
-            this.label15.TabIndex = 2;
-            this.label15.Text = "Vehicle model:";
-            // 
-            // plateBox
-            // 
-            this.plateBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.plateBox.Enabled = false;
-            this.plateBox.Location = new System.Drawing.Point(0, 39);
-            this.plateBox.Name = "plateBox";
-            this.plateBox.Size = new System.Drawing.Size(414, 20);
-            this.plateBox.TabIndex = 1;
-            this.plateBox.Leave += new System.EventHandler(this.plateBox_Leave);
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(0, 23);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(71, 13);
-            this.label14.TabIndex = 0;
-            this.label14.Text = "Vehicle plate:";
-            // 
             // panel5
             // 
             this.panel5.Controls.Add(this.fuelControl);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(3, 193);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(417, 123);
+            this.panel5.Size = new System.Drawing.Size(381, 123);
             this.panel5.TabIndex = 2;
             // 
             // fuelControl
@@ -686,7 +734,7 @@
             this.fuelControl.Location = new System.Drawing.Point(0, 0);
             this.fuelControl.MainView = this.fuelView;
             this.fuelControl.Name = "fuelControl";
-            this.fuelControl.Size = new System.Drawing.Size(417, 123);
+            this.fuelControl.Size = new System.Drawing.Size(381, 123);
             this.fuelControl.TabIndex = 3;
             this.fuelControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.fuelView});
@@ -709,12 +757,12 @@
             this.tableLayoutPanel4.Controls.Add(this.panel3, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.panel6, 1, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(452, 3);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(416, 3);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(680, 501);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(716, 501);
             this.tableLayoutPanel4.TabIndex = 1;
             // 
             // panel3
@@ -728,7 +776,7 @@
             this.panel3.Controls.Add(this.mainPictureBox);
             this.panel3.Location = new System.Drawing.Point(3, 3);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(490, 495);
+            this.panel3.Size = new System.Drawing.Size(526, 495);
             this.panel3.TabIndex = 3;
             // 
             // mainPictureBox
@@ -748,7 +796,7 @@
             this.panel6.Controls.Add(this.windowsUIButtonPanel2);
             this.panel6.Controls.Add(this.listView1);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel6.Location = new System.Drawing.Point(499, 3);
+            this.panel6.Location = new System.Drawing.Point(535, 3);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(178, 495);
             this.panel6.TabIndex = 4;
@@ -768,13 +816,13 @@
             // windowsUIButtonPanel2
             // 
             this.windowsUIButtonPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            windowsUIButtonImageOptions4.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions4.SvgImage")));
-            windowsUIButtonImageOptions5.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions5.SvgImage")));
-            windowsUIButtonImageOptions6.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions6.SvgImage")));
+            windowsUIButtonImageOptions22.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions22.SvgImage")));
+            windowsUIButtonImageOptions23.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions23.SvgImage")));
+            windowsUIButtonImageOptions24.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions24.SvgImage")));
             this.windowsUIButtonPanel2.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Add", true, windowsUIButtonImageOptions4, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "add", -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Remove", true, windowsUIButtonImageOptions5, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "remove", -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Clear", true, windowsUIButtonImageOptions6, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "clear", -1, false)});
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Add", true, windowsUIButtonImageOptions22, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "add", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Remove", true, windowsUIButtonImageOptions23, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "remove", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Clear", true, windowsUIButtonImageOptions24, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "clear", -1, false)});
             this.windowsUIButtonPanel2.Location = new System.Drawing.Point(29, 432);
             this.windowsUIButtonPanel2.Name = "windowsUIButtonPanel2";
             this.windowsUIButtonPanel2.Size = new System.Drawing.Size(149, 66);
@@ -822,6 +870,8 @@
             this.tableLayoutPanel5.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.panel5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fuelControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fuelView)).EndInit();
@@ -880,10 +930,6 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox odometerBox;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox modelBox;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox plateBox;
-        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Panel panel5;
         private DevExpress.XtraGrid.GridControl fuelControl;
         private DevExpress.XtraGrid.Views.Grid.GridView fuelView;
@@ -897,5 +943,13 @@
         private DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel windowsUIButtonPanel2;
         private System.Windows.Forms.ComboBox conceptBox;
         private System.Windows.Forms.TextBox employeeBox;
+        private System.Windows.Forms.Button SelectVehicleBtn;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label avgMpgLabel;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label vTypeL;
+        private System.Windows.Forms.Label vModelL;
+        private System.Windows.Forms.Label vNameL;
+        private System.Windows.Forms.Label plateL;
     }
 }

@@ -202,6 +202,7 @@ namespace creditcharges.Views
                 var instance = Controller.controller.editTransaction;
                 if (instance != null) instance.Dispose();
                 instance = Controller.controller.editTransaction = new EditTransaction(id, "", "");
+
                 instance.Show();
             }
             else if (!flag && view == detailsGridView)
@@ -317,10 +318,10 @@ namespace creditcharges.Views
             var lastPlate = "";
             BindingList<Fuel> result = new BindingList<Fuel>();
             var tomorrow = end.AddDays(1).ToString("yyyy-MM-dd");
-            var query = "SELECT R.Id, R.Amount, R.TDate, F.Odometer, F.Plate, F.Model, F.Gallons, (R.Amount/F.Gallons) as PPG " +
+            var query = "SELECT R.Id, R.Amount, R.TDate, F.Odometer, F.Gallons, (R.Amount/F.Gallons) as PPG, F.VId " +
                 "FROM Fuel F LEFT JOIN Records R On R.Id = F.Id " +
                 "WHERE CAST(R.TDate as DATE) >= CAST(@today as DATE) AND CAST(R.TDate as DATE) < CAST(@tomorrow as DATE) " +
-                "ORDER BY F.Plate, R.TDate ASC";
+                "ORDER BY F.VId, R.TDate ASC";
 
             SqlCommand cmd = new SqlCommand(query, sql);
             cmd.Parameters.AddWithValue("@today", SqlDbType.DateTime).Value = start;
@@ -334,7 +335,7 @@ namespace creditcharges.Views
                     decimal mpg = 0;
                     try
                     {
-                        if (reader[4] as string != lastPlate)
+                        if (reader[6] as string != lastPlate)
                         {
                             lastOdo = 0;
                             lastGall = 0;
@@ -352,8 +353,8 @@ namespace creditcharges.Views
                     catch { }
 
                     lastOdo = reader.GetInt32(3);
-                    lastGall = reader.GetDecimal(6);
-                    lastPlate = reader[4] as string;
+                    lastGall = reader.GetDecimal(4);
+                    lastPlate = reader[6] as string;
 
                     result.Add(new Fuel()
                     {
@@ -361,10 +362,8 @@ namespace creditcharges.Views
                         Amount = reader.GetDecimal(1),
                         Date = reader.GetDateTime(2),
                         Odometer = reader.GetInt32(3),
-                        Plate = reader[4] as string,
-                        Model = reader[5] as string,
-                        Gallons = reader.GetDecimal(6),
-                        PPG = reader.GetDecimal(7),
+                        Gallons = reader.GetDecimal(4),
+                        PPG = reader.GetDecimal(5),
                         MPG = mpg
                     });
                 }
@@ -374,6 +373,7 @@ namespace creditcharges.Views
             if (dieselGrid.DataSource != null) dieselGrid.DataSource = null;
             dieselGridView.Columns.Clear();
             dieselGrid.DataSource = result;
+
             GridColumn price = dieselGridView.Columns["Amount"];
             price.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             price.DisplayFormat.FormatString = "c2";
@@ -718,10 +718,17 @@ namespace creditcharges.Views
 
         private void employeesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-
             var instance = Controller.controller.employees;
             if (instance != null) instance.Dispose();
             instance = Controller.controller.employees = new Employees();
+            instance.Show();
+        }
+
+        private void vehiclesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var instance = Controller.controller.vehicles;
+            if (instance != null) instance.Dispose();
+            instance = Controller.controller.vehicles = new Vehicles();
             instance.Show();
         }
     }

@@ -43,9 +43,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.windowsUIButtonPanel1 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel();
             this.label2 = new System.Windows.Forms.Label();
-            this.bankBox = new System.Windows.Forms.TextBox();
             this.numberBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.bankBox = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -69,6 +69,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.bankBox);
             this.panel1.Controls.Add(this.entityBox);
             this.panel1.Controls.Add(this.view_cards_Btn);
             this.panel1.Controls.Add(this.cardBox);
@@ -78,7 +79,6 @@
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.windowsUIButtonPanel1);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.bankBox);
             this.panel1.Controls.Add(this.numberBox);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -185,17 +185,6 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Bank:";
             // 
-            // bankBox
-            // 
-            this.bankBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.bankBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.bankBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.bankBox.Location = new System.Drawing.Point(131, 56);
-            this.bankBox.Name = "bankBox";
-            this.bankBox.Size = new System.Drawing.Size(167, 20);
-            this.bankBox.TabIndex = 2;
-            // 
             // numberBox
             // 
             this.numberBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -215,6 +204,17 @@
             this.label1.Size = new System.Drawing.Size(72, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Card Number:";
+            // 
+            // bankBox
+            // 
+            this.bankBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.bankBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.bankBox.FormattingEnabled = true;
+            this.bankBox.Location = new System.Drawing.Point(131, 56);
+            this.bankBox.Name = "bankBox";
+            this.bankBox.Size = new System.Drawing.Size(167, 21);
+            this.bankBox.TabIndex = 13;
             // 
             // AddCard
             // 
@@ -238,7 +238,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox bankBox;
         private System.Windows.Forms.TextBox numberBox;
         private System.Windows.Forms.Label label1;
         private DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel windowsUIButtonPanel1;
@@ -249,5 +248,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button view_cards_Btn;
         private System.Windows.Forms.ComboBox entityBox;
+        private System.Windows.Forms.ComboBox bankBox;
     }
 }

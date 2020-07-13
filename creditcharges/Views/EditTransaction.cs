@@ -17,6 +17,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -26,6 +27,7 @@ namespace creditcharges.Views
     {
         private static string Id;
         private string location;
+        public string vehicleID;
         private string concept;
         private readonly SqlConnection sql;
         private bool imgInf;
@@ -35,6 +37,8 @@ namespace creditcharges.Views
         private int lastOdo = 0;
         private string lastModel = string.Empty;
         private decimal lastGall = 0;
+        private bool vehicle;
+        private string vehileId;
 
         public EditTransaction(string id, string location, string concept)
         {
@@ -262,11 +266,37 @@ namespace creditcharges.Views
                 if (reader.Read())
                 {
                     odometerBox.Text = reader.GetInt32(1).ToString();
-                    plateBox.Text = reader[2] as string;
-                    modelBox.Text = reader[3] as string;
-                    gallonsBox.Text = reader.GetDecimal(4).ToString();
+                    gallonsBox.Text = reader.GetDecimal(2).ToString();
+                    var vId = reader[3] as string;
+
+                    var vQuery = "SELECT * FROM Vehicles WHERE Id = @id";
+                    var vCmd = new SqlCommand(vQuery, sql);
+                    vCmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = vId;
+                    try
+                    {
+                        using (var vReader = vCmd.ExecuteReader())
+                        {
+                            if (vReader.Read())
+                            {
+                                Vehicle v = new Vehicle
+                                {
+                                    Id = vReader[0] as string,
+                                    Plate = vReader[1] as string,
+                                    VName = vReader[2] as string,
+                                    Model = vReader[3] as string,
+                                    VType = vReader[4] as string,
+                                    AvgMPG = vReader[5] as decimal? ?? default
+                                };
+                                lastModel = vReader[3] as string;
+                                LoadVehicleDetails(v);
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        checkBox1.Checked = false;
+                    }
                 }
-                LoadFuelTable();
             }
             if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
             query = "SELECT * FROM Images WHERE Id = @id";
@@ -284,21 +314,21 @@ namespace creditcharges.Views
             else DownloadImages();
         }
 
-        private void LoadFuelTable()
-        {
-            var plate = plateBox.Text.ToUpper();
-            plateBox.Text = plate;
-            var query = "SELECT R.Id, R.Amount, R.TDate, F.Odometer, F.Plate, F.Model, F.Gallons, (R.Amount/F.Gallons) as PPG FROM Records R LEFT JOIN Fuel F On R.Id = F.Id WHERE F.Plate = @plate ORDER BY R.TDate ASC";
+        private decimal LoadFuelTable(string id)
+            {
+            var query = "SELECT R.Id, R.Amount, R.TDate, F.Odometer, F.Gallons, (R.Amount/F.Gallons) as PPG FROM Records R LEFT JOIN Fuel F On R.Id = F.Id WHERE F.VId = @id ORDER BY R.TDate ASC";
             SqlCommand cmd = new SqlCommand(query, sql);
             if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
-            cmd.Parameters.AddWithValue("@plate", SqlDbType.VarChar).Value = plate;
+            cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = id;
             BindingList<Fuel> fuel = new BindingList<Fuel>();
             using (var reader = cmd.ExecuteReader())
             {
+
+                decimal mpg = 0;
+                int count = 0;
                 while (reader.Read())
                 {
                     var distance = reader.GetInt32(3) - lastOdo;
-                    decimal mpg = 0;
 
                     try
                     {
@@ -309,30 +339,35 @@ namespace creditcharges.Views
                         mpg = 0;
                     }
 
-                    lastGall = reader.GetDecimal(6);
+                    lastGall = reader.GetDecimal(4);
                     lastOdo = reader.GetInt32(3);
-                    modelBox.Text = reader[5] as string;
-                    lastModel = reader[5] as string;
+
                     fuel.Add(new Fuel()
                     {
                         Id = reader[0] as string,
                         Amount = reader.GetDecimal(1),
                         Date = reader.GetDateTime(2),
                         Odometer = reader.GetInt32(3),
-                        Plate = reader[4] as string,
-                        Model = reader[5] as string,
-                        Gallons = reader.GetDecimal(6),
-                        PPG = reader.GetDecimal(7),
+                        Gallons = reader.GetDecimal(4),
+                        PPG = reader.GetDecimal(5),
                         MPG = mpg
                     });
-                }
 
+                    mpg += mpg;
+                    count++;
+                    
+                }
+                try
+                {
+                    mpg /= count;
+                }
+                catch
+                {
+                    mpg = 0;
+                }
                 if (fuelControl.DataSource != null) fuelControl.DataSource = null;
-                fuelView.Columns.Clear();
+
                 fuelControl.DataSource = fuel;
-                fuelView.Columns[1].Visible = false;
-                fuelView.Columns[3].Visible = false;
-                fuelView.Columns[5].Visible = false;
                 DevExpress.XtraGrid.Columns.GridColumn price = fuelView.Columns["Amount"];
                 price.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
                 price.DisplayFormat.FormatString = "c2";
@@ -346,9 +381,17 @@ namespace creditcharges.Views
                 mpgR.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
                 mpgR.DisplayFormat.FormatString = "n3";
 
+
+                DevExpress.XtraGrid.Columns.GridColumn idCol = fuelView.Columns["Id"];
+                idCol.Visible = false;
+
+
                 fuelView.BestFitColumns();
+
+                cmd.Connection.Close();
+
+                return mpg;
             }
-            cmd.Connection.Close();
         }
 
         private void ImagesFromList(List<string> list)
@@ -422,12 +465,10 @@ namespace creditcharges.Views
 
         private bool GasCompleted()
         {
-            var plate = plateBox.Text;
-            var model = modelBox.Text;
             var odom = odometerBox.Text;
             var gall = gallonsBox.Text;
 
-            if (string.IsNullOrEmpty(plate) || string.IsNullOrEmpty(model) || string.IsNullOrEmpty(odom) || string.IsNullOrEmpty(gall))
+            if (string.IsNullOrEmpty(odom) || string.IsNullOrEmpty(gall) && vehicle)
                 return false;
             return true;
         }
@@ -514,8 +555,11 @@ namespace creditcharges.Views
                         {
                             if (GasCompleted()) res = cmd.ExecuteNonQuery();
                             else
+                            {
                                 MessageBox.Show("Por favor, captura la información del combustible en la pestaña correspondiente.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
+                                return;
+                            }
+
                         }
                         else
                         {
@@ -523,24 +567,17 @@ namespace creditcharges.Views
                         }
                         if (checkBox1.Checked)
                         {
-                            query = "INSERT INTO Fuel (Id, Odometer, Plate, Model, Gallons) VALUES (@id, @odometer, @plate, @model, @gallons)";
+                            query = "INSERT INTO Fuel (Id, Odometer, Gallons, VId) VALUES (@id, @odometer, @gallons, @vid)";
                             var odometer = int.Parse(odometerBox.Text);
-                            var plate = plateBox.Text;
-                            var model = modelBox.Text;
                             var gallons = decimal.Parse(gallonsBox.Text);
                             cmd.CommandText = query;
                             cmd.Parameters.AddWithValue("@odometer", SqlDbType.Int).Value = odometer;
-                            cmd.Parameters.AddWithValue("@plate", SqlDbType.VarChar).Value = plate;
-                            cmd.Parameters.AddWithValue("@model", SqlDbType.VarChar).Value = model;
                             cmd.Parameters.AddWithValue("@gallons", SqlDbType.Decimal).Value = gallons;
+                            cmd.Parameters.AddWithValue("@vid", SqlDbType.VarChar).Value = vehicleID;
 
                             if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                             cmd.ExecuteNonQuery();
-                            if (model != lastModel)
-                            {
-                                cmd.CommandText = "UPDATE Fuel SET Model = @model WHERE Plate = @plate";
-                                cmd.ExecuteNonQuery();
-                            }
+                            
                         }
                         if (imgPaths.Count > 0)
                             SaveImagesAsync(entity, value.ToString(), number, date);
@@ -617,17 +654,13 @@ namespace creditcharges.Views
                 {
                     try
                     {
-                        query = "UPDATE Fuel SET Odometer = @odometer, Plate = @plate, Model = @model, Gallons = @gallons WHERE Id = @id";
+                        query = "UPDATE Fuel SET Odometer = @odometer, Gallons = @gallons WHERE Id = @id";
                         cmd.CommandText = query;
                         var odometer = int.Parse(odometerBox.Text);
-                        var plate = plateBox.Text;
-                        var model = modelBox.Text;
                         var gallons = decimal.Parse(gallonsBox.Text);
 
                         cmd.CommandText = query;
                         cmd.Parameters.AddWithValue("@odometer", SqlDbType.Int).Value = odometer;
-                        cmd.Parameters.AddWithValue("@plate", SqlDbType.VarChar).Value = plate;
-                        cmd.Parameters.AddWithValue("@model", SqlDbType.VarChar).Value = model;
                         cmd.Parameters.AddWithValue("@gallons", SqlDbType.Decimal).Value = gallons;
                         cmd.ExecuteNonQuery();
                     }
@@ -822,9 +855,8 @@ namespace creditcharges.Views
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             odometerBox.Enabled = checkBox1.Checked;
-            plateBox.Enabled = checkBox1.Checked;
-            modelBox.Enabled = checkBox1.Checked;
             gallonsBox.Enabled = checkBox1.Checked;
+            SelectVehicleBtn.Enabled = checkBox1.Checked;
         }
 
         private void amountBox_Leave(object sender, EventArgs e)
@@ -954,25 +986,7 @@ namespace creditcharges.Views
             }
         }
 
-        private void plateBox_Leave(object sender, EventArgs e)
-        {
-            if (plateBox.Text.Split(new char[] { ' ' }).Length != 2)
-            {
-                MessageBox.Show("El formato de las placas es erróneo, debe llevar espacio entre los valores, ejemplo: \"ABC 1234\"." +
-                    "\nPor favor vuelva a reintroducir el valor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                plateBox.Text = string.Empty;
-            }
-            else
-            {
-                try
-                {
-                    LoadFuelTable();
-                }
-                catch { }
-            }
-        }
-
+        
         private void odometerBox_Leave(object sender, EventArgs e)
         {
             try
@@ -988,6 +1002,27 @@ namespace creditcharges.Views
             {
                 odometerBox.Text = string.Empty;
             }
+        }
+
+        private void SelectVehicleBtn_Click(object sender, EventArgs e)
+        {
+            var instance = Controller.controller.vehicleSelect;
+            if (instance != null) instance.Dispose();
+            instance = Controller.controller.vehicleSelect = new VehicleSelect();
+            instance.Show();
+        }
+        public void LoadVehicleDetails(Vehicle v)
+        {
+
+            v.AvgMPG = LoadFuelTable(v.Id);
+
+            vehicleID = v.Id;
+            plateL.Text = "License Plate: "+v.Plate;
+            vNameL.Text = "Vehicle Name: " + v.VName;
+            vModelL.Text = "Model: " + v.Model;
+            vTypeL.Text = "Type: " + v.VType;
+            avgMpgLabel.Text = v.AvgMPG.ToString("n3");
+
         }
     }
 }

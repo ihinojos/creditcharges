@@ -11,27 +11,27 @@ namespace creditcharges.Models
         private static string[] concepts = {"Alojamiento","Atención Médica", "Gasolina/Automóvil", "Internet", "Mercancía", "Otra Opción",
             "Otros Servicios", "Pago/crédito", "Seguros", "Servicios Profesionales", "Servicios Púbilcos", "Teléfono/Cable"};
 
-        public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=TESTTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
-        //public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=PRODTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
+        //public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=TESTTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
+        public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=PRODTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
 
         //more data bout cards
-            // number
-            // distributor 
-            // account 
+        // number
+        // distributor 
+        // account 
 
         //more data about employees
-            // name
-            // dept
-            // avg compras (implemented outside database) 
+        // name
+        // dept
+        // avg compras (implemented outside database) 
 
         //company data (David needs to proide further information).
-            // name 
+        // name 
 
         //quickbook settings dependant on the entity selected.
-            //will have to check around which one goes where
+        //will have to check around which one goes where
 
         //performance of trucks 
-            // (currrent miles - last miles) / gallons = mpg
+        // (currrent miles - last miles) / gallons = mpg
 
         public static List<string> accountType { get; set; }
         public static List<string> entities { get; set; }
@@ -42,6 +42,8 @@ namespace creditcharges.Models
         public static List<string> childCards { get; set; }
         public static List<string> mainCards { get; set; }
         public static List<string> concept { get; set; }
+        public static List<string> plates { get; set; }
+        public static List<string> vNames { get; set; }
         public static void getData()
         {
             concept = new List<string>(concepts);
@@ -63,7 +65,7 @@ namespace creditcharges.Models
             }
 
 
-            
+
 
             sql = new SqlConnection(cn);
             var cmd = new SqlCommand("SELECT * FROM ChildCards", sql);
@@ -101,6 +103,19 @@ namespace creditcharges.Models
                 classes = new List<string>();
                 while (reader.Read()) classes.Add(reader[0] as string);
             }
+
+            cmd.CommandText = "SELECT Plate, VName FROM Vehicles";
+            using (var reader = cmd.ExecuteReader())
+            {
+                plates = new List<string>();
+                vNames = new List<string>();
+                while (reader.Read())
+                {
+                    if (!string.IsNullOrEmpty(reader[0] as string)) plates.Add(reader[0] as string);
+                    if (!string.IsNullOrEmpty(reader[1] as string)) vNames.Add(reader[1] as string);
+                }
+            }
+
 
             cmd.Connection.Close();
         }

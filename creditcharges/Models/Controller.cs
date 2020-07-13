@@ -20,6 +20,8 @@ namespace creditcharges.Models
         public ChildCards childCards { get; set; }
         public Entities entities { get; set; }
         public Classes classes { get; set; }
+        public Vehicles vehicles { get; set; }
+        public VehicleSelect vehicleSelect { get; set; }
         public static Controller controller { get; } = new Controller();
     }
 }

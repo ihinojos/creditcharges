@@ -14,9 +14,7 @@ namespace creditcharges.Models
         public DateTime Date { get; set; }
         public string Id { get; set; }
         public int Odometer { get; set; }
-        public string Plate { get; set; }
         public decimal Gallons { get; set; }
-        public string Model { get; set; }
         public decimal Amount { get; set; }
         public decimal PPG { get; set; }
         public decimal MPG { get; set; }

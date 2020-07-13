@@ -11,6 +11,7 @@ namespace creditcharges.Views
     public partial class AddCard : Form
     {
         private readonly SqlConnection sql;
+        private string[] banks = { "American Express", "Barclay Bank" , "Capital One", "Chase Bank" };
 
         public AddCard()
         {
@@ -143,7 +144,9 @@ namespace creditcharges.Views
         private void GetCards()
         {
             cardBox.Items.Clear();
+            bankBox.Items.Clear();
             cardBox.Items.Add("New card");
+            bankBox.Items.AddRange(banks);
             cardBox.SelectedIndex = 0;
             var query = "SELECT * FROM MainCards";
             var cmd = new SqlCommand(query, sql);
