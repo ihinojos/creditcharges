@@ -10,9 +10,15 @@ namespace creditcharges.Views
 {
     public partial class AddCard : Form
     {
+
+        #region Attributes
+
         private readonly SqlConnection sql;
         private string[] banks = { "American Express", "Barclay Bank" , "Capital One", "Chase Bank" };
 
+        #endregion
+
+        #region Constructor
         public AddCard()
         {
             InitializeComponent();
@@ -20,6 +26,9 @@ namespace creditcharges.Views
             entityBox.Items.AddRange(Data.entities.ToArray());
             GetCards();
         }
+        #endregion
+
+        #region Events
 
         private void windowsUIButtonPanel1_ButtonClick(object sender, DevExpress.XtraBars.Docking2010.ButtonEventArgs e)
         {
@@ -41,6 +50,55 @@ namespace creditcharges.Views
             }
         }
 
+
+        private void cardBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var card = cardBox.SelectedItem.ToString();
+            if (card == "New card")
+            {
+                numberBox.Enabled = true;
+                numberBox.Text = string.Empty;
+                entityBox.SelectedItem = null;
+                unameBox.Text = string.Empty;
+                bankBox.Text = string.Empty;
+            }
+            else
+            {
+                numberBox.Enabled = false;
+                var query = "SELECT * FROM MainCards WHERE Number = @number";
+                var cmd = new SqlCommand(query, sql);
+                cmd.Parameters.AddWithValue("@number", SqlDbType.VarChar).Value = card;
+                cmd.Connection.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        numberBox.Text = reader[0] as string;
+                        bankBox.Text = reader[1] as string;
+                        unameBox.Text = reader[2] as string;
+                        entityBox.Text = reader[3] as string;
+                    }
+                    cmd.Connection.Close();
+                }
+            }
+        }
+
+        private void view_cards_Btn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var card = cardBox.SelectedItem.ToString();
+                var instance = Controller.controller.childCards;
+                if (instance != null) instance.Dispose();
+                instance = Controller.controller.childCards = new ChildCards(card);
+                instance.Show();
+            }
+            catch { }
+        }
+
+        #endregion
+
+        #region Methods
         private void UpdateCard()
         {
             try
@@ -160,50 +218,6 @@ namespace creditcharges.Views
                 cmd.Connection.Close();
             }
         }
-
-        private void cardBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var card = cardBox.SelectedItem.ToString();
-            if (card == "New card")
-            {
-                numberBox.Enabled = true;
-                numberBox.Text = string.Empty;
-                entityBox.SelectedItem = null;
-                unameBox.Text = string.Empty;
-                bankBox.Text = string.Empty;
-            }
-            else
-            {
-                numberBox.Enabled = false;
-                var query = "SELECT * FROM MainCards WHERE Number = @number";
-                var cmd = new SqlCommand(query, sql);
-                cmd.Parameters.AddWithValue("@number", SqlDbType.VarChar).Value = card;
-                cmd.Connection.Open();
-                using (var reader = cmd.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        numberBox.Text = reader[0] as string;
-                        bankBox.Text = reader[1] as string;
-                        unameBox.Text = reader[2] as string;
-                        entityBox.Text = reader[3] as string;
-                    }
-                    cmd.Connection.Close();
-                }
-            }
-        }
-
-        private void view_cards_Btn_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var card = cardBox.SelectedItem.ToString();
-                var instance = Controller.controller.childCards;
-                if (instance != null) instance.Dispose();
-                instance = Controller.controller.childCards = new ChildCards(card);
-                instance.Show();
-            }
-            catch { }
-        }
+        #endregion
     }
 }

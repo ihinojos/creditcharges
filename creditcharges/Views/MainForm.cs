@@ -18,12 +18,15 @@ namespace creditcharges.Views
 {
     public partial class MainForm : Form
     {
+        #region Attributes
         public readonly bool ADMIN;
         private bool report = false;
         private bool status = false;
         private readonly SqlConnection sql;
         public string User;
+        #endregion
 
+        #region Constructor
         public MainForm(bool admin, string user)
         {
             ADMIN = admin;
@@ -31,6 +34,154 @@ namespace creditcharges.Views
             InitializeComponent();
             sql = new SqlConnection(Data.cn);
             LoadTable();
+        }
+        #endregion
+
+        #region Events
+
+
+        private void addUserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var instance = Controller.controller.addUser;
+            if (instance != null) instance.Dispose();
+            instance = Controller.controller.addUser = new AddUser();
+            instance.Show();
+        }
+
+        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
+            {
+                MessageBox.Show("Intelogix México © 2020\n\nCurrent Version: " + System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion,
+                    "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Not currently deployed.", "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void generalGridView_DoubleClick(object sender, EventArgs e)
+        {
+            EditTransaction(generalGridView);
+        }
+
+        private void detailsGridView_DoubleClick(object sender, EventArgs e)
+        {
+            EditTransaction(detailsGridView);
+        }
+
+        private void windowsUIButtonPanel3_ButtonClick(object sender, ButtonEventArgs e)
+        {
+            var tag = ((WindowsUIButton)e.Button).Tag.ToString();
+            switch (tag)
+            {
+                case "clear":
+                    report = false;
+                    detailsGrid.DataSource = null;
+                    detailsGridView.Columns.Clear();
+                    break;
+            }
+        }
+
+        private void generalGridView_RowStyle(object sender, RowStyleEventArgs e)
+        {
+            try
+            {
+                var status = generalGridView.GetRowCellValue(e.RowHandle, "Status").ToString();
+                switch (status)
+                {
+                    case "No Ticket":
+                        e.Appearance.BackColor = Color.LightSalmon;
+                        break;
+                    case "Finished":
+                        e.Appearance.BackColor = Color.LightGray;
+                        break;
+                }
+            }
+            catch { }
+        }
+
+        private void windowsUIButtonPanel4_ButtonClick(object sender, ButtonEventArgs e)
+        {
+
+            try
+            {
+                var tag = ((WindowsUIButton)e.Button).Tag.ToString();
+                switch (tag)
+                {
+
+                    case "print":
+                        dieselGrid.ShowRibbonPrintPreview();
+                        break;
+
+                    case "details":
+                        DateRangeForm("diesel");
+                        break;
+                }
+            }
+            catch { }
+        }
+
+        private void windowsUIButtonPanel5_ButtonClick(object sender, ButtonEventArgs e)
+        {
+            try
+            {
+                var tag = ((WindowsUIButton)e.Button).Tag.ToString();
+                switch (tag)
+                {
+
+                    case "clear":
+                        dieselGridView.Columns.Clear();
+                        dieselGrid.DataSource = null;
+                        break;
+                }
+            }
+            catch { }
+        }
+
+
+        private void entitiesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var instance = Controller.controller.entities;
+            if (instance != null) instance.Dispose();
+            instance = Controller.controller.entities = new Entities();
+            instance.Show();
+        }
+
+        private void classesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var instance = Controller.controller.classes;
+            if (instance != null) instance.Dispose();
+            instance = Controller.controller.classes = new Classes();
+            instance.Show();
+        }
+
+        private void cardsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            var instance = Controller.controller.addCard;
+            if (instance != null) instance.Dispose();
+
+            instance = Controller.controller.addCard = new AddCard();
+
+            instance.Show();
+        }
+
+        private void employeesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var instance = Controller.controller.employees;
+            if (instance != null) instance.Dispose();
+            instance = Controller.controller.employees = new Employees();
+            instance.Show();
+        }
+
+        private void vehiclesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var instance = Controller.controller.vehicles;
+            if (instance != null) instance.Dispose();
+            instance = Controller.controller.vehicles = new Vehicles();
+            instance.Show();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -69,6 +220,113 @@ namespace creditcharges.Views
             catch { }
         }
 
+        private void addCardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var instance = Controller.controller.addCard;
+            if (instance != null) instance.Dispose();
+
+            instance = Controller.controller.addCard = new AddCard();
+
+            instance.Show();
+        }
+
+        private void deleteCardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var instance = Controller.controller.delCard;
+            if (instance != null) instance.Dispose();
+
+            instance = Controller.controller.delCard = new DeleteCard();
+
+            instance.Show();
+        }
+
+        private void windowsUIButtonPanel2_ButtonClick(object sender, ButtonEventArgs e)
+        {
+            try
+            {
+                var tag = ((WindowsUIButton)e.Button).Tag.ToString();
+                switch (tag)
+                {
+                    case "load":
+                        LoadReport();
+                        break;
+
+                    case "fill":
+                        EditTransaction(detailsGridView);
+                        break;
+
+                    case "print":
+                        detailsGrid.ShowRibbonPrintPreview();
+                        break;
+
+                    case "details":
+                        DateRangeForm("report");
+                        break;
+                }
+            }
+            catch { }
+        }
+
+        private void detailsGridView_RowStyle(object sender, RowStyleEventArgs e)
+        {
+            if (report)
+            {
+                GridView view = sender as GridView;
+                if (e.RowHandle >= 0)
+                {
+                    var date = DateTime.Parse(view.GetRowCellDisplayText(e.RowHandle, view.Columns["Date"]));
+                    var card = view.GetRowCellDisplayText(e.RowHandle, view.Columns["Card"]);
+                    var amnt = decimal.Parse(view.GetRowCellDisplayText(e.RowHandle, view.Columns["Amount"]).Replace("$", ""));
+                    var query = "SELECT * FROM Records WHERE Card = @card AND Amount = @amnt AND CAST(TDate as DATE) = CAST(@date as DATE)";
+                    SqlCommand cmd = new SqlCommand(query, sql);
+                    cmd.Parameters.AddWithValue("@date", SqlDbType.DateTime).Value = date;
+                    cmd.Parameters.AddWithValue("@card", SqlDbType.VarChar).Value = card;
+                    cmd.Parameters.AddWithValue("@amnt", SqlDbType.Decimal).Value = amnt;
+
+                    cmd.Connection.Open();
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        e.Appearance.BackColor = Color.LightBlue;
+                        view.SetRowCellValue(e.RowHandle, "Id", reader[0] as string);
+                    }
+                    else
+                    {
+                        e.Appearance.BackColor = Color.Salmon;
+                        e.Appearance.BackColor2 = Color.SeaShell;
+                    }
+                    reader.Close();
+                    cmd.Connection.Close();
+                }
+            }
+        }
+
+        private void dateEdit1_EditValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var date = (DateTime)dateEdit1.EditValue;
+                if (generalGrid.DataSource != null) generalGrid.DataSource = null;
+                generalGrid.DataSource = GetDataSource(date);
+                GridColumn price = generalGridView.Columns["Amount"];
+                price.DisplayFormat.FormatType = FormatType.Numeric;
+                price.DisplayFormat.FormatString = "c2";
+                generalGridView.Columns[2].Visible = false;
+                generalGridView.Columns[7].Visible = false;
+                generalGridView.Columns[8].Visible = false;
+                generalGridView.Columns[9].Visible = false;
+                generalGridView.Columns[10].Visible = false;
+                generalGridView.Columns[11].Visible = false;
+                generalGridView.Columns[12].Visible = false;
+            }
+            catch (NullReferenceException)
+            {
+                LoadTable();
+            }
+        }
+        #endregion
+
+        #region Methods
         private void DeleteRecord()
         {
             try
@@ -256,52 +514,6 @@ namespace creditcharges.Views
             return result;
         }
 
-        private void addCardToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var instance = Controller.controller.addCard;
-            if (instance != null) instance.Dispose();
-
-            instance = Controller.controller.addCard = new AddCard();
-
-            instance.Show();
-        }
-
-        private void deleteCardToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var instance = Controller.controller.delCard;
-            if (instance != null) instance.Dispose();
-
-            instance = Controller.controller.delCard = new DeleteCard();
-
-            instance.Show();
-        }
-
-        private void windowsUIButtonPanel2_ButtonClick(object sender, ButtonEventArgs e)
-        {
-            try
-            {
-                var tag = ((WindowsUIButton)e.Button).Tag.ToString();
-                switch (tag)
-                {
-                    case "load":
-                        LoadReport();
-                        break;
-
-                    case "fill":
-                        EditTransaction(detailsGridView);
-                        break;
-
-                    case "print":
-                        detailsGrid.ShowRibbonPrintPreview();
-                        break;
-
-                    case "details":
-                        DateRangeForm("report");
-                        break;
-                }
-            }
-            catch { }
-        }
 
         private void DateRangeForm(string sender)
         {
@@ -497,63 +709,6 @@ namespace creditcharges.Views
             report = true;
         }
 
-        private void detailsGridView_RowStyle(object sender, RowStyleEventArgs e)
-        {
-            if (report)
-            {
-                GridView view = sender as GridView;
-                if (e.RowHandle >= 0)
-                {
-                    var date = DateTime.Parse(view.GetRowCellDisplayText(e.RowHandle, view.Columns["Date"]));
-                    var card = view.GetRowCellDisplayText(e.RowHandle, view.Columns["Card"]);
-                    var amnt = decimal.Parse(view.GetRowCellDisplayText(e.RowHandle, view.Columns["Amount"]).Replace("$", ""));
-                    var query = "SELECT * FROM Records WHERE Card = @card AND Amount = @amnt AND CAST(TDate as DATE) = CAST(@date as DATE)";
-                    SqlCommand cmd = new SqlCommand(query, sql);
-                    cmd.Parameters.AddWithValue("@date", SqlDbType.DateTime).Value = date;
-                    cmd.Parameters.AddWithValue("@card", SqlDbType.VarChar).Value = card;
-                    cmd.Parameters.AddWithValue("@amnt", SqlDbType.Decimal).Value = amnt;
-
-                    cmd.Connection.Open();
-                    var reader = cmd.ExecuteReader();
-                    if (reader.Read())
-                    {
-                        e.Appearance.BackColor = Color.LightBlue;
-                        view.SetRowCellValue(e.RowHandle, "Id", reader[0] as string);
-                    }
-                    else
-                    {
-                        e.Appearance.BackColor = Color.Salmon;
-                        e.Appearance.BackColor2 = Color.SeaShell;
-                    }
-                    reader.Close();
-                    cmd.Connection.Close();
-                }
-            }
-        }
-
-        private void dateEdit1_EditValueChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                var date = (DateTime)dateEdit1.EditValue;
-                if (generalGrid.DataSource != null) generalGrid.DataSource = null;
-                generalGrid.DataSource = GetDataSource(date);
-                GridColumn price = generalGridView.Columns["Amount"];
-                price.DisplayFormat.FormatType = FormatType.Numeric;
-                price.DisplayFormat.FormatString = "c2";
-                generalGridView.Columns[2].Visible = false;
-                generalGridView.Columns[7].Visible = false;
-                generalGridView.Columns[8].Visible = false;
-                generalGridView.Columns[9].Visible = false;
-                generalGridView.Columns[10].Visible = false;
-                generalGridView.Columns[11].Visible = false;
-                generalGridView.Columns[12].Visible = false;
-            }
-            catch (NullReferenceException)
-            {
-                LoadTable();
-            }
-        }
 
         private BindingList<Transaction> GetDataSource(DateTime _date)
         {
@@ -587,149 +742,6 @@ namespace creditcharges.Views
             cmd.Connection.Close();
             return result;
         }
-
-        private void addUserToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var instance = Controller.controller.addUser;
-            if (instance != null) instance.Dispose();
-            instance = Controller.controller.addUser = new AddUser();
-            instance.Show();
-        }
-
-        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
-            {
-                MessageBox.Show("Intelogix México © 2020\n\nCurrent Version: " + System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion,
-                    "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show("Not currently deployed.", "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
-        private void generalGridView_DoubleClick(object sender, EventArgs e)
-        {
-            EditTransaction(generalGridView);
-        }
-
-        private void detailsGridView_DoubleClick(object sender, EventArgs e)
-        {
-            EditTransaction(detailsGridView);
-        }
-
-        private void windowsUIButtonPanel3_ButtonClick(object sender, ButtonEventArgs e)
-        {
-            var tag = ((WindowsUIButton)e.Button).Tag.ToString();
-            switch (tag)
-            {
-                case "clear":
-                    report = false;
-                    detailsGrid.DataSource = null;
-                    detailsGridView.Columns.Clear();
-                    break;
-            }
-        }
-
-        private void generalGridView_RowStyle(object sender, RowStyleEventArgs e)
-        {
-            try
-            {
-                var status = generalGridView.GetRowCellValue(e.RowHandle, "Status").ToString();
-                switch (status)
-                {
-                    case "No Ticket":
-                        e.Appearance.BackColor = Color.LightSalmon;
-                        break;
-                    case "Finished":
-                        e.Appearance.BackColor = Color.LightGray;
-                        break;
-                }
-            }
-            catch { }
-        }
-
-        private void windowsUIButtonPanel4_ButtonClick(object sender, ButtonEventArgs e)
-        {
-
-            try
-            {
-                var tag = ((WindowsUIButton)e.Button).Tag.ToString();
-                switch (tag)
-                {
-
-                    case "print":
-                        dieselGrid.ShowRibbonPrintPreview();
-                        break;
-
-                    case "details":
-                        DateRangeForm("diesel");
-                        break;
-                }
-            }
-            catch { }
-        }
-
-        private void windowsUIButtonPanel5_ButtonClick(object sender, ButtonEventArgs e)
-        {
-            try
-            {
-                var tag = ((WindowsUIButton)e.Button).Tag.ToString();
-                switch (tag)
-                {
-
-                    case "clear":
-                        dieselGridView.Columns.Clear();
-                        dieselGrid.DataSource = null;
-                        break;
-                }
-            }
-            catch { }
-        }
-
-
-        private void entitiesToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            var instance = Controller.controller.entities;
-            if (instance != null) instance.Dispose();
-            instance = Controller.controller.entities = new Entities();
-            instance.Show();
-        }
-
-        private void classesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var instance = Controller.controller.classes;
-            if (instance != null) instance.Dispose();
-            instance = Controller.controller.classes = new Classes();
-            instance.Show();
-        }
-
-        private void cardsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-            var instance = Controller.controller.addCard;
-            if (instance != null) instance.Dispose();
-
-            instance = Controller.controller.addCard = new AddCard();
-
-            instance.Show();
-        }
-
-        private void employeesToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            var instance = Controller.controller.employees;
-            if (instance != null) instance.Dispose();
-            instance = Controller.controller.employees = new Employees();
-            instance.Show();
-        }
-
-        private void vehiclesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var instance = Controller.controller.vehicles;
-            if (instance != null) instance.Dispose();
-            instance = Controller.controller.vehicles = new Vehicles();
-            instance.Show();
-        }
+        #endregion
     }
 }

@@ -15,7 +15,11 @@ namespace creditcharges.Views
 {
     public partial class DeleteCard : Form
     {
+        #region Attributes
         private readonly SqlConnection sql;
+        #endregion
+
+        #region Constructor
         public DeleteCard()
         {
             InitializeComponent();
@@ -24,7 +28,9 @@ namespace creditcharges.Views
             cards.AddRange(Data.childCards.ToArray());
             childCard.AutoCompleteCustomSource = cards;
         }
+        #endregion
 
+        #region Events
         private void windowsUIButtonPanel1_ButtonClick(object sender, ButtonEventArgs e)
         {
             var tag = ((WindowsUIButton)e.Button).Tag.ToString();
@@ -38,7 +44,9 @@ namespace creditcharges.Views
                     break;
             }
         }
+        #endregion
 
+        #region Methods
         private void deleteCard()
         {
             var child = childCard.Text;
@@ -60,6 +68,6 @@ namespace creditcharges.Views
                 }
             }
         }
-
+        #endregion
     }
 }

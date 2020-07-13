@@ -16,8 +16,12 @@ namespace creditcharges.Views
 {
     public partial class ChildCards : Form
     {
+        #region Attributes
         private readonly string Card;
         private readonly SqlConnection sql;
+        #endregion
+
+        #region Constructor
         public ChildCards(string card)
         {
             Card = card;
@@ -25,23 +29,9 @@ namespace creditcharges.Views
             InitializeComponent();
             LoadCards();
         }
+        #endregion
 
-        private void LoadCards()
-        {
-            var query = "SELECT Card FROM ChildCards WHERE Main = @card";
-            var cmd = new SqlCommand(query, sql);
-            cmd.Parameters.AddWithValue("@card", SqlDbType.VarChar).Value = Card;
-            cmd.Connection.Open();
-            using (var reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    childsBox.Items.Add(reader[0] as string);
-                }
-                label1.Text = "Child Cards[" + childsBox.Items.Count + "]:";
-                cmd.Connection.Close();
-            }
-        }
+        #region Events
 
         private void windowsUIButtonPanel1_ButtonClick(object sender, DevExpress.XtraBars.Docking2010.ButtonEventArgs e)
         {
@@ -54,6 +44,26 @@ namespace creditcharges.Views
                 case "remove":
                     RemoveChildCard();
                     break;
+            }
+        }
+        #endregion
+
+        #region Methods
+        private void LoadCards()
+        {
+            childsBox.Items.Clear();
+            var query = "SELECT Card FROM ChildCards WHERE Main = @card";
+            var cmd = new SqlCommand(query, sql);
+            cmd.Parameters.AddWithValue("@card", SqlDbType.VarChar).Value = Card;
+            cmd.Connection.Open();
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    childsBox.Items.Add(reader[0] as string);
+                }
+                label1.Text = "Child Cards[" + childsBox.Items.Count + "]:";
+                cmd.Connection.Close();
             }
         }
 
@@ -70,6 +80,7 @@ namespace creditcharges.Views
                 var res = cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
                 if (res == 1) MessageBox.Show("Card added.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadCards();
             }
             else MessageBox.Show("Card is already saved.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
@@ -89,5 +100,7 @@ namespace creditcharges.Views
             }
             else MessageBox.Show("Card doesn't exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+
+        #endregion
     }
 }

@@ -10,15 +10,28 @@ namespace creditcharges.Views
 {
     public partial class LogIn : Form
     {
+        #region Attributes
         private SqlConnection sql;
+        #endregion
 
+        #region Constructor
         public LogIn()
         {
             InitializeComponent();
             sql = new SqlConnection(Data.cn);
             KeyDown += new KeyEventHandler(passBox_KeyDown);
         }
+        #endregion
 
+        #region Events
+
+        private void passBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter) LogInAccount();
+        }
+        #endregion
+
+        #region Methods
         private void LogInAccount()
         {
             var user = userBox.Text;
@@ -63,10 +76,6 @@ namespace creditcharges.Views
         {
             LogInAccount();
         }
-
-        private void passBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter) LogInAccount(); 
-        }
+        #endregion
     }
 }

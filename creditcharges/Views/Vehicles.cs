@@ -16,15 +16,96 @@ namespace creditcharges.Views
 {
     public partial class Vehicles : Form
     {
+        #region Attributes
         private readonly string[] types = { "Motorcycle", "Sedan", "SUV", "Pickup", "Truck", "Trailer" };
         private readonly SqlConnection sql;
+        #endregion
+
+        #region Constructor
         public Vehicles()
         {
             InitializeComponent();
             sql = new SqlConnection(Data.cn);
             FillTextBoxes();
         }
+        #endregion
 
+        #region Events
+
+        private void windowsUIButtonPanel1_ButtonClick(object sender, DevExpress.XtraBars.Docking2010.ButtonEventArgs e)
+        {
+            var tag = ((WindowsUIButton)e.Button).Tag.ToString();
+            switch (tag)
+            {
+                case "save":
+                    SaveVehicle();
+                    break;
+                case "delete":
+                    DeleteVehicle();
+                    break;
+                case "cancel":
+                    Dispose();
+                    break;
+            }
+            FillTextBoxes();
+        }
+
+        private void plateBox_Leave(object sender, EventArgs e)
+        {
+            var plate = plateBox.Text;
+            if (Data.plates.Contains(plate))
+            {
+                var query = "SELECT * FROM Vehicles WHERE Plate = @plate";
+                var cmd = new SqlCommand(query, sql);
+                cmd.Parameters.AddWithValue("@plate", SqlDbType.VarChar).Value = plate;
+                cmd.Connection.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        plateBox.Text = reader[1] as string;
+                        vNameBox.Text = reader[2] as string;
+                        modelBox.Text = reader[3] as string;
+                        typeBox.Text = reader[4] as string;
+                    }
+                }
+                cmd.Connection.Close();
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void vNameBox_Leave(object sender, EventArgs e)
+        {
+            var name = vNameBox.Text;
+            if (Data.vNames.Contains(name))
+            {
+                var query = "SELECT * FROM Vehicles WHERE VName = @name";
+                var cmd = new SqlCommand(query, sql);
+                cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = name;
+                cmd.Connection.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        plateBox.Text = reader[1] as string;
+                        vNameBox.Text = reader[2] as string;
+                        modelBox.Text = reader[3] as string;
+                        typeBox.Text = reader[4] as string;
+                    }
+                }
+                cmd.Connection.Close();
+            }
+            else
+            {
+                return;
+            }
+        }
+        #endregion
+
+        #region Methods
         private void FillTextBoxes()
         {
             Data.getData();
@@ -89,77 +170,6 @@ namespace creditcharges.Views
             }
             else return;
         }
-
-        private void windowsUIButtonPanel1_ButtonClick(object sender, DevExpress.XtraBars.Docking2010.ButtonEventArgs e)
-        {
-            var tag = ((WindowsUIButton)e.Button).Tag.ToString();
-            switch (tag)
-            {
-                case "save":
-                    SaveVehicle();
-                    break;
-                case "delete":
-                    DeleteVehicle();
-                    break;
-                case "cancel":
-                    Dispose();
-                    break;
-            }
-            FillTextBoxes();
-        }
-
-        private void plateBox_Leave(object sender, EventArgs e)
-        {
-            var plate = plateBox.Text;
-            if (Data.plates.Contains(plate))
-            {
-                var query = "SELECT * FROM Vehicles WHERE Plate = @plate";
-                var cmd = new SqlCommand(query, sql);
-                cmd.Parameters.AddWithValue("@plate", SqlDbType.VarChar).Value = plate;
-                cmd.Connection.Open();
-                using(var reader = cmd.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        plateBox.Text = reader[1] as string;
-                        vNameBox.Text = reader[2] as string;
-                        modelBox.Text = reader[3] as string;
-                        typeBox.Text = reader[4] as string;
-                    }
-                }
-                cmd.Connection.Close();
-            }
-            else
-            {
-                return;
-            }
-        }
-
-        private void vNameBox_Leave(object sender, EventArgs e)
-        {
-            var name = vNameBox.Text;
-            if (Data.vNames.Contains(name))
-            {
-                var query = "SELECT * FROM Vehicles WHERE VName = @name";
-                var cmd = new SqlCommand(query, sql);
-                cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = name;
-                cmd.Connection.Open();
-                using (var reader = cmd.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        plateBox.Text = reader[1] as string;
-                        vNameBox.Text = reader[2] as string;
-                        modelBox.Text = reader[3] as string;
-                        typeBox.Text = reader[4] as string;
-                    }
-                }
-                cmd.Connection.Close();
-            }
-            else
-            {
-                return;
-            }
-        }
+        #endregion
     }
 }

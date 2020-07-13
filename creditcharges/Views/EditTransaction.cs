@@ -25,6 +25,8 @@ namespace creditcharges.Views
 {
     public partial class EditTransaction : Form
     {
+        #region Attributes
+
         private static string Id;
         private string location;
         public string vehicleID;
@@ -38,8 +40,9 @@ namespace creditcharges.Views
         private string lastModel = string.Empty;
         private decimal lastGall = 0;
         private bool vehicle;
-        private string vehileId;
+        #endregion
 
+        #region Constructor
         public EditTransaction(string id, string location, string concept)
         {
             Id = id;
@@ -83,8 +86,225 @@ namespace creditcharges.Views
                 Text = "AddTransaction";
                 //sidePic1.Visible = true;
             }
+
+            jobNameBox.Enabled = false;
+            jobNumBox.Enabled = false;
+        }
+        #endregion
+
+        #region Events
+
+        private void Picture_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Copy;
         }
 
+        private void Picture_DragDrop(object sender, DragEventArgs e)
+        {
+            try
+            {
+                var data = e.Data.GetData(DataFormats.FileDrop);
+                if (data != null)
+                {
+                    var fileNames = data as string[];
+                    var images = new List<string>();
+                    if (fileNames.Length > 0)
+                    {
+                        foreach (var image in fileNames)
+                        {
+                            if (Path.GetExtension(image) == ".pdf")
+                            {
+                                ImagesFromList(PDFImage(image));
+                            }
+                            else
+                            {
+                                images.Add(image);
+                            }
+                        }
+                        if (images.Count > 0) ImagesFromList(images);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void jobNumBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var idx = jobNumBox.SelectedIndex;
+            jobNameBox.SelectedIndex = idx;
+        }
+
+        private void EditTransaction_Load(object sender, EventArgs e)
+        {
+            zoomBar.Properties.Minimum = 1;
+            zoomBar.Properties.Maximum = 200;
+            zoomBar.Properties.SmallChange = 1;
+            zoomBar.Properties.LargeChange = 1;
+            zoomBar.UseWaitCursor = false;
+            this.DoubleBuffered = true;
+            original = new PictureBox
+            {
+                Image = mainPictureBox.Image
+            };
+            zoomBar.Value = 100;
+            zoomBar_Scroll(null, null);
+        }
+
+        private void windowsUIButtonPanel1_ButtonClick(object sender, DevExpress.XtraBars.Docking2010.ButtonEventArgs e)
+        {
+            var tag = ((WindowsUIButton)e.Button).Tag.ToString();
+            switch (tag)
+            {
+                case "cancel":
+                    Dispose();
+                    break;
+
+                case "save":
+                    if (!string.IsNullOrEmpty(Id))
+                        SaveInfo(Id);
+                    else SaveNewInfo();
+                    break;
+
+                case "delete":
+                    Delete();
+                    break;
+            }
+        }
+
+        private void zoomBar_Scroll(object sender, EventArgs e)
+        {
+            if (zoomBar.Value != 0)
+            {
+                mainPictureBox.Image = null;
+                mainPictureBox.Image = ZoomPicture(original.Image, new Size(zoomBar.Value, zoomBar.Value));
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            odometerBox.Enabled = checkBox1.Checked;
+            gallonsBox.Enabled = checkBox1.Checked;
+            SelectVehicleBtn.Enabled = checkBox1.Checked;
+        }
+
+        private void amountBox_Leave(object sender, EventArgs e)
+        {
+            if (double.TryParse(amountBox.Text, out value))
+                amountBox.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", value);
+            else
+                amountBox.Text = string.Empty;
+        }
+
+
+        private void jobNameBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var idx = jobNameBox.SelectedIndex;
+            jobNumBox.SelectedIndex = idx;
+        }
+
+        private void windowsUIButtonPanel2_ButtonClick(object sender, ButtonEventArgs e)
+        {
+            var tag = ((WindowsUIButton)e.Button).Tag.ToString();
+            switch (tag)
+            {
+                case "add":
+                    AddImages();
+                    break;
+                case "remove":
+                    RemoveImage();
+                    break;
+                case "clear":
+                    ClearImages();
+                    break;
+            }
+        }
+
+
+        private void listView1_DoubleClick(object sender, EventArgs e)
+        {
+            var selected = listView1.SelectedItems.Count;
+            if (selected > 0)
+            {
+                var idx = listView1.Items.IndexOf(listView1.SelectedItems[0]);
+                try
+                {
+                    mainPictureBox.Image.Dispose();
+                    mainPictureBox.Image = Image.FromFile(imgPaths.ElementAt(idx));
+                    mainPictureBox.Refresh();
+                    original.Image.Dispose();
+                    original.Image = Image.FromFile(imgPaths.ElementAt(idx));
+                    original.Tag = imgPaths.ElementAt(idx);
+                    original.Refresh();
+                }
+                catch
+                {
+
+                }
+            }
+        }
+
+
+        private void odometerBox_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                var odo = int.Parse(odometerBox.Text);
+                if (odo <= lastOdo)
+                {
+                    MessageBox.Show("Las millas ingresadas son menores al último registro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    odometerBox.Text = string.Empty;
+                }
+            }
+            catch
+            {
+                odometerBox.Text = string.Empty;
+            }
+        }
+
+        private void SelectVehicleBtn_Click(object sender, EventArgs e)
+        {
+            var instance = Controller.controller.vehicleSelect;
+            if (instance != null) instance.Dispose();
+            instance = Controller.controller.vehicleSelect = new VehicleSelect();
+            instance.Show();
+        }
+
+
+        private void employeeBox_TextChanged(object sender, EventArgs e)
+        {
+            var name = employeeBox.Text;
+            if (Data.names.Contains(name))
+            {
+                var query = "SELECT TOP(1) Card FROM Records Where CardHolder = @name ORDER BY TDate DESC";
+                var cmd = new SqlCommand(query, sql);
+                cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = name;
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        cardBoxNum.Text = reader[0] as string;
+                    }
+                }
+                cmd.Connection.Close();
+            }
+        }
+
+        private void entityBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            var entity = entityBox.SelectedItem.ToString();
+            jobNameBox.Enabled = entity == "Pilot Construction";
+            jobNumBox.Enabled = entity == "Pilot Construction";
+
+        }
+        #endregion
+
+        #region Methods
         private void AddAutoCompleteOptions()
         {
             //Employee name box
@@ -114,26 +334,6 @@ namespace creditcharges.Views
             conceptBox.Items.AddRange(Data.concept.ToArray());
         }
 
-        private void windowsUIButtonPanel1_ButtonClick(object sender, DevExpress.XtraBars.Docking2010.ButtonEventArgs e)
-        {
-            var tag = ((WindowsUIButton)e.Button).Tag.ToString();
-            switch (tag)
-            {
-                case "cancel":
-                    Dispose();
-                    break;
-
-                case "save":
-                    if (!string.IsNullOrEmpty(Id))
-                        SaveInfo(Id);
-                    else SaveNewInfo();
-                    break;
-
-                case "delete":
-                    Delete();
-                    break;
-            }
-        }
 
         private void ShowSavedRecord()
         {
@@ -174,11 +374,11 @@ namespace creditcharges.Views
                       $"Location: {location}\n";
 
                     reader.Close();
-                    cmd.Connection.Close();
                     Clipboard.SetText(msg);
                     MessageBox.Show(msg, "New transaction", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+            cmd.Connection.Close();
         }
 
         private void Delete()
@@ -236,17 +436,18 @@ namespace creditcharges.Views
             {
                 if (reader.Read())
                 {
-                    employeeBox.Text = reader[1] as string;
                     cardBoxNum.Text = reader[2] as string;
                     amountBox.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", reader.GetDecimal(3));
                     conceptBox.Text = reader[4] as string == "" ? concept : reader[4] as string;
                     locationBox.Text = reader[5] as string == "" ? location : reader[5] as string;
                     dateBox.Value = reader.GetDateTime(6);
                     notesBox.Text = reader[7] as string;
+                    employeeBox.Text = reader[1] as string;
                 }
             }
             query = "SELECT * FROM QuickBooks WHERE Id = @id";
             cmd.CommandText = query;
+            if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
             using (var reader = cmd.ExecuteReader())
             {
                 if (reader.Read())
@@ -667,7 +868,6 @@ namespace creditcharges.Views
                     catch
                     {
                         MessageBox.Show("Error while saving fuel data, please try again.", "Error");
-                        cmd.Connection.Close();
                     }
                 }
 
@@ -771,65 +971,6 @@ namespace creditcharges.Views
             catch { }
         }
 
-        private void Picture_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.Copy;
-        }
-
-        private void Picture_DragDrop(object sender, DragEventArgs e)
-        {
-            try
-            {
-                var data = e.Data.GetData(DataFormats.FileDrop);
-                if (data != null)
-                {
-                    var fileNames = data as string[];
-                    var images = new List<string>();
-                    if (fileNames.Length > 0)
-                    {
-                        foreach (var image in fileNames)
-                        {
-                            if (Path.GetExtension(image) == ".pdf")
-                            {
-                                ImagesFromList(PDFImage(image));
-                            }
-                            else
-                            {
-                                images.Add(image);
-                            }
-                        }
-                        if (images.Count > 0) ImagesFromList(images);
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void jobNumBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var idx = jobNumBox.SelectedIndex;
-            jobNameBox.SelectedIndex = idx;
-        }
-
-        private void EditTransaction_Load(object sender, EventArgs e)
-        {
-            zoomBar.Properties.Minimum = 1;
-            zoomBar.Properties.Maximum = 200;
-            zoomBar.Properties.SmallChange = 1;
-            zoomBar.Properties.LargeChange = 1;
-            zoomBar.UseWaitCursor = false;
-            this.DoubleBuffered = true;
-            original = new PictureBox
-            {
-                Image = mainPictureBox.Image
-            };
-            zoomBar.Value = 100;
-            zoomBar_Scroll(null, null);
-        }
 
         private Image ZoomPicture(Image img, Size size)
         {
@@ -843,29 +984,6 @@ namespace creditcharges.Views
 
         private PictureBox original;
 
-        private void zoomBar_Scroll(object sender, EventArgs e)
-        {
-            if (zoomBar.Value != 0)
-            {
-                mainPictureBox.Image = null;
-                mainPictureBox.Image = ZoomPicture(original.Image, new Size(zoomBar.Value, zoomBar.Value));
-            }
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            odometerBox.Enabled = checkBox1.Checked;
-            gallonsBox.Enabled = checkBox1.Checked;
-            SelectVehicleBtn.Enabled = checkBox1.Checked;
-        }
-
-        private void amountBox_Leave(object sender, EventArgs e)
-        {
-            if (double.TryParse(amountBox.Text, out value))
-                amountBox.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", value);
-            else
-                amountBox.Text = string.Empty;
-        }
 
         public void LoadReport(DateTime date, string card, string location, string concept, string amount)
         {
@@ -877,28 +995,6 @@ namespace creditcharges.Views
             amountBox.Text = "$" + value;
         }
 
-        private void jobNameBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var idx = jobNameBox.SelectedIndex;
-            jobNumBox.SelectedIndex = idx;
-        }
-
-        private void windowsUIButtonPanel2_ButtonClick(object sender, ButtonEventArgs e)
-        {
-            var tag = ((WindowsUIButton)e.Button).Tag.ToString();
-            switch (tag)
-            {
-                case "add":
-                    AddImages();
-                    break;
-                case "remove":
-                    RemoveImage();
-                    break;
-                case "clear":
-                    ClearImages();
-                    break;
-            }
-        }
 
         private void AddImages()
         {
@@ -963,54 +1059,6 @@ namespace creditcharges.Views
             listView1.Refresh();
         }
 
-        private void listView1_DoubleClick(object sender, EventArgs e)
-        {
-            var selected = listView1.SelectedItems.Count;
-            if (selected > 0)
-            {
-                var idx = listView1.Items.IndexOf(listView1.SelectedItems[0]);
-                try
-                {
-                    mainPictureBox.Image.Dispose();
-                    mainPictureBox.Image = Image.FromFile(imgPaths.ElementAt(idx));
-                    mainPictureBox.Refresh();
-                    original.Image.Dispose();
-                    original.Image = Image.FromFile(imgPaths.ElementAt(idx));
-                    original.Tag = imgPaths.ElementAt(idx);
-                    original.Refresh();
-                }
-                catch
-                {
-
-                }
-            }
-        }
-
-        
-        private void odometerBox_Leave(object sender, EventArgs e)
-        {
-            try
-            {
-                var odo = int.Parse(odometerBox.Text);
-                if (odo <= lastOdo)
-                {
-                    MessageBox.Show("Las millas ingresadas son menores al último registro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    odometerBox.Text = string.Empty;
-                }
-            }
-            catch
-            {
-                odometerBox.Text = string.Empty;
-            }
-        }
-
-        private void SelectVehicleBtn_Click(object sender, EventArgs e)
-        {
-            var instance = Controller.controller.vehicleSelect;
-            if (instance != null) instance.Dispose();
-            instance = Controller.controller.vehicleSelect = new VehicleSelect();
-            instance.Show();
-        }
         public void LoadVehicleDetails(Vehicle v)
         {
 
@@ -1024,5 +1072,7 @@ namespace creditcharges.Views
             avgMpgLabel.Text = v.AvgMPG.ToString("n3");
 
         }
+
+        #endregion
     }
 }

@@ -5,6 +5,8 @@ namespace creditcharges.Models
 {
     public class Transaction
     {
+        #region Attributes
+
         [System.ComponentModel.DataAnnotations.Key, Display(AutoGenerateField = false)]
         public string Id { get; set; }
 
@@ -28,5 +30,7 @@ namespace creditcharges.Models
         public string Author { get; set; }
         public string Status { get; set; }
         public int AuthNum { get; set; }
+
+        #endregion
     }
 }

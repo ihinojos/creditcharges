@@ -15,14 +15,19 @@ namespace creditcharges.Views
 {
     public partial class AddUser : Form
     {
-
+        #region Attributes
         private readonly SqlConnection sql;
+        #endregion
+
+        #region Constructor
         public AddUser()
         {
             InitializeComponent();
             sql = new SqlConnection(Data.cn);
         }
+        #endregion
 
+        #region Events
         private void windowsUIButtonPanel1_ButtonClick(object sender, DevExpress.XtraBars.Docking2010.ButtonEventArgs e)
         {
             var tag = ((WindowsUIButton)e.Button).Tag.ToString();
@@ -37,7 +42,9 @@ namespace creditcharges.Views
             }
                 
         }
+        #endregion
 
+        #region Methods
         private void CreateUser()
         {
             var username = usernameBox.Text;
@@ -75,5 +82,6 @@ namespace creditcharges.Views
             admBox.Checked = false;
 
         }
+        #endregion
     }
 }

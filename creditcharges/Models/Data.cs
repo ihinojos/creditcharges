@@ -7,31 +7,15 @@ namespace creditcharges.Models
 {
     internal class Data
     {
+
+        #region Attributes
+
         private static SqlConnection sql;
         private static string[] concepts = {"Alojamiento","Atención Médica", "Gasolina/Automóvil", "Internet", "Mercancía", "Otra Opción",
             "Otros Servicios", "Pago/crédito", "Seguros", "Servicios Profesionales", "Servicios Púbilcos", "Teléfono/Cable"};
 
-        //public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=TESTTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
-        public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=PRODTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
-
-        //more data bout cards
-        // number
-        // distributor 
-        // account 
-
-        //more data about employees
-        // name
-        // dept
-        // avg compras (implemented outside database) 
-
-        //company data (David needs to proide further information).
-        // name 
-
-        //quickbook settings dependant on the entity selected.
-        //will have to check around which one goes where
-
-        //performance of trucks 
-        // (currrent miles - last miles) / gallons = mpg
+        public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=TESTTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
+        //public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=PRODTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
 
         public static List<string> accountType { get; set; }
         public static List<string> entities { get; set; }
@@ -44,6 +28,10 @@ namespace creditcharges.Models
         public static List<string> concept { get; set; }
         public static List<string> plates { get; set; }
         public static List<string> vNames { get; set; }
+
+        #endregion
+
+        #region Methods
         public static void getData()
         {
             concept = new List<string>(concepts);
@@ -120,19 +108,6 @@ namespace creditcharges.Models
             cmd.Connection.Close();
         }
 
-
-        /*
-         
-         
-         */
-
-        //To save daata about cards i need the following
-
-        //Card Number **** **** **** 5656
-        //Date of Expiration MM/YY
-        //Person assigned to card 
-        //Main Card
-        //Bank of the Card
-        //Username associated with them card
+        #endregion
     }
 }

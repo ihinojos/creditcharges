@@ -6,14 +6,19 @@ namespace creditcharges.Views
 {
     public partial class DateRange : Form
     {
+        #region Attributes
         private string sender;
+        #endregion
 
+        #region Constructor
         public DateRange(string sender)
         {
             this.sender = sender;
             InitializeComponent();
         }
+        #endregion
 
+        #region Events
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -32,5 +37,7 @@ namespace creditcharges.Views
                 Dispose();
             }
         }
+
+        #endregion
     }
 }

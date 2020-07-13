@@ -15,22 +15,22 @@ namespace creditcharges.Views
 {
     public partial class Classes : Form
     {
+        #region Attributes
         private readonly SqlConnection sql;
+
+        #endregion
+
+        #region Constructor
         public Classes()
         {
             sql = new SqlConnection(Data.cn);
             InitializeComponent();
             FillComboBox();
         }
+        #endregion
 
-        private void FillComboBox()
-        {
-            Data.getData();
-            classBox.Items.Clear();
-            entityBox.Items.Clear();
-            classBox.Items.AddRange(Data.classes.ToArray());
-            entityBox.Items.AddRange(Data.entities.ToArray());
-        }
+        #region Events
+
 
         private void classBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -56,6 +56,17 @@ namespace creditcharges.Views
                     break;
                 case "cancel": Dispose(); break;
             }
+        }
+        #endregion
+
+        #region Methods
+        private void FillComboBox()
+        {
+            Data.getData();
+            classBox.Items.Clear();
+            entityBox.Items.Clear();
+            classBox.Items.AddRange(Data.classes.ToArray());
+            entityBox.Items.AddRange(Data.entities.ToArray());
         }
 
         private void SaveClass()
@@ -114,5 +125,6 @@ namespace creditcharges.Views
             }
             else MessageBox.Show("Class doesn't exists.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+        #endregion
     }
 }
