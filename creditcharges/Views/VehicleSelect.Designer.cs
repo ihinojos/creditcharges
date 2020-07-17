@@ -80,7 +80,6 @@
             this.vNameBox.Name = "vNameBox";
             this.vNameBox.Size = new System.Drawing.Size(244, 20);
             this.vNameBox.TabIndex = 4;
-            this.vNameBox.TextChanged += new System.EventHandler(this.vNameBox_TextChanged);
             this.vNameBox.Leave += new System.EventHandler(this.vNameBox_Leave);
             // 
             // label2
@@ -109,7 +108,6 @@
             this.plateBox.Name = "plateBox";
             this.plateBox.Size = new System.Drawing.Size(244, 20);
             this.plateBox.TabIndex = 1;
-            this.plateBox.TextChanged += new System.EventHandler(this.plateBox_TextChanged);
             this.plateBox.Leave += new System.EventHandler(this.plateBox_Leave);
             // 
             // windowsUIButtonPanel1

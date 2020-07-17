@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions19 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions1 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditTransaction));
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions20 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions21 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions22 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions23 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions24 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions2 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions3 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions4 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions5 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions6 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.windowsUIButtonPanel1 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel();
@@ -154,14 +154,14 @@
             // 
             // windowsUIButtonPanel1
             // 
-            windowsUIButtonImageOptions19.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions19.SvgImage")));
-            windowsUIButtonImageOptions20.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions20.SvgImage")));
-            windowsUIButtonImageOptions21.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions21.SvgImage")));
+            windowsUIButtonImageOptions1.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions1.SvgImage")));
+            windowsUIButtonImageOptions2.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions2.SvgImage")));
+            windowsUIButtonImageOptions3.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions3.SvgImage")));
             this.windowsUIButtonPanel1.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Save & Close", true, windowsUIButtonImageOptions19, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "save", -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Cancel", true, windowsUIButtonImageOptions20, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "cancel", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Save & Close", true, windowsUIButtonImageOptions1, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "save", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Cancel", true, windowsUIButtonImageOptions2, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "cancel", -1, false),
             new DevExpress.XtraBars.Docking2010.WindowsUISeparator(),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Delete", true, windowsUIButtonImageOptions21, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "delete", -1, false)});
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Delete", true, windowsUIButtonImageOptions3, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "delete", -1, false)});
             this.windowsUIButtonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.windowsUIButtonPanel1.Location = new System.Drawing.Point(18, 551);
             this.windowsUIButtonPanel1.Name = "windowsUIButtonPanel1";
@@ -277,6 +277,7 @@
             this.employeeBox.Name = "employeeBox";
             this.employeeBox.Size = new System.Drawing.Size(376, 20);
             this.employeeBox.TabIndex = 15;
+            this.employeeBox.Leave += new System.EventHandler(this.employeeBox_Leave);
             // 
             // conceptBox
             // 
@@ -393,7 +394,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(429, 325);
+            this.tabPage2.Size = new System.Drawing.Size(393, 325);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Quickbooks";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -417,7 +418,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(423, 319);
+            this.panel2.Size = new System.Drawing.Size(387, 319);
             this.panel2.TabIndex = 14;
             // 
             // classBox
@@ -428,7 +429,7 @@
             this.classBox.FormattingEnabled = true;
             this.classBox.Location = new System.Drawing.Point(6, 94);
             this.classBox.Name = "classBox";
-            this.classBox.Size = new System.Drawing.Size(412, 21);
+            this.classBox.Size = new System.Drawing.Size(376, 21);
             this.classBox.Sorted = true;
             this.classBox.TabIndex = 15;
             // 
@@ -440,9 +441,10 @@
             this.entityBox.FormattingEnabled = true;
             this.entityBox.Location = new System.Drawing.Point(6, 55);
             this.entityBox.Name = "entityBox";
-            this.entityBox.Size = new System.Drawing.Size(412, 21);
+            this.entityBox.Size = new System.Drawing.Size(376, 21);
             this.entityBox.Sorted = true;
             this.entityBox.TabIndex = 14;
+            this.entityBox.SelectedIndexChanged += new System.EventHandler(this.entityBox_SelectedIndexChanged);
             // 
             // accountBox
             // 
@@ -452,7 +454,7 @@
             this.accountBox.FormattingEnabled = true;
             this.accountBox.Location = new System.Drawing.Point(6, 15);
             this.accountBox.Name = "accountBox";
-            this.accountBox.Size = new System.Drawing.Size(412, 21);
+            this.accountBox.Size = new System.Drawing.Size(376, 21);
             this.accountBox.Sorted = true;
             this.accountBox.TabIndex = 13;
             // 
@@ -464,7 +466,7 @@
             this.jobNameBox.FormattingEnabled = true;
             this.jobNameBox.Location = new System.Drawing.Point(6, 171);
             this.jobNameBox.Name = "jobNameBox";
-            this.jobNameBox.Size = new System.Drawing.Size(412, 21);
+            this.jobNameBox.Size = new System.Drawing.Size(376, 21);
             this.jobNameBox.TabIndex = 4;
             this.jobNameBox.SelectedIndexChanged += new System.EventHandler(this.jobNameBox_SelectedIndexChanged);
             // 
@@ -476,7 +478,7 @@
             this.jobNumBox.FormattingEnabled = true;
             this.jobNumBox.Location = new System.Drawing.Point(6, 132);
             this.jobNumBox.Name = "jobNumBox";
-            this.jobNumBox.Size = new System.Drawing.Size(412, 21);
+            this.jobNumBox.Size = new System.Drawing.Size(376, 21);
             this.jobNumBox.TabIndex = 3;
             this.jobNumBox.SelectedIndexChanged += new System.EventHandler(this.jobNumBox_SelectedIndexChanged);
             // 
@@ -487,7 +489,7 @@
             this.mainCardBox.Enabled = false;
             this.mainCardBox.Location = new System.Drawing.Point(6, 211);
             this.mainCardBox.Name = "mainCardBox";
-            this.mainCardBox.Size = new System.Drawing.Size(412, 20);
+            this.mainCardBox.Size = new System.Drawing.Size(376, 20);
             this.mainCardBox.TabIndex = 5;
             // 
             // label12
@@ -816,13 +818,13 @@
             // windowsUIButtonPanel2
             // 
             this.windowsUIButtonPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            windowsUIButtonImageOptions22.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions22.SvgImage")));
-            windowsUIButtonImageOptions23.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions23.SvgImage")));
-            windowsUIButtonImageOptions24.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions24.SvgImage")));
+            windowsUIButtonImageOptions4.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions4.SvgImage")));
+            windowsUIButtonImageOptions5.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions5.SvgImage")));
+            windowsUIButtonImageOptions6.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions6.SvgImage")));
             this.windowsUIButtonPanel2.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Add", true, windowsUIButtonImageOptions22, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "add", -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Remove", true, windowsUIButtonImageOptions23, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "remove", -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Clear", true, windowsUIButtonImageOptions24, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "clear", -1, false)});
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Add", true, windowsUIButtonImageOptions4, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "add", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Remove", true, windowsUIButtonImageOptions5, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "remove", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Clear", true, windowsUIButtonImageOptions6, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "clear", -1, false)});
             this.windowsUIButtonPanel2.Location = new System.Drawing.Point(29, 432);
             this.windowsUIButtonPanel2.Name = "windowsUIButtonPanel2";
             this.windowsUIButtonPanel2.Size = new System.Drawing.Size(149, 66);

@@ -1,4 +1,5 @@
 ﻿using creditcharges.Models;
+using DevExpress.XtraBars;
 using DevExpress.XtraBars.Ribbon.Accessible;
 using System;
 using System.Collections.Generic;
@@ -10,15 +11,28 @@ namespace creditcharges.Views
 {
     public partial class LogIn : Form
     {
+        #region Attributes
         private SqlConnection sql;
+        #endregion
 
+        #region Constructor
         public LogIn()
         {
             InitializeComponent();
             sql = new SqlConnection(Data.cn);
             KeyDown += new KeyEventHandler(passBox_KeyDown);
         }
+        #endregion
 
+        #region Events
+
+        private void passBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter) LogInAccount();
+        }
+        #endregion
+
+        #region Methods
         private void LogInAccount()
         {
             var user = userBox.Text;
@@ -28,7 +42,7 @@ namespace creditcharges.Views
                 var query = "SELECT * FROM Users WHERE UserId = @userId";
                 SqlCommand cmd = new SqlCommand(query, sql);
                 cmd.Parameters.AddWithValue("@userId", SqlDbType.VarChar).Value = user;
-                cmd.Connection.Open();
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())
@@ -63,10 +77,6 @@ namespace creditcharges.Views
         {
             LogInAccount();
         }
-
-        private void passBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter) LogInAccount(); 
-        }
+        #endregion
     }
 }

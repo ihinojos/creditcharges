@@ -11,6 +11,7 @@ namespace creditcharges.Models
 {
     class Fuel
     {
+        #region Attributes
         public DateTime Date { get; set; }
         public string Id { get; set; }
         public int Odometer { get; set; }
@@ -18,6 +19,6 @@ namespace creditcharges.Models
         public decimal Amount { get; set; }
         public decimal PPG { get; set; }
         public decimal MPG { get; set; }
-
+        #endregion
     }
 }

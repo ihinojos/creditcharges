@@ -17,31 +17,21 @@ namespace creditcharges.Views
 {
     public partial class Employees : Form
     {
+        #region Attributes 
         private string lastNameSelected = "";
         private readonly SqlConnection sql;
+        #endregion
 
+        #region Constructor
         public Employees()
         {
             InitializeComponent();
             sql = new SqlConnection(Data.cn);
             LoadData();
         }
+        #endregion
 
-        private void LoadData()
-        {
-            Data.getData();
-
-            var names = Data.names.ToArray();
-            comboBox1.Items.Clear();
-            comboBox1.Items.AddRange(names);
-            AutoCompleteStringCollection collection = new AutoCompleteStringCollection();
-            collection.AddRange(names);
-            comboBox1.AutoCompleteCustomSource = collection;
-
-            comboBox2.Items.Clear();
-            comboBox2.Items.AddRange(Data.entities.ToArray());
-        }
-
+        #region Events 
         private void windowsUIButtonPanel1_ButtonClick(object sender, ButtonEventArgs e)
         {
             var tag = ((WindowsUIButton)e.Button).Tag.ToString();
@@ -59,6 +49,44 @@ namespace creditcharges.Views
             }
         }
 
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lastNameSelected = comboBox1.SelectedItem.ToString();
+            var query = "SELECT Entity from Employees WHERE Name = @name";
+            var cmd = new SqlCommand(query, sql);
+            cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = lastNameSelected;
+            if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
+            using (var reader = cmd.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    comboBox2.Text = reader[0] as string;
+                }
+            }
+            cmd.Connection.Close();
+        }
+
+        #endregion
+
+        #region Methods
+        private void LoadData()
+        {
+            Data.getData();
+
+            var names = Data.names.ToArray();
+            comboBox1.Items.Clear();
+            comboBox1.Items.AddRange(names);
+            AutoCompleteStringCollection collection = new AutoCompleteStringCollection();
+            collection.AddRange(names);
+            comboBox1.AutoCompleteCustomSource = collection;
+
+            comboBox2.Items.Clear();
+            comboBox2.Items.AddRange(Data.entities.ToArray());
+
+            if (Controller.controller.editTransaction != null) Controller.controller.editTransaction.AddAutoCompleteOptions();
+        }
+
+
         private void SaveEmployee()
         {
             if (!Data.names.Contains(comboBox1.Text))
@@ -71,7 +99,7 @@ namespace creditcharges.Views
                 cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = id;
                 cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = name;
                 cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = entity;
-                cmd.Connection.Open();
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 var res = cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
                 if (res == 1) MessageBox.Show("Employee added.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -84,7 +112,7 @@ namespace creditcharges.Views
                 cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = comboBox1.Text;
                 cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = comboBox2.SelectedItem;
                 cmd.Parameters.AddWithValue("@last", SqlDbType.VarChar).Value = lastNameSelected;
-                cmd.Connection.Open();
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 var res = cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
 
@@ -107,7 +135,7 @@ namespace creditcharges.Views
                 var cmd = new SqlCommand(query, sql);
                 var name = comboBox1.Text;
                 cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = name;
-                cmd.Connection.Open();
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 var res = cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
                 if (res == 1) MessageBox.Show("Employee deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -116,22 +144,6 @@ namespace creditcharges.Views
             else MessageBox.Show("Employee doesn't exists.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
         }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            lastNameSelected = comboBox1.SelectedItem.ToString();
-            var query = "SELECT Entity from Employees WHERE Name = @name";
-            var cmd = new SqlCommand(query, sql);
-            cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = lastNameSelected;
-            cmd.Connection.Open();
-            using (var reader = cmd.ExecuteReader())
-            {
-                if (reader.Read())
-                {
-                    comboBox2.Text = reader[0] as string;
-                }
-            }
-            cmd.Connection.Close();
-        }
+        #endregion
     }
 }

@@ -15,20 +15,22 @@ namespace creditcharges.Views
 {
     public partial class Entities : Form
     {
+
+        #region Attributes
         private int selectedIndex;
         private readonly SqlConnection sql;
+        #endregion
+
+        #region Constructor
         public Entities()
         {
             sql = new SqlConnection(Data.cn);
             InitializeComponent();
             FillComboBox();
         }
+        #endregion
 
-        private void FillComboBox()
-        {
-            entityBox.Items.Clear();
-            entityBox.Items.AddRange(Data.entities.ToArray());
-        }
+        #region Events
 
         private void windowsUIButtonPanel1_ButtonClick(object sender, DevExpress
             .XtraBars.Docking2010.ButtonEventArgs e)
@@ -52,6 +54,28 @@ namespace creditcharges.Views
             catch
             {
             }
+        }
+
+        private void entityBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedIndex = entityBox.SelectedIndex;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var instance = Controller.controller.classes;
+            if (instance != null) instance.Dispose();
+            instance = Controller.controller.classes = new Classes();
+            instance.Show();
+        }
+        #endregion
+
+        #region Methods
+        private void FillComboBox()
+        {
+            entityBox.Items.Clear();
+            entityBox.Items.AddRange(Data.entities.ToArray());
+            if (Controller.controller.editTransaction != null) Controller.controller.editTransaction.AddAutoCompleteOptions();
         }
 
 
@@ -92,7 +116,7 @@ namespace creditcharges.Views
                 var query = "DELETE FROM Entities WHERE Name = @entity";
                 var cmd = new SqlCommand(query, sql);
                 cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = entity;
-                cmd.Connection.Open();
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 var res = cmd.ExecuteNonQuery();
                 if (res == 1)
                 {
@@ -110,18 +134,6 @@ namespace creditcharges.Views
                 MessageBox.Show("The entity does not exist. ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        private void entityBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            selectedIndex = entityBox.SelectedIndex;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            var instance = Controller.controller.classes;
-            if (instance != null) instance.Dispose();
-            instance = Controller.controller.classes = new Classes();
-            instance.Show();
-        }
+        #endregion
     }
 }

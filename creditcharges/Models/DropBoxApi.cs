@@ -9,13 +9,16 @@ namespace creditcharges.Models
 {
     internal class DropBoxAPI
     {
+        #region Attributes
         private static string sToken = "faXwDUEbOEAAAAAAAAD8BCI7IPCVS9XCH75LfvVIJiWKkSu06rEM-4EF_CmGLOdP";
         public static string sFileName { get; set; }
         public static string sDropBoxPath { get; set; }
         public static string imagePath { get; set; }
         public static string fromPath { get; set; }
         public static string toPath { get; set; }
+        #endregion
 
+        #region Methods
         public static async Task DropBoxDownload()
         {
             var client = new DropboxClient(sToken);
@@ -78,6 +81,6 @@ namespace creditcharges.Models
             }
             catch { }
         }
-
+        #endregion
     }
 }

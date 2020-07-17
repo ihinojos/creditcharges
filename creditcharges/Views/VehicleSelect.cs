@@ -18,24 +18,55 @@ namespace creditcharges.Views
 {
     public partial class VehicleSelect : Form
     {
+        #region Attributes
         private readonly SqlConnection sql;
+        #endregion
+
+        #region Constructor
         public VehicleSelect()
         {
             InitializeComponent();
             sql = new SqlConnection(Data.cn);
             LoadData();
         }
+        #endregion
 
-        private void LoadData()
+        #region Events
+
+        private void plateBox_Leave(object sender, EventArgs e)
         {
-            AutoCompleteStringCollection plates = new AutoCompleteStringCollection();
-            plates.AddRange(Data.plates.ToArray());
-            plateBox.AutoCompleteCustomSource = plates;
+            try
+            {
+                var plate = plateBox.Text;
+                var query = "SELECT VName FROM Vehicles WHERE Plate = @plate";
+                var cmd = new SqlCommand(query, sql);
+                cmd.Parameters.AddWithValue("@plate", SqlDbType.VarChar).Value = plate;
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
 
-            AutoCompleteStringCollection names = new AutoCompleteStringCollection();
-            names.AddRange(Data.vNames.ToArray());
-            vNameBox.AutoCompleteCustomSource = names;
+                        vNameBox.Text = reader[0] as string;
+                    }
+                }
+                cmd.Connection.Close();
+            }
+            catch { }
         }
+
+        private void vNameBox_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                var name = vNameBox.Text;
+                var idx = Data.vNames.BinarySearch(name);
+                plateBox.Text = Data.plates.ElementAt(idx);
+            }
+            catch { }
+        }
+
+
 
         private void windowsUIButtonPanel1_ButtonClick(object sender, DevExpress.XtraBars.Docking2010.ButtonEventArgs e)
         {
@@ -49,6 +80,20 @@ namespace creditcharges.Views
                     break;
             }
         }
+        #endregion
+
+        #region Methods
+        public void LoadData()
+        {
+            AutoCompleteStringCollection plates = new AutoCompleteStringCollection();
+            plates.AddRange(Data.plates.ToArray());
+            plateBox.AutoCompleteCustomSource = plates;
+
+            AutoCompleteStringCollection names = new AutoCompleteStringCollection();
+            names.AddRange(Data.vNames.ToArray());
+            vNameBox.AutoCompleteCustomSource = names;
+        }
+
 
         private void OK()
         {
@@ -60,8 +105,8 @@ namespace creditcharges.Views
                 var cmd = new SqlCommand(query, sql);
                 cmd.Parameters.AddWithValue("@plate", SqlDbType.VarChar).Value = plate;
                 cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = name;
-                cmd.Connection.Open();
-                using(var reader = cmd.ExecuteReader())
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
+                using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())
                     {
@@ -85,49 +130,6 @@ namespace creditcharges.Views
             else return;
             Dispose();
         }
-
-        private void plateBox_Leave(object sender, EventArgs e)
-        {
-            try
-            {
-                var plate = plateBox.Text;
-                var idx = Data.plates.BinarySearch(plate);
-                vNameBox.Text = Data.vNames.ElementAt(idx);
-            }
-            catch { }
-        }
-
-        private void vNameBox_Leave(object sender, EventArgs e)
-        {
-            try
-            {
-                var name = vNameBox.Text;
-                var idx = Data.vNames.BinarySearch(name);
-                plateBox.Text = Data.plates.ElementAt(idx);
-            }
-            catch { }
-        }
-
-        private void plateBox_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                var plate = plateBox.Text;
-                var idx = Data.plates.BinarySearch(plate);
-                vNameBox.Text = Data.vNames.ElementAt(idx);
-            }
-            catch { }
-        }
-
-        private void vNameBox_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                var name = vNameBox.Text;
-                var idx = Data.vNames.BinarySearch(name);
-                plateBox.Text = Data.plates.ElementAt(idx);
-            }
-            catch { }
-        }
+        #endregion
     }
 }
