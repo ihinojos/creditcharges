@@ -66,7 +66,7 @@ namespace creditcharges.Views
                         cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = name;
                         cmd.Parameters.AddWithValue("@password", SqlDbType.VarChar).Value = hash;
                         cmd.Parameters.AddWithValue("@admin", SqlDbType.Bit).Value = adm;
-                        cmd.Connection.Open();
+                        if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                         var res = cmd.ExecuteNonQuery();
                         if (res == 1) MessageBox.Show("User created successfully.", "Success");
                         else MessageBox.Show("Please check your internet connection.", "Error");

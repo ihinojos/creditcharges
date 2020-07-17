@@ -277,7 +277,7 @@
             this.employeeBox.Name = "employeeBox";
             this.employeeBox.Size = new System.Drawing.Size(376, 20);
             this.employeeBox.TabIndex = 15;
-            this.employeeBox.TextChanged += new System.EventHandler(this.employeeBox_TextChanged);
+            this.employeeBox.Leave += new System.EventHandler(this.employeeBox_Leave);
             // 
             // conceptBox
             // 

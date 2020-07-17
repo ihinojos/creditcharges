@@ -58,7 +58,7 @@ namespace creditcharges.Views
                 var query = "SELECT * FROM Vehicles WHERE Plate = @plate";
                 var cmd = new SqlCommand(query, sql);
                 cmd.Parameters.AddWithValue("@plate", SqlDbType.VarChar).Value = plate;
-                cmd.Connection.Open();
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())
@@ -85,7 +85,7 @@ namespace creditcharges.Views
                 var query = "SELECT * FROM Vehicles WHERE VName = @name";
                 var cmd = new SqlCommand(query, sql);
                 cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = name;
-                cmd.Connection.Open();
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())
@@ -120,13 +120,16 @@ namespace creditcharges.Views
             AutoCompleteStringCollection vNames = new AutoCompleteStringCollection();
             vNames.AddRange(Data.vNames.ToArray());
             vNameBox.AutoCompleteCustomSource = vNames;
+
+            if (Controller.controller.vehicleSelect != null) Controller.controller.vehicleSelect.LoadData();
+
         }
 
         private void SaveVehicle()
         {
-            var plate = plateBox.Text;
-            var vName = vNameBox.Text;
-            var model = modelBox.Text;
+            var plate = plateBox.Text.Trim();
+            var vName = vNameBox.Text.Trim();
+            var model = modelBox.Text.Trim();
             var vType = typeBox.SelectedItem.ToString();
             var id = Guid.NewGuid().ToString("N");
             string query = "";
@@ -148,7 +151,7 @@ namespace creditcharges.Views
             cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = vName;
             cmd.Parameters.AddWithValue("@model", SqlDbType.VarChar).Value = model;
             cmd.Parameters.AddWithValue("@type", SqlDbType.VarChar).Value = vType;
-            cmd.Connection.Open();
+            if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
             var res = cmd.ExecuteNonQuery();
             cmd.Connection.Close();
             if (res == 1) MessageBox.Show("Vehicle saved. ", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -163,7 +166,7 @@ namespace creditcharges.Views
                 var query = "DELETE FROM Vehicles WHERE Plate = @plate";
                 var cmd = new SqlCommand(query, sql);
                 cmd.Parameters.AddWithValue("@plate", SqlDbType.VarChar).Value = plate;
-                cmd.Connection.Open();
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 var res = cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
                 if (res == 1) MessageBox.Show("Vehicle deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);

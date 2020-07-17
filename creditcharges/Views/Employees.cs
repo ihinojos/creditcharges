@@ -55,7 +55,7 @@ namespace creditcharges.Views
             var query = "SELECT Entity from Employees WHERE Name = @name";
             var cmd = new SqlCommand(query, sql);
             cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = lastNameSelected;
-            cmd.Connection.Open();
+            if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
             using (var reader = cmd.ExecuteReader())
             {
                 if (reader.Read())
@@ -82,6 +82,8 @@ namespace creditcharges.Views
 
             comboBox2.Items.Clear();
             comboBox2.Items.AddRange(Data.entities.ToArray());
+
+            if (Controller.controller.editTransaction != null) Controller.controller.editTransaction.AddAutoCompleteOptions();
         }
 
 
@@ -97,7 +99,7 @@ namespace creditcharges.Views
                 cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = id;
                 cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = name;
                 cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = entity;
-                cmd.Connection.Open();
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 var res = cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
                 if (res == 1) MessageBox.Show("Employee added.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -110,7 +112,7 @@ namespace creditcharges.Views
                 cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = comboBox1.Text;
                 cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = comboBox2.SelectedItem;
                 cmd.Parameters.AddWithValue("@last", SqlDbType.VarChar).Value = lastNameSelected;
-                cmd.Connection.Open();
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 var res = cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
 
@@ -133,7 +135,7 @@ namespace creditcharges.Views
                 var cmd = new SqlCommand(query, sql);
                 var name = comboBox1.Text;
                 cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = name;
-                cmd.Connection.Open();
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 var res = cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
                 if (res == 1) MessageBox.Show("Employee deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);

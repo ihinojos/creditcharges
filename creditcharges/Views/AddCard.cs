@@ -68,7 +68,7 @@ namespace creditcharges.Views
                 var query = "SELECT * FROM MainCards WHERE Number = @number";
                 var cmd = new SqlCommand(query, sql);
                 cmd.Parameters.AddWithValue("@number", SqlDbType.VarChar).Value = card;
-                cmd.Connection.Open();
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())
@@ -119,7 +119,7 @@ namespace creditcharges.Views
                     cmd.Parameters.AddWithValue("@uname", SqlDbType.VarChar).Value = uname;
                     cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = entity;
 
-                    cmd.Connection.Open();
+                    if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                     var res = cmd.ExecuteNonQuery();
                     cmd.Connection.Close();
 
@@ -138,6 +138,7 @@ namespace creditcharges.Views
 
         private void SaveCard()
         {
+            
             if (cardBox.Text == "New card")
                 try
                 {
@@ -156,7 +157,7 @@ namespace creditcharges.Views
                         cmd.Parameters.AddWithValue("@uname", SqlDbType.VarChar).Value = uname;
                         cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = entity;
 
-                        cmd.Connection.Open();
+                        if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                         var res = cmd.ExecuteNonQuery();
                         cmd.Connection.Close();
 
@@ -165,6 +166,12 @@ namespace creditcharges.Views
                             MessageBox.Show("Card saved successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         GetCards();
+
+                        var instance = Controller.controller.editTransaction;
+                        if(instance != null)
+                        {
+                            instance.AddAutoCompleteOptions();
+                        }
                     }
                     else MessageBox.Show("Invalid data, please check fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -187,7 +194,7 @@ namespace creditcharges.Views
                 var query = "DELETE FROM ChildCards WHERE Main = @main";
                 var cmd = new SqlCommand(query, sql);
                 cmd.Parameters.AddWithValue("@main", SqlDbType.VarChar).Value = main;
-                cmd.Connection.Open();
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 res += cmd.ExecuteNonQuery();
 
                 query = "DELETE FROM MainCards WHERE Number = @main";
@@ -208,7 +215,7 @@ namespace creditcharges.Views
             cardBox.SelectedIndex = 0;
             var query = "SELECT * FROM MainCards";
             var cmd = new SqlCommand(query, sql);
-            cmd.Connection.Open();
+            if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
             using (var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())

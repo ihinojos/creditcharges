@@ -308,12 +308,6 @@
     <Compile Include="Views\DateRange.Designer.cs">
       <DependentUpon>DateRange.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\DeleteCard.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\DeleteCard.Designer.cs">
-      <DependentUpon>DeleteCard.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\EditTransaction.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -381,9 +375,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\DateRange.resx">
       <DependentUpon>DateRange.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\DeleteCard.resx">
-      <DependentUpon>DeleteCard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EditTransaction.resx">
       <DependentUpon>EditTransaction.cs</DependentUpon>

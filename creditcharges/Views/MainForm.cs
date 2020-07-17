@@ -230,15 +230,6 @@ namespace creditcharges.Views
             instance.Show();
         }
 
-        private void deleteCardToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var instance = Controller.controller.delCard;
-            if (instance != null) instance.Dispose();
-
-            instance = Controller.controller.delCard = new DeleteCard();
-
-            instance.Show();
-        }
 
         private void windowsUIButtonPanel2_ButtonClick(object sender, ButtonEventArgs e)
         {
@@ -283,7 +274,7 @@ namespace creditcharges.Views
                     cmd.Parameters.AddWithValue("@card", SqlDbType.VarChar).Value = card;
                     cmd.Parameters.AddWithValue("@amnt", SqlDbType.Decimal).Value = amnt;
 
-                    cmd.Connection.Open();
+                    if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                     var reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
@@ -350,7 +341,7 @@ namespace creditcharges.Views
                     var query = "SELECT * FROM Images WHERE Id = @id";
                     SqlCommand cmd = new SqlCommand(query, sql);
                     cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = id;
-                    cmd.Connection.Open();
+                    if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                     Task task;
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -489,7 +480,7 @@ namespace creditcharges.Views
             var query = "SELECT * FROM Records WHERE CAST(TDate as DATE) = CAST(@today as DATE)";
             SqlCommand cmd = new SqlCommand(query, sql);
             cmd.Parameters.AddWithValue("@today", SqlDbType.DateTime).Value = date;
-            cmd.Connection.Open();
+            if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
             using (var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
@@ -538,7 +529,7 @@ namespace creditcharges.Views
             SqlCommand cmd = new SqlCommand(query, sql);
             cmd.Parameters.AddWithValue("@today", SqlDbType.DateTime).Value = start;
             cmd.Parameters.AddWithValue("@tomorrow", SqlDbType.DateTime).Value = tomorrow;
-            cmd.Connection.Open();
+            if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
 
             using (var reader = cmd.ExecuteReader())
             {
@@ -618,7 +609,7 @@ namespace creditcharges.Views
             SqlCommand cmd = new SqlCommand(query, sql);
             cmd.Parameters.AddWithValue("@today", SqlDbType.DateTime).Value = start;
             cmd.Parameters.AddWithValue("@tomorrow", SqlDbType.DateTime).Value = tomorrow;
-            cmd.Connection.Open();
+            if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
             using (var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
@@ -718,7 +709,7 @@ namespace creditcharges.Views
             SqlCommand cmd = new SqlCommand(query, sql);
             cmd.Parameters.AddWithValue("@today", SqlDbType.DateTime).Value = _date;
             cmd.Parameters.AddWithValue("@tomorrow", SqlDbType.DateTime).Value = tomorrow;
-            cmd.Connection.Open();
+            if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
             using (var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())

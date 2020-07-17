@@ -38,8 +38,19 @@ namespace creditcharges.Views
             try
             {
                 var plate = plateBox.Text;
-                var idx = Data.plates.BinarySearch(plate);
-                vNameBox.Text = Data.vNames.ElementAt(idx);
+                var query = "SELECT VName FROM Vehicles WHERE Plate = @plate";
+                var cmd = new SqlCommand(query, sql);
+                cmd.Parameters.AddWithValue("@plate", SqlDbType.VarChar).Value = plate;
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+
+                        vNameBox.Text = reader[0] as string;
+                    }
+                }
+                cmd.Connection.Close();
             }
             catch { }
         }
@@ -55,27 +66,7 @@ namespace creditcharges.Views
             catch { }
         }
 
-        private void plateBox_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                var plate = plateBox.Text;
-                var idx = Data.plates.BinarySearch(plate);
-                vNameBox.Text = Data.vNames.ElementAt(idx);
-            }
-            catch { }
-        }
 
-        private void vNameBox_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                var name = vNameBox.Text;
-                var idx = Data.vNames.BinarySearch(name);
-                plateBox.Text = Data.plates.ElementAt(idx);
-            }
-            catch { }
-        }
 
         private void windowsUIButtonPanel1_ButtonClick(object sender, DevExpress.XtraBars.Docking2010.ButtonEventArgs e)
         {
@@ -92,7 +83,7 @@ namespace creditcharges.Views
         #endregion
 
         #region Methods
-        private void LoadData()
+        public void LoadData()
         {
             AutoCompleteStringCollection plates = new AutoCompleteStringCollection();
             plates.AddRange(Data.plates.ToArray());
@@ -114,8 +105,8 @@ namespace creditcharges.Views
                 var cmd = new SqlCommand(query, sql);
                 cmd.Parameters.AddWithValue("@plate", SqlDbType.VarChar).Value = plate;
                 cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = name;
-                cmd.Connection.Open();
-                using(var reader = cmd.ExecuteReader())
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
+                using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())
                     {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -58,7 +59,7 @@ namespace creditcharges.Models
             sql = new SqlConnection(cn);
             var cmd = new SqlCommand("SELECT * FROM ChildCards", sql);
 
-            cmd.Connection.Open();
+            if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
             using (var reader = cmd.ExecuteReader())
             {
                 childCards = new List<string>();

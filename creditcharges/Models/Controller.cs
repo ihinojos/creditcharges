@@ -9,7 +9,6 @@ namespace creditcharges.Models
         public MainForm mainForm { get; set; }
         public EditTransaction editTransaction { get; set; }
         public AddCard addCard { get; set; }
-        public DeleteCard delCard { get; set; }
         public AddUser addUser { get; set; }
         public DateRange dateRange { get; set; }
         public Employees employees { get; set; }

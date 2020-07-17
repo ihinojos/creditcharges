@@ -75,6 +75,7 @@ namespace creditcharges.Views
         {
             entityBox.Items.Clear();
             entityBox.Items.AddRange(Data.entities.ToArray());
+            if (Controller.controller.editTransaction != null) Controller.controller.editTransaction.AddAutoCompleteOptions();
         }
 
 
@@ -115,7 +116,7 @@ namespace creditcharges.Views
                 var query = "DELETE FROM Entities WHERE Name = @entity";
                 var cmd = new SqlCommand(query, sql);
                 cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = entity;
-                cmd.Connection.Open();
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 var res = cmd.ExecuteNonQuery();
                 if (res == 1)
                 {

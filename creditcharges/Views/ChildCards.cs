@@ -55,7 +55,7 @@ namespace creditcharges.Views
             var query = "SELECT Card FROM ChildCards WHERE Main = @card";
             var cmd = new SqlCommand(query, sql);
             cmd.Parameters.AddWithValue("@card", SqlDbType.VarChar).Value = Card;
-            cmd.Connection.Open();
+            if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
             using (var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
@@ -76,11 +76,14 @@ namespace creditcharges.Views
                 var cmd = new SqlCommand(query, sql);
                 cmd.Parameters.AddWithValue("@child", SqlDbType.VarChar).Value = card;
                 cmd.Parameters.AddWithValue("@main", SqlDbType.VarChar).Value = Card;
-                cmd.Connection.Open();
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 var res = cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
                 if (res == 1) MessageBox.Show("Card added.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadCards();
+
+                if (Controller.controller.editTransaction != null) Controller.controller.editTransaction.AddAutoCompleteOptions();
+                        
             }
             else MessageBox.Show("Card is already saved.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
@@ -93,10 +96,11 @@ namespace creditcharges.Views
                 var query = "DELETE FROM ChildCards WHERE Card = @child";
                 var cmd = new SqlCommand(query, sql);
                 cmd.Parameters.AddWithValue("@child", SqlDbType.VarChar).Value = card;
-                cmd.Connection.Open();
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 var res = cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
                 if (res == 1) MessageBox.Show("Card deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (Controller.controller.editTransaction != null) Controller.controller.editTransaction.AddAutoCompleteOptions();
             }
             else MessageBox.Show("Card doesn't exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }

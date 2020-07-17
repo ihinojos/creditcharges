@@ -1,4 +1,5 @@
 ﻿using creditcharges.Models;
+using DevExpress.XtraBars;
 using DevExpress.XtraBars.Ribbon.Accessible;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ namespace creditcharges.Views
                 var query = "SELECT * FROM Users WHERE UserId = @userId";
                 SqlCommand cmd = new SqlCommand(query, sql);
                 cmd.Parameters.AddWithValue("@userId", SqlDbType.VarChar).Value = user;
-                cmd.Connection.Open();
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())

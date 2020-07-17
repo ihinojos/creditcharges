@@ -33,13 +33,12 @@ namespace creditcharges.Views
         private string concept;
         private readonly SqlConnection sql;
         private bool imgInf;
+        private bool neww = false;
         private List<string> imgPaths;
         private double value;
         private ImageList imgl;
         private int lastOdo = 0;
-        private string lastModel = string.Empty;
         private decimal lastGall = 0;
-        private bool vehicle; 
         private PictureBox original;
 
         #endregion
@@ -86,6 +85,7 @@ namespace creditcharges.Views
                 dateBox.Value = DateTime.Now;
                 label1.Text = "Add New Transaction";
                 Text = "AddTransaction";
+                neww = true;
                 //sidePic1.Visible = true;
             }
 
@@ -123,8 +123,9 @@ namespace creditcharges.Views
             zoomBar.Value = 100;
             zoomBar_Scroll(null, null);
         }
-        private void employeeBox_TextChanged(object sender, EventArgs e)
+        private void employeeBox_Leave(object sender, EventArgs e)
         {
+
             var name = employeeBox.Text;
             if (Data.names.Contains(name))
             {
@@ -144,12 +145,30 @@ namespace creditcharges.Views
         }
         private void entityBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var classes = new List<String>();
 
             var entity = entityBox.SelectedItem.ToString();
             jobNameBox.Enabled = entity == "Pilot Construction";
             jobNumBox.Enabled = entity == "Pilot Construction";
 
+            if (neww) {
+                var query = "SELECT Class FROM Classes WHERE Entity = @entity ";
+                var cmd = new SqlCommand(query, sql);
+                cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = entity;
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        classes.Add(reader[0] as string);
+                    }
+                }
+                cmd.Connection.Close();
+                classBox.Items.Clear();
+                classBox.Items.AddRange(classes.ToArray());
+            }
         }
+
         private void jobNameBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var idx = jobNameBox.SelectedIndex;
@@ -288,32 +307,37 @@ namespace creditcharges.Views
         #endregion
 
         #region Methods
-        private void AddAutoCompleteOptions()
+        public void AddAutoCompleteOptions()
         {
+            Data.getData();
+
             //Employee name box
             AutoCompleteStringCollection names = new AutoCompleteStringCollection();
             names.AddRange(Data.names.ToArray());
             employeeBox.AutoCompleteCustomSource = names;
 
             //Card number box
+            cardBoxNum.Items.Clear();
             cardBoxNum.Items.AddRange(Data.childCards.ToArray());
 
             //QB Account type
+            accountBox.Items.Clear();
             accountBox.Items.AddRange(Data.accountType.ToArray());
 
             //Entity
+            entityBox.Items.Clear();
             entityBox.Items.AddRange(Data.entities.ToArray());
 
-            //Class
-            classBox.Items.AddRange(Data.classes.ToArray());
-
             //Job Number
+            jobNumBox.Items.Clear();
             jobNumBox.Items.AddRange(Data.jobNumbers.ToArray());
 
             //Job Name
+            jobNameBox.Items.Clear();
             jobNameBox.Items.AddRange(Data.jobNames.ToArray());
 
             //Concept Box
+            conceptBox.Items.Clear();
             conceptBox.Items.AddRange(Data.concept.ToArray());
         }
         private void AddImages()
@@ -367,7 +391,7 @@ namespace creditcharges.Views
                 var query = "SELECT * FROM Images WHERE Id = @id";
                 SqlCommand cmd = new SqlCommand(query, sql);
                 cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = Id;
-                cmd.Connection.Open();
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 Task task;
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -434,8 +458,11 @@ namespace creditcharges.Views
             var odom = odometerBox.Text;
             var gall = gallonsBox.Text;
 
-            if (string.IsNullOrEmpty(odom) || string.IsNullOrEmpty(gall) && vehicle)
+            if (string.IsNullOrEmpty(odom) || string.IsNullOrEmpty(gall))
+            {
+                MessageBox.Show("Fuel information missing.");
                 return false;
+            }
             return true;
         }
         private void ImagesFromList(List<string> list)
@@ -493,35 +520,35 @@ namespace creditcharges.Views
             var query = "SELECT * FROM Records WHERE Id = @id";
             SqlCommand cmd = new SqlCommand(query, sql);
             cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = Id;
-            cmd.Connection.Open();
+            if(cmd.Connection.State != ConnectionState.Open)cmd.Connection.Open();
             using (var reader = cmd.ExecuteReader())
             {
                 if (reader.Read())
                 {
+                    employeeBox.Text = reader[1] as string;
                     cardBoxNum.Text = reader[2] as string;
                     amountBox.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", reader.GetDecimal(3));
                     conceptBox.Text = reader[4] as string == "" ? concept : reader[4] as string;
                     locationBox.Text = reader[5] as string == "" ? location : reader[5] as string;
                     dateBox.Value = reader.GetDateTime(6);
                     notesBox.Text = reader[7] as string;
-                    employeeBox.Text = reader[1] as string;
                 }
             }
             query = "SELECT * FROM QuickBooks WHERE Id = @id";
             cmd.CommandText = query;
-            if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
             using (var reader = cmd.ExecuteReader())
             {
                 if (reader.Read())
                 {
                     accountBox.Text = reader[1] as string;
-                    entityBox.Text = reader[2] as string;
                     classBox.Text = reader[3] as string;
                     jobNumBox.Text = reader[4] as string;
                     jobNameBox.Text = reader[5] as string;
                     mainCardBox.Text = reader[6] as string;
+                    entityBox.Text = reader[2] as string;
                 }
             }
+            if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
             query = "SELECT * FROM Fuel WHERE Id = @id";
             cmd.CommandText = query;
             using (var reader = cmd.ExecuteReader())
@@ -550,7 +577,6 @@ namespace creditcharges.Views
                                     VType = vReader[4] as string,
                                     AvgMPG = vReader[5] as decimal? ?? default
                                 };
-                                lastModel = vReader[3] as string;
                                 LoadVehicleDetails(v);
                             }
                         }
@@ -573,8 +599,7 @@ namespace creditcharges.Views
                 }
             }
             cmd.Connection.Close();
-            if (!imgInf) Console.WriteLine();
-            else DownloadImages();
+            if (imgInf) DownloadImages();
         }
         private decimal LoadFuelTable(string id)
         {
@@ -646,7 +671,6 @@ namespace creditcharges.Views
 
                 DevExpress.XtraGrid.Columns.GridColumn idCol = fuelView.Columns["Id"];
                 idCol.Visible = false;
-
 
                 fuelView.BestFitColumns();
 
@@ -815,7 +839,7 @@ namespace creditcharges.Views
                 cmd.Parameters.AddWithValue("@employee", SqlDbType.VarChar).Value = employee;
                 cmd.Parameters.AddWithValue("@status", SqlDbType.VarChar).Value = status;
 
-                if(cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 cmd.ExecuteNonQuery();
 
                 query = "UPDATE QuickBooks SET Account = @account, Entity = @entity, Class = @class, " +
@@ -843,7 +867,14 @@ namespace creditcharges.Views
                         cmd.CommandText = query;
                         cmd.Parameters.AddWithValue("@odometer", SqlDbType.Int).Value = odometer;
                         cmd.Parameters.AddWithValue("@gallons", SqlDbType.Decimal).Value = gallons;
-                        cmd.ExecuteNonQuery();
+                        var res = cmd.ExecuteNonQuery();
+                        if(res < 1)
+                        {
+                            query = "INSERT INTO Fuel VALUES (@id, @odometer, @gallons, @vid)";
+                            cmd.CommandText = query;
+                            cmd.Parameters.AddWithValue("@vid", SqlDbType.VarChar).Value = vehicleID;
+                            res = cmd.ExecuteNonQuery();
+                        }
                     }
                     catch
                     {
@@ -901,7 +932,7 @@ namespace creditcharges.Views
                 if (!(string.IsNullOrEmpty(employee) || string.IsNullOrEmpty(number) || string.IsNullOrEmpty(concept) || string.IsNullOrEmpty(number)))
                 {
                     Id = id;
-                    cmd.Connection.Open();
+                    if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                     var rel = cmd.ExecuteNonQuery();
                     if (rel > 0)
                     {
@@ -935,36 +966,23 @@ namespace creditcharges.Views
                         cmd.CommandText = query;
                         cmd.Parameters.AddWithValue("@main", SqlDbType.VarChar).Value = maincard;
 
-                        var res = 0;
+                        var res = cmd.ExecuteNonQuery();
 
                         if (concept == "Gasolina/Automóvil")
                         {
-                            if (GasCompleted()) res = cmd.ExecuteNonQuery();
-                            else
+                            if (checkBox1.Checked && GasCompleted())
                             {
-                                MessageBox.Show("Por favor, captura la información del combustible en la pestaña correspondiente.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                cmd.Connection.Close();
-                                return;
+                                query = "INSERT INTO Fuel (Id, Odometer, Gallons, VId) VALUES (@id, @odometer, @gallons, @vid)";
+                                var odometer = int.Parse(odometerBox.Text);
+                                var gallons = decimal.Parse(gallonsBox.Text);
+                                cmd.CommandText = query;
+                                cmd.Parameters.AddWithValue("@odometer", SqlDbType.Int).Value = odometer;
+                                cmd.Parameters.AddWithValue("@gallons", SqlDbType.Decimal).Value = gallons;
+                                cmd.Parameters.AddWithValue("@vid", SqlDbType.VarChar).Value = vehicleID;
+
+                                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
+                                cmd.ExecuteNonQuery();
                             }
-
-                        }
-                        else
-                        {
-                            res = cmd.ExecuteNonQuery();
-                        }
-                        if (checkBox1.Checked)
-                        {
-                            query = "INSERT INTO Fuel (Id, Odometer, Gallons, VId) VALUES (@id, @odometer, @gallons, @vid)";
-                            var odometer = int.Parse(odometerBox.Text);
-                            var gallons = decimal.Parse(gallonsBox.Text);
-                            cmd.CommandText = query;
-                            cmd.Parameters.AddWithValue("@odometer", SqlDbType.Int).Value = odometer;
-                            cmd.Parameters.AddWithValue("@gallons", SqlDbType.Decimal).Value = gallons;
-                            cmd.Parameters.AddWithValue("@vid", SqlDbType.VarChar).Value = vehicleID;
-
-                            if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
-                            cmd.ExecuteNonQuery();
-
                         }
                         if (imgPaths.Count > 0)
                             SaveImagesAsync(entity, value.ToString(), number, date);
@@ -985,7 +1003,7 @@ namespace creditcharges.Views
                 "FROM Records R LEFT JOIN QuickBooks Q ON R.Id = Q.Id WHERE R.Id = @id";
             var cmd = new SqlCommand(query, sql);
             cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = Id;
-            cmd.Connection.Open();
+            if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
             using (var reader = cmd.ExecuteReader())
             {
                 if (reader.Read())
@@ -1000,12 +1018,14 @@ namespace creditcharges.Views
                     var location = reader[7] as string;
                     var entity = reader[8] as string;
                     var main = reader[9] as string;
+
                     if (card.Length == 3) card = "**** **** **** 0" + card;
-                    if (card.Length == 4) card = "**** **** **** " + card;
-                    if (card.Length == 5) card = "***** ***** " + card;
+                    else if (card.Length == 4) card = "**** **** **** " + card;
+                    else if (card.Length == 5) card = "***** ***** " + card;
                     if (main.Length == 3) main = "**** **** **** 0" + main;
-                    if (main.Length == 4) main = "**** **** **** " + main;
-                    if (main.Length == 5) main = "***** ***** " + main;
+                    else if (main.Length == 4) main = "**** **** **** " + main;
+                    else if (main.Length == 5) main = "***** ***** " + main;
+
                     var msg = $"{name}\n" +
                       $"Card: {card}\n" +
                       $"Main card: {main}\n" +
@@ -1034,5 +1054,6 @@ namespace creditcharges.Views
             return bmp;
         }
         #endregion
+
     }
 }
