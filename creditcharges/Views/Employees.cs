@@ -94,7 +94,7 @@ namespace creditcharges.Views
                 var query = "INSERT INTO Employees (Id, Name, Entity) VALUES (@id, @name, @entity)";
                 var cmd = new SqlCommand(query, sql);
                 var id = Guid.NewGuid().ToString("N");
-                var name = comboBox1.Text;
+                var name = comboBox1.Text.Trim();
                 var entity = comboBox2.SelectedItem.ToString();
                 cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = id;
                 cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = name;
@@ -109,7 +109,7 @@ namespace creditcharges.Views
             {
                 var query = "UPDATE Employees SET Name = @name, Entity = @entity WHERE Name = @last";
                 var cmd = new SqlCommand(query, sql);
-                cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = comboBox1.Text;
+                cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = comboBox1.Text.Trim();
                 cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = comboBox2.SelectedItem;
                 cmd.Parameters.AddWithValue("@last", SqlDbType.VarChar).Value = lastNameSelected;
                 if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();

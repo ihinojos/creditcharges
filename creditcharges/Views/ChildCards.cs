@@ -69,7 +69,7 @@ namespace creditcharges.Views
 
         private void AddChildCard()
         {
-            var card = childsBox.Text;
+            var card = childsBox.Text.Trim();
             if (!childsBox.Items.Contains(card))
             {
                 var query = "INSERT INTO ChildCards (Card, Main) VALUES (@child, @main)";
@@ -90,7 +90,7 @@ namespace creditcharges.Views
 
         private void RemoveChildCard()
         {
-            var card = childsBox.Text;
+            var card = childsBox.Text.Trim();
             if (childsBox.Items.Contains(card))
             {
                 var query = "DELETE FROM ChildCards WHERE Card = @child";

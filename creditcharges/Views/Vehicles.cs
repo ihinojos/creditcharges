@@ -122,7 +122,6 @@ namespace creditcharges.Views
             vNameBox.AutoCompleteCustomSource = vNames;
 
             if (Controller.controller.vehicleSelect != null) Controller.controller.vehicleSelect.LoadData();
-
         }
 
         private void SaveVehicle()

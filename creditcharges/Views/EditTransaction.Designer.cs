@@ -45,6 +45,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.dossOrderNumberBox = new System.Windows.Forms.TextBox();
+            this.dossBox = new System.Windows.Forms.CheckBox();
             this.employeeBox = new System.Windows.Forms.TextBox();
             this.conceptBox = new System.Windows.Forms.ComboBox();
             this.cardBoxNum = new System.Windows.Forms.ComboBox();
@@ -251,6 +253,8 @@
             // 
             this.panel1.AllowDrop = true;
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.dossOrderNumberBox);
+            this.panel1.Controls.Add(this.dossBox);
             this.panel1.Controls.Add(this.employeeBox);
             this.panel1.Controls.Add(this.conceptBox);
             this.panel1.Controls.Add(this.cardBoxNum);
@@ -268,6 +272,30 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(387, 319);
             this.panel1.TabIndex = 13;
+            // 
+            // dossOrderNumberBox
+            // 
+            this.dossOrderNumberBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dossOrderNumberBox.Enabled = false;
+            this.dossOrderNumberBox.Location = new System.Drawing.Point(141, 236);
+            this.dossOrderNumberBox.Name = "dossOrderNumberBox";
+            this.dossOrderNumberBox.Size = new System.Drawing.Size(241, 20);
+            this.dossOrderNumberBox.TabIndex = 17;
+            this.dossOrderNumberBox.Visible = false;
+            // 
+            // dossBox
+            // 
+            this.dossBox.AutoSize = true;
+            this.dossBox.Enabled = false;
+            this.dossBox.Location = new System.Drawing.Point(6, 239);
+            this.dossBox.Name = "dossBox";
+            this.dossBox.Size = new System.Drawing.Size(129, 17);
+            this.dossBox.TabIndex = 16;
+            this.dossBox.Text = "Dossier order number:";
+            this.dossBox.UseVisualStyleBackColor = true;
+            this.dossBox.Visible = false;
+            this.dossBox.CheckedChanged += new System.EventHandler(this.dossBox_CheckedChanged);
             // 
             // employeeBox
             // 
@@ -290,6 +318,7 @@
             this.conceptBox.Size = new System.Drawing.Size(376, 21);
             this.conceptBox.Sorted = true;
             this.conceptBox.TabIndex = 14;
+            this.conceptBox.SelectedIndexChanged += new System.EventHandler(this.conceptBox_SelectedIndexChanged);
             // 
             // cardBoxNum
             // 
@@ -953,5 +982,7 @@
         private System.Windows.Forms.Label vModelL;
         private System.Windows.Forms.Label vNameL;
         private System.Windows.Forms.Label plateL;
+        private System.Windows.Forms.TextBox dossOrderNumberBox;
+        private System.Windows.Forms.CheckBox dossBox;
     }
 }

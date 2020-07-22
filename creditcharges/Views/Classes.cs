@@ -74,12 +74,12 @@ namespace creditcharges.Views
         {
             try
             {
-                if (Data.classes.Contains(classBox.Text))
+                if (Data.classes.Contains(classBox.Text.Trim()))
                 {
                     var query = "UPDATE Classes SET Entity = @entity WHERE Class = @class";
                     var cmd = new SqlCommand(query, sql);
-                    var clas = classBox.Text;
-                    var entity = entityBox.SelectedItem.ToString();
+                    var clas = classBox.Text.Trim();
+                    var entity = entityBox.SelectedItem.ToString().Trim();
                     cmd.Parameters.AddWithValue("@class", SqlDbType.VarChar).Value = clas;
                     cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = entity;
                     if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
@@ -92,8 +92,8 @@ namespace creditcharges.Views
                 {
                     var query = "INSERT INTO Classes VALUES (@class, @entity)";
                     var cmd = new SqlCommand(query, sql);
-                    var clas = classBox.Text;
-                    var entity = entityBox.SelectedItem.ToString();
+                    var clas = classBox.Text.Trim();
+                    var entity = entityBox.SelectedItem.ToString().Trim();
                     cmd.Parameters.AddWithValue("@class", SqlDbType.VarChar).Value = clas;
                     cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = entity;
                     if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
@@ -112,11 +112,11 @@ namespace creditcharges.Views
         private void DeleteClass()
         {
 
-            if (Data.names.Contains(classBox.Text))
+            if (Data.classes.Contains(classBox.Text.Trim()))
             {
                 var query = "DELETE FROM Classes WHERE Class = @class";
                 var cmd = new SqlCommand(query, sql);
-                var name = classBox.Text;
+                var name = classBox.Text.Trim();
                 cmd.Parameters.AddWithValue("@class", SqlDbType.VarChar).Value = name;
                 if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 var res = cmd.ExecuteNonQuery();

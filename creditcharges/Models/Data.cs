@@ -12,11 +12,11 @@ namespace creditcharges.Models
         #region Attributes
 
         private static SqlConnection sql;
-        private static string[] concepts = {"Alojamiento","Atención Médica", "Gasolina/Automóvil", "Internet", "Mercancía", "Otra Opción",
-            "Otros Servicios", "Pago/crédito", "Seguros", "Servicios Profesionales", "Servicios Púbilcos", "Teléfono/Cable"};
+        private static string[] concepts = {"Alojamiento","Atención Médica", "Combustible/Vehículo", "Internet", "Mercancía", "Otra Opción",
+            "Otros Servicios", "Pago/Crédito", "Seguros", "Servicios Profesionales", "Servicios Púbilcos", "Teléfono/Cable", "Herramientas/Mantenimiento"};
 
-        //public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=TESTTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
-        public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=PRODTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
+        public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=TESTTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
+        //public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=PRODTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
 
         public static List<string> accountType { get; set; }
         public static List<string> entities { get; set; }
@@ -53,9 +53,6 @@ namespace creditcharges.Models
                 jobNames.Add(num[1].Trim().ToString());
             }
 
-
-
-
             sql = new SqlConnection(cn);
             var cmd = new SqlCommand("SELECT * FROM ChildCards", sql);
 
@@ -71,7 +68,6 @@ namespace creditcharges.Models
                 }
             }
 
-
             cmd.CommandText = "SELECT Name FROM Entities ORDER BY Name ASC";
             using (var reader = cmd.ExecuteReader())
             {
@@ -85,14 +81,12 @@ namespace creditcharges.Models
                 names = new List<string>();
                 while (reader.Read()) names.Add(reader[0] as string);
             }
-
             cmd.CommandText = "Select Class FROM Classes ORDER BY Class ASC";
             using (var reader = cmd.ExecuteReader())
             {
                 classes = new List<string>();
                 while (reader.Read()) classes.Add(reader[0] as string);
             }
-
             cmd.CommandText = "SELECT Plate, VName FROM Vehicles";
             using (var reader = cmd.ExecuteReader())
             {
@@ -104,8 +98,6 @@ namespace creditcharges.Models
                     if (!string.IsNullOrEmpty(reader[1] as string)) vNames.Add(reader[1] as string);
                 }
             }
-
-
             cmd.Connection.Close();
         }
 

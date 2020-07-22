@@ -47,10 +47,10 @@ namespace creditcharges.Views
         #region Methods
         private void CreateUser()
         {
-            var username = usernameBox.Text;
-            var name = nameBox.Text;
-            var p1 = p1Box.Text;
-            var p2 = p2Box.Text;
+            var username = usernameBox.Text.Trim();
+            var name = nameBox.Text.Trim();
+            var p1 = p1Box.Text.Trim();
+            var p2 = p2Box.Text.Trim();
             var adm = admBox.Checked;
 
             if (!(string.IsNullOrEmpty(username) || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(p1) || string.IsNullOrEmpty(p2)))

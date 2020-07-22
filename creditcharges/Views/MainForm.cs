@@ -21,7 +21,6 @@ namespace creditcharges.Views
         #region Attributes
         public readonly bool ADMIN;
         private bool report = false;
-        private bool status = false;
         private readonly SqlConnection sql;
         public string User;
         #endregion
@@ -396,11 +395,8 @@ namespace creditcharges.Views
             generalGridView.Columns[11].Visible = false;
             generalGridView.Columns[12].Visible = false;
             generalGridView.BestFitColumns();
-
-            status = true;
             generalGrid.Refresh();
             generalGridView.RefreshData();
-            status = false;
         }
 
         private void AddTransaction()

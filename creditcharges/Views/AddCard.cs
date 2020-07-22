@@ -103,10 +103,10 @@ namespace creditcharges.Views
         {
             try
             {
-                var num = numberBox.Text;
-                var bank = bankBox.Text;
-                var uname = unameBox.Text;
-                var entity = entityBox.Text;
+                var num = numberBox.Text.Trim();
+                var bank = bankBox.Text.Trim();
+                var uname = unameBox.Text.Trim();
+                var entity = entityBox.Text.Trim();
 
                 if (!(string.IsNullOrEmpty(num) || string.IsNullOrEmpty(bank)
                     || string.IsNullOrEmpty(uname) || string.IsNullOrEmpty(entity)))
@@ -142,10 +142,10 @@ namespace creditcharges.Views
             if (cardBox.Text == "New card")
                 try
                 {
-                    var num = numberBox.Text;
-                    var bank = bankBox.Text;
-                    var uname = unameBox.Text;
-                    var entity = entityBox.Text;
+                    var num = numberBox.Text.Trim();
+                    var bank = bankBox.Text.Trim();
+                    var uname = unameBox.Text.Trim();
+                    var entity = entityBox.Text.Trim();
 
                     if (!(string.IsNullOrEmpty(num) || string.IsNullOrEmpty(bank)
                         || string.IsNullOrEmpty(uname) || string.IsNullOrEmpty(entity)))
