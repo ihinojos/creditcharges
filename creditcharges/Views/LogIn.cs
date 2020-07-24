@@ -58,19 +58,19 @@ namespace creditcharges.Views
                                 break;
 
                             case false:
-                                MessageBox.Show("The password is incorrect.");
+                                MessageBox.Show("Contraseña incorrecta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 break;
                         }
                     }
                     else
                     {
-                        MessageBox.Show("The username does not exist.");
+                        MessageBox.Show("Usuario inexistente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     passBox.Text = "";
                     cmd.Connection.Close();
                 }
             }
-            else MessageBox.Show("There are empty fields!");
+            else MessageBox.Show("Campos vacíos, por favor verifique.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void Get_Account(object sender, EventArgs e)

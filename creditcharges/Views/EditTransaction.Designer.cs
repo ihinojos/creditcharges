@@ -45,6 +45,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.dossOrderNumberBox = new System.Windows.Forms.TextBox();
+            this.dossBox = new System.Windows.Forms.CheckBox();
             this.employeeBox = new System.Windows.Forms.TextBox();
             this.conceptBox = new System.Windows.Forms.ComboBox();
             this.cardBoxNum = new System.Windows.Forms.ComboBox();
@@ -148,9 +150,9 @@
             this.label1.Location = new System.Drawing.Point(18, 6);
             this.label1.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(153, 25);
+            this.label1.Size = new System.Drawing.Size(170, 25);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Edit Transaction";
+            this.label1.Text = "Editar Transaction";
             // 
             // windowsUIButtonPanel1
             // 
@@ -158,10 +160,10 @@
             windowsUIButtonImageOptions2.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions2.SvgImage")));
             windowsUIButtonImageOptions3.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions3.SvgImage")));
             this.windowsUIButtonPanel1.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Save & Close", true, windowsUIButtonImageOptions1, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "save", -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Cancel", true, windowsUIButtonImageOptions2, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "cancel", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Guardar y Cerrar", true, windowsUIButtonImageOptions1, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "save", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Cancelar", true, windowsUIButtonImageOptions2, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "cancel", -1, false),
             new DevExpress.XtraBars.Docking2010.WindowsUISeparator(),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Delete", true, windowsUIButtonImageOptions3, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "delete", -1, false)});
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Eliminar", true, windowsUIButtonImageOptions3, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "delete", -1, false)});
             this.windowsUIButtonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.windowsUIButtonPanel1.Location = new System.Drawing.Point(18, 551);
             this.windowsUIButtonPanel1.Name = "windowsUIButtonPanel1";
@@ -213,7 +215,7 @@
             this.groupBox1.Size = new System.Drawing.Size(401, 138);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Notes";
+            this.groupBox1.Text = "Notas";
             // 
             // notesBox
             // 
@@ -251,6 +253,8 @@
             // 
             this.panel1.AllowDrop = true;
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.dossOrderNumberBox);
+            this.panel1.Controls.Add(this.dossBox);
             this.panel1.Controls.Add(this.employeeBox);
             this.panel1.Controls.Add(this.conceptBox);
             this.panel1.Controls.Add(this.cardBoxNum);
@@ -268,6 +272,30 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(387, 319);
             this.panel1.TabIndex = 13;
+            // 
+            // dossOrderNumberBox
+            // 
+            this.dossOrderNumberBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dossOrderNumberBox.Enabled = false;
+            this.dossOrderNumberBox.Location = new System.Drawing.Point(161, 250);
+            this.dossOrderNumberBox.Name = "dossOrderNumberBox";
+            this.dossOrderNumberBox.Size = new System.Drawing.Size(221, 20);
+            this.dossOrderNumberBox.TabIndex = 17;
+            this.dossOrderNumberBox.Visible = false;
+            // 
+            // dossBox
+            // 
+            this.dossBox.AutoSize = true;
+            this.dossBox.Enabled = false;
+            this.dossBox.Location = new System.Drawing.Point(4, 252);
+            this.dossBox.Name = "dossBox";
+            this.dossBox.Size = new System.Drawing.Size(151, 17);
+            this.dossBox.TabIndex = 16;
+            this.dossBox.Text = "Número de Orden Dossier:";
+            this.dossBox.UseVisualStyleBackColor = true;
+            this.dossBox.Visible = false;
+            this.dossBox.CheckedChanged += new System.EventHandler(this.dossBox_CheckedChanged);
             // 
             // employeeBox
             // 
@@ -290,6 +318,7 @@
             this.conceptBox.Size = new System.Drawing.Size(376, 21);
             this.conceptBox.Sorted = true;
             this.conceptBox.TabIndex = 14;
+            this.conceptBox.SelectedIndexChanged += new System.EventHandler(this.conceptBox_SelectedIndexChanged);
             // 
             // cardBoxNum
             // 
@@ -308,9 +337,9 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(3, 156);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(48, 13);
+            this.label13.Size = new System.Drawing.Size(55, 13);
             this.label13.TabIndex = 11;
-            this.label13.Text = "Location";
+            this.label13.Text = "Ubicación";
             // 
             // locationBox
             // 
@@ -338,9 +367,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(3, 195);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(30, 13);
+            this.label6.Size = new System.Drawing.Size(37, 13);
             this.label6.TabIndex = 8;
-            this.label6.Text = "Date";
+            this.label6.Text = "Fecha";
             // 
             // amountBox
             // 
@@ -357,36 +386,36 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(3, 117);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(43, 13);
+            this.label5.Size = new System.Drawing.Size(49, 13);
             this.label5.TabIndex = 6;
-            this.label5.Text = "Amount";
+            this.label5.Text = "Cantidad";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(3, 78);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(47, 13);
+            this.label4.Size = new System.Drawing.Size(53, 13);
             this.label4.TabIndex = 4;
-            this.label4.Text = "Concept";
+            this.label4.Text = "Concepto";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(3, 39);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(69, 13);
+            this.label3.Size = new System.Drawing.Size(95, 13);
             this.label3.TabIndex = 2;
-            this.label3.Text = "Card Number";
+            this.label3.Text = "Numero de Tarjeta";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(84, 13);
+            this.label2.Size = new System.Drawing.Size(109, 13);
             this.label2.TabIndex = 0;
-            this.label2.Text = "Employee Name";
+            this.label2.Text = "Nombre de Empleado";
             // 
             // tabPage2
             // 
@@ -497,9 +526,9 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(3, 195);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(55, 13);
+            this.label12.Size = new System.Drawing.Size(83, 13);
             this.label12.TabIndex = 10;
-            this.label12.Text = "Main Card";
+            this.label12.Text = "Tarjeta Principal";
             // 
             // label7
             // 
@@ -524,27 +553,27 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(3, 78);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(32, 13);
+            this.label9.Size = new System.Drawing.Size(33, 13);
             this.label9.TabIndex = 4;
-            this.label9.Text = "Class";
+            this.label9.Text = "Clase";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(3, 39);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(33, 13);
+            this.label10.Size = new System.Drawing.Size(43, 13);
             this.label10.TabIndex = 2;
-            this.label10.Text = "Entity";
+            this.label10.Text = "Entidad";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(3, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(92, 13);
+            this.label11.Size = new System.Drawing.Size(80, 13);
             this.label11.TabIndex = 0;
-            this.label11.Text = "QB Account Type";
+            this.label11.Text = "Tipo de Cuenta";
             // 
             // tabPage3
             // 
@@ -554,7 +583,7 @@
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage3.Size = new System.Drawing.Size(393, 325);
             this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Fuel";
+            this.tabPage3.Text = "Combustible";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel5
@@ -595,7 +624,7 @@
             this.SelectVehicleBtn.Name = "SelectVehicleBtn";
             this.SelectVehicleBtn.Size = new System.Drawing.Size(78, 75);
             this.SelectVehicleBtn.TabIndex = 10;
-            this.SelectVehicleBtn.Text = "Select Vehicle";
+            this.SelectVehicleBtn.Text = "Seleccionar Vehículo";
             this.SelectVehicleBtn.UseVisualStyleBackColor = true;
             this.SelectVehicleBtn.Click += new System.EventHandler(this.SelectVehicleBtn_Click);
             // 
@@ -614,7 +643,7 @@
             this.groupBox2.Size = new System.Drawing.Size(294, 75);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Vehicle";
+            this.groupBox2.Text = "Vehículo";
             // 
             // avgMpgLabel
             // 
@@ -631,54 +660,54 @@
             this.label20.AutoSize = true;
             this.label20.Location = new System.Drawing.Point(154, 49);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(56, 13);
+            this.label20.Size = new System.Drawing.Size(58, 13);
             this.label20.TabIndex = 4;
-            this.label20.Text = "Avg MPG:";
+            this.label20.Text = "Pmd MPG:";
             // 
             // vTypeL
             // 
             this.vTypeL.AutoSize = true;
             this.vTypeL.Location = new System.Drawing.Point(186, 22);
             this.vTypeL.Name = "vTypeL";
-            this.vTypeL.Size = new System.Drawing.Size(34, 13);
+            this.vTypeL.Size = new System.Drawing.Size(31, 13);
             this.vTypeL.TabIndex = 3;
-            this.vTypeL.Text = "Type:";
+            this.vTypeL.Text = "Tipo:";
             // 
             // vModelL
             // 
             this.vModelL.AutoSize = true;
             this.vModelL.Location = new System.Drawing.Point(6, 53);
             this.vModelL.Name = "vModelL";
-            this.vModelL.Size = new System.Drawing.Size(39, 13);
+            this.vModelL.Size = new System.Drawing.Size(45, 13);
             this.vModelL.TabIndex = 2;
-            this.vModelL.Text = "Model:";
+            this.vModelL.Text = "Modelo:";
             // 
             // vNameL
             // 
             this.vNameL.AutoSize = true;
             this.vNameL.Location = new System.Drawing.Point(6, 34);
             this.vNameL.Name = "vNameL";
-            this.vNameL.Size = new System.Drawing.Size(76, 13);
+            this.vNameL.Size = new System.Drawing.Size(93, 13);
             this.vNameL.TabIndex = 1;
-            this.vNameL.Text = "Vehicle Name:";
+            this.vNameL.Text = "Nombre Vehículo:";
             // 
             // plateL
             // 
             this.plateL.AutoSize = true;
             this.plateL.Location = new System.Drawing.Point(6, 16);
             this.plateL.Name = "plateL";
-            this.plateL.Size = new System.Drawing.Size(77, 13);
+            this.plateL.Size = new System.Drawing.Size(69, 13);
             this.plateL.TabIndex = 0;
-            this.plateL.Text = "License Plate: ";
+            this.plateL.Text = "Serie/Placa: ";
             // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(3, 3);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(46, 17);
+            this.checkBox1.Size = new System.Drawing.Size(83, 17);
             this.checkBox1.TabIndex = 8;
-            this.checkBox1.Text = "Fuel";
+            this.checkBox1.Text = "Combustible";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
@@ -697,9 +726,9 @@
             this.label17.AutoSize = true;
             this.label17.Location = new System.Drawing.Point(0, 143);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(80, 13);
+            this.label17.Size = new System.Drawing.Size(49, 13);
             this.label17.TabIndex = 6;
-            this.label17.Text = "Gallons of fuel: ";
+            this.label17.Text = "Galones:";
             // 
             // odometerBox
             // 
@@ -717,9 +746,9 @@
             this.label16.AutoSize = true;
             this.label16.Location = new System.Drawing.Point(0, 104);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(89, 13);
+            this.label16.Size = new System.Drawing.Size(91, 13);
             this.label16.TabIndex = 4;
-            this.label16.Text = "Odometer (Miles):";
+            this.label16.Text = "Odometro (Millas):";
             // 
             // panel5
             // 
@@ -822,9 +851,9 @@
             windowsUIButtonImageOptions5.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions5.SvgImage")));
             windowsUIButtonImageOptions6.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions6.SvgImage")));
             this.windowsUIButtonPanel2.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Add", true, windowsUIButtonImageOptions4, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "add", -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Remove", true, windowsUIButtonImageOptions5, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "remove", -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Clear", true, windowsUIButtonImageOptions6, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "clear", -1, false)});
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Añadir", true, windowsUIButtonImageOptions4, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "add", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Remover", true, windowsUIButtonImageOptions5, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "remove", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Limpiar", true, windowsUIButtonImageOptions6, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "clear", -1, false)});
             this.windowsUIButtonPanel2.Location = new System.Drawing.Point(29, 432);
             this.windowsUIButtonPanel2.Name = "windowsUIButtonPanel2";
             this.windowsUIButtonPanel2.Size = new System.Drawing.Size(149, 66);
@@ -854,7 +883,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "EditTransaction";
-            this.Text = "EditTransaction";
+            this.Text = "Editar Transacción";
             this.Load += new System.EventHandler(this.EditTransaction_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -953,5 +982,7 @@
         private System.Windows.Forms.Label vModelL;
         private System.Windows.Forms.Label vNameL;
         private System.Windows.Forms.Label plateL;
+        private System.Windows.Forms.TextBox dossOrderNumberBox;
+        private System.Windows.Forms.CheckBox dossBox;
     }
 }

@@ -89,12 +89,18 @@ namespace creditcharges.Views
 
         private void SaveEmployee()
         {
+            if(comboBox1.Text.Trim().Split(new char[] {' '}).Length < 2)
+            {
+                MessageBox.Show("Ingrese mínimo 2 nombres.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
             if (!Data.names.Contains(comboBox1.Text))
             {
                 var query = "INSERT INTO Employees (Id, Name, Entity) VALUES (@id, @name, @entity)";
                 var cmd = new SqlCommand(query, sql);
                 var id = Guid.NewGuid().ToString("N");
-                var name = comboBox1.Text;
+                var name = comboBox1.Text.Trim();
                 var entity = comboBox2.SelectedItem.ToString();
                 cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = id;
                 cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = name;
@@ -102,14 +108,14 @@ namespace creditcharges.Views
                 if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 var res = cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
-                if (res == 1) MessageBox.Show("Employee added.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (res == 1) MessageBox.Show("Empleado guardado.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadData();
             }
             else
             {
                 var query = "UPDATE Employees SET Name = @name, Entity = @entity WHERE Name = @last";
                 var cmd = new SqlCommand(query, sql);
-                cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = comboBox1.Text;
+                cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = comboBox1.Text.Trim();
                 cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = comboBox2.SelectedItem;
                 cmd.Parameters.AddWithValue("@last", SqlDbType.VarChar).Value = lastNameSelected;
                 if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
@@ -118,10 +124,10 @@ namespace creditcharges.Views
 
                 if(res == 1)
                 {
-                    MessageBox.Show("Employee info updated. ", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Infomación actualizada.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 } else
                 {
-                    MessageBox.Show("There's been an error, please try again. ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Ocurrió un error, inténtelo nuevamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 LoadData();
             }
@@ -138,10 +144,10 @@ namespace creditcharges.Views
                 if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 var res = cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
-                if (res == 1) MessageBox.Show("Employee deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (res == 1) MessageBox.Show("Empleado eliminado.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadData();
             }
-            else MessageBox.Show("Employee doesn't exists.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else MessageBox.Show("Empleado inexistente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
         }
         #endregion

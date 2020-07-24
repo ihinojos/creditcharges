@@ -1,4 +1,5 @@
-﻿using creditcharges.Models;
+﻿
+using creditcharges.Models;
 using DevExpress.XtraBars;
 using DevExpress.XtraBars.Docking2010;
 using System;
@@ -103,10 +104,10 @@ namespace creditcharges.Views
         {
             try
             {
-                var num = numberBox.Text;
-                var bank = bankBox.Text;
-                var uname = unameBox.Text;
-                var entity = entityBox.Text;
+                var num = numberBox.Text.Trim();
+                var bank = bankBox.Text.Trim();
+                var uname = unameBox.Text.Trim();
+                var entity = entityBox.Text.Trim();
 
                 if (!(string.IsNullOrEmpty(num) || string.IsNullOrEmpty(bank)
                     || string.IsNullOrEmpty(uname) || string.IsNullOrEmpty(entity)))
@@ -125,10 +126,10 @@ namespace creditcharges.Views
 
                     if (res == 1)
                     {
-                        MessageBox.Show("Card saved successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Tarjeta guardada exitosamente.", "Hehco", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
-                else MessageBox.Show("Invalid data, please check fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else MessageBox.Show("Campos vacíos, por favor verifique.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
@@ -142,10 +143,10 @@ namespace creditcharges.Views
             if (cardBox.Text == "New card")
                 try
                 {
-                    var num = numberBox.Text;
-                    var bank = bankBox.Text;
-                    var uname = unameBox.Text;
-                    var entity = entityBox.Text;
+                    var num = numberBox.Text.Trim();
+                    var bank = bankBox.Text.Trim();
+                    var uname = unameBox.Text.Trim();
+                    var entity = entityBox.Text.Trim();
 
                     if (!(string.IsNullOrEmpty(num) || string.IsNullOrEmpty(bank)
                         || string.IsNullOrEmpty(uname) || string.IsNullOrEmpty(entity)))
@@ -163,7 +164,7 @@ namespace creditcharges.Views
 
                         if (res == 1)
                         {
-                            MessageBox.Show("Card saved successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Tarjeta guardada éxitosamente.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         GetCards();
 
@@ -173,7 +174,7 @@ namespace creditcharges.Views
                             instance.AddAutoCompleteOptions();
                         }
                     }
-                    else MessageBox.Show("Invalid data, please check fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else MessageBox.Show("Campos vacíos, por favor verifique.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (Exception ex)
                 {
@@ -185,7 +186,7 @@ namespace creditcharges.Views
         private void Delete()
         {
             var main = cardBox.Text;
-            string message = "Do you want to delete this card and all childs associated?";
+            string message = "Quieres eliminar esta tarjeta y las tarjetas asociadas?";
             MessageBoxButtons buttons = MessageBoxButtons.YesNo;
             DialogResult result = MessageBox.Show(message, "", buttons, MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
@@ -202,7 +203,7 @@ namespace creditcharges.Views
                 res += cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
 
-                if (res > 0) MessageBox.Show("Card deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (res > 0) MessageBox.Show("Tarjeta eliminada.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

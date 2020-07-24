@@ -2,6 +2,7 @@
 using creditcharges.Models;
 using DevExpress.Accessibility;
 using DevExpress.Data.Extensions;
+using DevExpress.Data.Utils;
 using DevExpress.Utils.CodedUISupport;
 using DevExpress.Utils.MVVM;
 using DevExpress.XtraBars.Docking2010;
@@ -83,7 +84,7 @@ namespace creditcharges.Views
             else
             {
                 dateBox.Value = DateTime.Now;
-                label1.Text = "Add New Transaction";
+                label1.Text = "Añadir nueva transacción.";
                 Text = "AddTransaction";
                 neww = true;
                 //sidePic1.Visible = true;
@@ -151,7 +152,8 @@ namespace creditcharges.Views
             jobNameBox.Enabled = entity == "Pilot Construction";
             jobNumBox.Enabled = entity == "Pilot Construction";
 
-            if (neww) {
+            if (neww)
+            {
                 var query = "SELECT Class FROM Classes WHERE Entity = @entity ";
                 var cmd = new SqlCommand(query, sql);
                 cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = entity;
@@ -168,7 +170,6 @@ namespace creditcharges.Views
                 classBox.Items.AddRange(classes.ToArray());
             }
         }
-
         private void jobNameBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var idx = jobNameBox.SelectedIndex;
@@ -489,7 +490,7 @@ namespace creditcharges.Views
                 for (int i = 0; i < list.Count; i++)
                 {
                     var file = list.ElementAt(i);
-                    var ext = Path.GetExtension(file);
+                    var ext = Path.GetExtension(file).ToLower();
                     if (ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".jfif" || ext == ".jpe")
                     {
                         imgl.Images.Add(Path.GetFileNameWithoutExtension(file), Image.FromFile(file));
@@ -520,7 +521,7 @@ namespace creditcharges.Views
             var query = "SELECT * FROM Records WHERE Id = @id";
             SqlCommand cmd = new SqlCommand(query, sql);
             cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = Id;
-            if(cmd.Connection.State != ConnectionState.Open)cmd.Connection.Open();
+            if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
             using (var reader = cmd.ExecuteReader())
             {
                 if (reader.Read())
@@ -800,19 +801,19 @@ namespace creditcharges.Views
         }
         private void SaveInfo(string Id)
         {
-            var employee = employeeBox.Text;
-            var childCard = cardBoxNum.Text;
-            var concept = conceptBox.Text;
-            var location = locationBox.Text;
-            var notes = notesBox.Text;
-            var qbAcc = accountBox.Text;
-            var entity = entityBox.Text;
-            var _class = classBox.Text;
-            var jobNumber = jobNumBox.Text;
-            var jobName = jobNameBox.Text;
-            var mainCard = mainCardBox.Text;
+            var employee = employeeBox.Text.Trim();
+            var childCard = cardBoxNum.Text.Trim();
+            var concept = conceptBox.Text.Trim();
+            var location = locationBox.Text.Trim();
+            var notes = notesBox.Text.Trim();
+            var qbAcc = accountBox.Text.Trim();
+            var entity = entityBox.Text.Trim();
+            var _class = classBox.Text.Trim();
+            var jobNumber = jobNumBox.Text.Trim();
+            var jobName = jobNameBox.Text.Trim();
+            var mainCard = mainCardBox.Text.Trim();
             var date = dateBox.Value;
-            var amount = amountBox.Text.Replace("$", "").Replace(",", "");
+            var amount = amountBox.Text.Replace("$", "").Replace(",", "").Trim();
             var card = cardBoxNum.Text;
             var author = Controller.controller.mainForm.User;
             var status = listView1.Items.Count == 0 ? "No Ticket" : "Finished";
@@ -820,7 +821,7 @@ namespace creditcharges.Views
 
             if (!Data.names.Contains(employee))
             {
-                MessageBox.Show("Please verify the information entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("El nombre no coincide con algún empleado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -868,7 +869,7 @@ namespace creditcharges.Views
                         cmd.Parameters.AddWithValue("@odometer", SqlDbType.Int).Value = odometer;
                         cmd.Parameters.AddWithValue("@gallons", SqlDbType.Decimal).Value = gallons;
                         var res = cmd.ExecuteNonQuery();
-                        if(res < 1)
+                        if (res < 1)
                         {
                             query = "INSERT INTO Fuel VALUES (@id, @odometer, @gallons, @vid)";
                             cmd.CommandText = query;
@@ -878,13 +879,13 @@ namespace creditcharges.Views
                     }
                     catch
                     {
-                        MessageBox.Show("Error while saving fuel data, please try again.", "Error");
+                        MessageBox.Show("Error al guardar información de combustible, intentélo de nuevo.", "Error");
                     }
                 }
 
                 cmd.Connection.Close();
                 SaveImagesAsync(entity, amount, childCard, date);
-                MessageBox.Show("The record has been saved.", "Success");
+                MessageBox.Show("Trnsacción guardada.", "Hecho");
                 Controller.controller.mainForm.LoadTable();
                 ShowSavedRecord();
                 Dispose();
@@ -895,20 +896,20 @@ namespace creditcharges.Views
             string maincard = "";
             var id = Guid.NewGuid().ToString("N");
 
-            var employee = employeeBox.Text;
-            var number = cardBoxNum.Text;
+            var employee = employeeBox.Text.Trim();
+            var number = cardBoxNum.Text.Trim();
             var val = value;
-            var concept = conceptBox.Text;
+            var concept = conceptBox.Text.Trim();
             var date = dateBox.Value;
-            var notes = notesBox.Text;
+            var notes = notesBox.Text.Trim();
             var user = Controller.controller.mainForm.User;
             var status = listView1.Items.Count == 0 ? "No Ticket" : "Finished";
-            var location = locationBox.Text;
+            var location = locationBox.Text.Trim();
 
 
             if (!Data.names.Contains(employee))
             {
-                MessageBox.Show("Please verify the information entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("El nombre no coincide con algún empleado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -968,7 +969,7 @@ namespace creditcharges.Views
 
                         var res = cmd.ExecuteNonQuery();
 
-                        if (concept == "Gasolina/Automóvil")
+                        if (concept == "Combustible/Vehículo")
                         {
                             if (checkBox1.Checked && GasCompleted())
                             {
@@ -986,15 +987,15 @@ namespace creditcharges.Views
                         }
                         if (imgPaths.Count > 0)
                             SaveImagesAsync(entity, value.ToString(), number, date);
-                        if (res == 1) MessageBox.Show("Record saved successfully.", "Success");
-                        else MessageBox.Show("Please check your internet connection.", "Error");
+                        if (res == 1) MessageBox.Show("Transacción guardada.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        else MessageBox.Show("Errores ocurridos, por favor inténtelo de nuevo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     cmd.Connection.Close();
                     Controller.controller.mainForm.LoadTable();
                     ShowSavedRecord();
                     Dispose();
                 }
-                else MessageBox.Show("There are empty fields.");
+                else MessageBox.Show("Campos vacíos, por favor verifique.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void ShowSavedRecord()
@@ -1039,7 +1040,7 @@ namespace creditcharges.Views
 
                     reader.Close();
                     Clipboard.SetText(msg);
-                    MessageBox.Show(msg, "New transaction", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(msg, "Transacción nueva", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             cmd.Connection.Close();
@@ -1054,6 +1055,28 @@ namespace creditcharges.Views
             return bmp;
         }
         #endregion
+
+        private void conceptBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selection = conceptBox.SelectedItem.ToString();
+            if (selection == "Herramientas/Mantenimiento")
+            {
+                dossBox.Visible = true;
+                dossBox.Enabled = true;
+                dossOrderNumberBox.Visible = true;
+            }
+            else
+            {
+                dossBox.Visible = false;
+                dossOrderNumberBox.Visible = false;
+                dossOrderNumberBox.Text = string.Empty;
+            }
+        }
+
+        private void dossBox_CheckedChanged(object sender, EventArgs e)
+        {
+            dossOrderNumberBox.Enabled = dossBox.Checked;
+        }
 
     }
 }

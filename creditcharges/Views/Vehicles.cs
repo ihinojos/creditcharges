@@ -17,7 +17,7 @@ namespace creditcharges.Views
     public partial class Vehicles : Form
     {
         #region Attributes
-        private readonly string[] types = { "Motorcycle", "Sedan", "SUV", "Pickup", "Truck", "Trailer" };
+        private readonly string[] types = { "Motocicleta", "Sedan", "Camioneta", "Pickup", "Camión", "Remolque", "Misceláneo" };
         private readonly SqlConnection sql;
         #endregion
 
@@ -122,7 +122,6 @@ namespace creditcharges.Views
             vNameBox.AutoCompleteCustomSource = vNames;
 
             if (Controller.controller.vehicleSelect != null) Controller.controller.vehicleSelect.LoadData();
-
         }
 
         private void SaveVehicle()
@@ -154,7 +153,7 @@ namespace creditcharges.Views
             if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
             var res = cmd.ExecuteNonQuery();
             cmd.Connection.Close();
-            if (res == 1) MessageBox.Show("Vehicle saved. ", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (res == 1) MessageBox.Show("Vehículo guardado.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void DeleteVehicle()
@@ -169,7 +168,7 @@ namespace creditcharges.Views
                 if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 var res = cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
-                if (res == 1) MessageBox.Show("Vehicle deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (res == 1) MessageBox.Show("Vehículo eliminado.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else return;
         }

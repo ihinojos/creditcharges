@@ -66,8 +66,6 @@ namespace creditcharges.Views
             catch { }
         }
 
-
-
         private void windowsUIButtonPanel1_ButtonClick(object sender, DevExpress.XtraBars.Docking2010.ButtonEventArgs e)
         {
             var tag = ((WindowsUIButton)e.Button).Tag.ToString();
@@ -77,6 +75,7 @@ namespace creditcharges.Views
                     OK();
                     break;
                 case "cancel":
+                    Dispose();
                     break;
             }
         }

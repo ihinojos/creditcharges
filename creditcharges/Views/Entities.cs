@@ -84,7 +84,7 @@ namespace creditcharges.Views
             var entity = entityBox.Text.Trim();
             if (entityBox.Items.Contains(entity))
             {
-                MessageBox.Show("The entity already exists. ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Entidad ya existente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -97,11 +97,11 @@ namespace creditcharges.Views
 
                 if (res == 1)
                 {
-                    MessageBox.Show("The entity has been added. ", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Entidad guardada.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    MessageBox.Show("There's been an error, plase try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Ocurrió un error, inténtelo de nuevo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 cmd.Connection.Close();
                 FillComboBox();
@@ -120,18 +120,18 @@ namespace creditcharges.Views
                 var res = cmd.ExecuteNonQuery();
                 if (res == 1)
                 {
-                    MessageBox.Show("The entity has been deleted. ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Entidad eliminada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    MessageBox.Show("There's been an error, plase try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Ocurrió un error, inténtelo de nuevo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 cmd.Connection.Close();
                 FillComboBox();
             }
             else
             {
-                MessageBox.Show("The entity does not exist. ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Entidad inexistente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion

@@ -34,6 +34,7 @@
             DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions3 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.bankBox = new System.Windows.Forms.ComboBox();
             this.entityBox = new System.Windows.Forms.ComboBox();
             this.view_cards_Btn = new System.Windows.Forms.Button();
             this.cardBox = new System.Windows.Forms.ComboBox();
@@ -45,7 +46,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.numberBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.bankBox = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -87,6 +87,17 @@
             this.panel1.Size = new System.Drawing.Size(301, 255);
             this.panel1.TabIndex = 0;
             // 
+            // bankBox
+            // 
+            this.bankBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.bankBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.bankBox.FormattingEnabled = true;
+            this.bankBox.Location = new System.Drawing.Point(131, 56);
+            this.bankBox.Name = "bankBox";
+            this.bankBox.Size = new System.Drawing.Size(167, 21);
+            this.bankBox.TabIndex = 13;
+            // 
             // entityBox
             // 
             this.entityBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -105,7 +116,7 @@
             this.view_cards_Btn.Name = "view_cards_Btn";
             this.view_cards_Btn.Size = new System.Drawing.Size(121, 40);
             this.view_cards_Btn.TabIndex = 11;
-            this.view_cards_Btn.Text = "View child cards";
+            this.view_cards_Btn.Text = "Ver tarjetas dependientes";
             this.view_cards_Btn.UseVisualStyleBackColor = true;
             this.view_cards_Btn.Click += new System.EventHandler(this.view_cards_Btn_Click);
             // 
@@ -126,18 +137,18 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(3, 6);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(76, 13);
+            this.label5.Size = new System.Drawing.Size(119, 13);
             this.label5.TabIndex = 9;
-            this.label5.Text = "Select a card: ";
+            this.label5.Text = "Selecciona una tarjeta: ";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(3, 111);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(68, 13);
+            this.label4.Size = new System.Drawing.Size(97, 13);
             this.label4.TabIndex = 7;
-            this.label4.Text = "Card\'s Entity:";
+            this.label4.Text = "Entidad de Tarjeta:";
             // 
             // unameBox
             // 
@@ -155,9 +166,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(3, 85);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(93, 13);
+            this.label3.Size = new System.Drawing.Size(95, 13);
             this.label3.TabIndex = 5;
-            this.label3.Text = "Bank\'s Username:";
+            this.label3.Text = "Usuario de Banco:";
             // 
             // windowsUIButtonPanel1
             // 
@@ -165,9 +176,9 @@
             windowsUIButtonImageOptions2.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions2.SvgImage")));
             windowsUIButtonImageOptions3.Image = ((System.Drawing.Image)(resources.GetObject("windowsUIButtonImageOptions3.Image")));
             this.windowsUIButtonPanel1.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Save", true, windowsUIButtonImageOptions1, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "save", -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Delete", true, windowsUIButtonImageOptions2, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "delete", -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Cancel", true, windowsUIButtonImageOptions3, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "cancel", -1, false)});
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Guardar", true, windowsUIButtonImageOptions1, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "save", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Eliminar", true, windowsUIButtonImageOptions2, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "delete", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Cancelar", true, windowsUIButtonImageOptions3, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "cancel", -1, false)});
             this.windowsUIButtonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.windowsUIButtonPanel1.Location = new System.Drawing.Point(0, 180);
             this.windowsUIButtonPanel1.Name = "windowsUIButtonPanel1";
@@ -181,9 +192,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(3, 59);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.Size = new System.Drawing.Size(97, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Bank:";
+            this.label2.Text = "Entidadd Bancaria:";
             // 
             // numberBox
             // 
@@ -201,20 +212,10 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(3, 33);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 13);
+            this.label1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label1.Size = new System.Drawing.Size(94, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Card Number:";
-            // 
-            // bankBox
-            // 
-            this.bankBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.bankBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.bankBox.FormattingEnabled = true;
-            this.bankBox.Location = new System.Drawing.Point(131, 56);
-            this.bankBox.Name = "bankBox";
-            this.bankBox.Size = new System.Drawing.Size(167, 21);
-            this.bankBox.TabIndex = 13;
+            this.label1.Text = "Número de tarjeta:";
             // 
             // AddCard
             // 
@@ -225,7 +226,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddCard";
-            this.Text = "AddCard";
+            this.Text = "Añadir tarjeta";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

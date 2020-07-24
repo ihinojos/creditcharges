@@ -71,9 +71,9 @@
             // childsBox
             // 
             this.childsBox.FormattingEnabled = true;
-            this.childsBox.Location = new System.Drawing.Point(97, 3);
+            this.childsBox.Location = new System.Drawing.Point(60, 3);
             this.childsBox.Name = "childsBox";
-            this.childsBox.Size = new System.Drawing.Size(140, 21);
+            this.childsBox.Size = new System.Drawing.Size(177, 21);
             this.childsBox.TabIndex = 2;
             // 
             // label1
@@ -81,17 +81,17 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(3, 6);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 13);
+            this.label1.Size = new System.Drawing.Size(51, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Child cards: ";
+            this.label1.Text = "Tarjetas: ";
             // 
             // windowsUIButtonPanel1
             // 
             windowsUIButtonImageOptions1.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions1.SvgImage")));
             windowsUIButtonImageOptions2.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions2.SvgImage")));
             this.windowsUIButtonPanel1.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Add", true, windowsUIButtonImageOptions1, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "add", -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Remove", true, windowsUIButtonImageOptions2, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "remove", -1, false)});
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Añadir", true, windowsUIButtonImageOptions1, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "add", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Remover", true, windowsUIButtonImageOptions2, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "remove", -1, false)});
             this.windowsUIButtonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.windowsUIButtonPanel1.Location = new System.Drawing.Point(0, 32);
             this.windowsUIButtonPanel1.Name = "windowsUIButtonPanel1";
@@ -107,7 +107,7 @@
             this.ClientSize = new System.Drawing.Size(286, 145);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "ChildCards";
-            this.Text = "ChildCards";
+            this.Text = "Tarjetas dependientes";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
