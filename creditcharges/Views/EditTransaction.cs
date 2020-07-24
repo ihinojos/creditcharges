@@ -84,7 +84,7 @@ namespace creditcharges.Views
             else
             {
                 dateBox.Value = DateTime.Now;
-                label1.Text = "Add New Transaction";
+                label1.Text = "Añadir nueva transacción.";
                 Text = "AddTransaction";
                 neww = true;
                 //sidePic1.Visible = true;
@@ -821,7 +821,7 @@ namespace creditcharges.Views
 
             if (!Data.names.Contains(employee))
             {
-                MessageBox.Show("Please verify the information entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("El nombre no coincide con algún empleado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -879,13 +879,13 @@ namespace creditcharges.Views
                     }
                     catch
                     {
-                        MessageBox.Show("Error while saving fuel data, please try again.", "Error");
+                        MessageBox.Show("Error al guardar información de combustible, intentélo de nuevo.", "Error");
                     }
                 }
 
                 cmd.Connection.Close();
                 SaveImagesAsync(entity, amount, childCard, date);
-                MessageBox.Show("The record has been saved.", "Success");
+                MessageBox.Show("Trnsacción guardada.", "Hecho");
                 Controller.controller.mainForm.LoadTable();
                 ShowSavedRecord();
                 Dispose();
@@ -909,7 +909,7 @@ namespace creditcharges.Views
 
             if (!Data.names.Contains(employee))
             {
-                MessageBox.Show("Please verify the information entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("El nombre no coincide con algún empleado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -969,7 +969,7 @@ namespace creditcharges.Views
 
                         var res = cmd.ExecuteNonQuery();
 
-                        if (concept == "Gasolina/Automóvil")
+                        if (concept == "Combustible/Vehículo")
                         {
                             if (checkBox1.Checked && GasCompleted())
                             {
@@ -987,15 +987,15 @@ namespace creditcharges.Views
                         }
                         if (imgPaths.Count > 0)
                             SaveImagesAsync(entity, value.ToString(), number, date);
-                        if (res == 1) MessageBox.Show("Record saved successfully.", "Success");
-                        else MessageBox.Show("Please check your internet connection.", "Error");
+                        if (res == 1) MessageBox.Show("Transacción guardada.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        else MessageBox.Show("Errores ocurridos, por favor inténtelo de nuevo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     cmd.Connection.Close();
                     Controller.controller.mainForm.LoadTable();
                     ShowSavedRecord();
                     Dispose();
                 }
-                else MessageBox.Show("There are empty fields.");
+                else MessageBox.Show("Campos vacíos, por favor verifique.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void ShowSavedRecord()
@@ -1040,7 +1040,7 @@ namespace creditcharges.Views
 
                     reader.Close();
                     Clipboard.SetText(msg);
-                    MessageBox.Show(msg, "New transaction", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(msg, "Transacción nueva", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             cmd.Connection.Close();

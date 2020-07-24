@@ -76,9 +76,9 @@
             // 
             this.vNameBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.vNameBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.vNameBox.Location = new System.Drawing.Point(85, 29);
+            this.vNameBox.Location = new System.Drawing.Point(117, 29);
             this.vNameBox.Name = "vNameBox";
-            this.vNameBox.Size = new System.Drawing.Size(244, 20);
+            this.vNameBox.Size = new System.Drawing.Size(212, 20);
             this.vNameBox.TabIndex = 4;
             this.vNameBox.Leave += new System.EventHandler(this.vNameBox_Leave);
             // 
@@ -87,26 +87,26 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(3, 32);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(76, 13);
+            this.label2.Size = new System.Drawing.Size(108, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Vehicle Name:";
+            this.label2.Text = "Nombre de Vehículo:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(3, 6);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 13);
+            this.label1.Size = new System.Drawing.Size(66, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "License Plate:";
+            this.label1.Text = "Serie/Placa:";
             // 
             // plateBox
             // 
             this.plateBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.plateBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.plateBox.Location = new System.Drawing.Point(85, 3);
+            this.plateBox.Location = new System.Drawing.Point(117, 3);
             this.plateBox.Name = "plateBox";
-            this.plateBox.Size = new System.Drawing.Size(244, 20);
+            this.plateBox.Size = new System.Drawing.Size(212, 20);
             this.plateBox.TabIndex = 1;
             this.plateBox.Leave += new System.EventHandler(this.plateBox_Leave);
             // 
@@ -115,8 +115,8 @@
             windowsUIButtonImageOptions1.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions1.SvgImage")));
             windowsUIButtonImageOptions2.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("windowsUIButtonImageOptions2.SvgImage")));
             this.windowsUIButtonPanel1.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Ok", true, windowsUIButtonImageOptions1, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "ok", -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Cancel", true, windowsUIButtonImageOptions2, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "cancel", -1, false)});
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Aceptar", true, windowsUIButtonImageOptions1, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "ok", -1, false),
+            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Cancelar", true, windowsUIButtonImageOptions2, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, "cancel", -1, false)});
             this.windowsUIButtonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.windowsUIButtonPanel1.Location = new System.Drawing.Point(0, 58);
             this.windowsUIButtonPanel1.Name = "windowsUIButtonPanel1";
@@ -132,7 +132,7 @@
             this.ClientSize = new System.Drawing.Size(378, 173);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "VehicleSelect";
-            this.Text = "Vehicle Select";
+            this.Text = "Seleccionar Vehículo";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

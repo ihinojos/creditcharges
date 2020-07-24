@@ -53,6 +53,11 @@ namespace creditcharges.Views
             var p2 = p2Box.Text.Trim();
             var adm = admBox.Checked;
 
+            if(name.Trim().Split(new char[] { ' '}).Length < 2)
+            {
+                MessageBox.Show("El nombre debe incluir mínimo 2 partes.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
             if (!(string.IsNullOrEmpty(username) || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(p1) || string.IsNullOrEmpty(p2)))
             {
                 if (p1 == p2)
@@ -68,12 +73,12 @@ namespace creditcharges.Views
                         cmd.Parameters.AddWithValue("@admin", SqlDbType.Bit).Value = adm;
                         if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                         var res = cmd.ExecuteNonQuery();
-                        if (res == 1) MessageBox.Show("User created successfully.", "Success");
-                        else MessageBox.Show("Please check your internet connection.", "Error");
+                        if (res == 1) MessageBox.Show("Usuario creado exitosamente.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        else MessageBox.Show("Ocurrió un error, por favor intente de nuevo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                } else MessageBox.Show("Passwords do not match.", "Error");
+                } else MessageBox.Show("La contraseña no coincide.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else MessageBox.Show("There are empty fields.", "Error");
+            else MessageBox.Show("Campos vacíos, por favor verifique.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             usernameBox.Text = string.Empty;
             nameBox.Text = string.Empty;

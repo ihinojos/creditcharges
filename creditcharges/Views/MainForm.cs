@@ -51,12 +51,12 @@ namespace creditcharges.Views
         {
             if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
             {
-                MessageBox.Show("Intelogix México © 2020\n\nCurrent Version: " + System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion,
-                    "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Intelogix México © 2020\n\nVersión actual: " + System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion,
+                    "Acerca de", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("Not currently deployed.", "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("En desarrollo.", "Acerca de", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -323,17 +323,11 @@ namespace creditcharges.Views
             {
                 var status = generalGridView.GetRowCellValue(generalGridView.FocusedRowHandle, "Status").ToString();
 
-                if (status == "Finished")
-                {
-                    MessageBox.Show("Can't delete a finished transaction.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
                 var id = generalGridView.GetRowCellValue(generalGridView.FocusedRowHandle, "Id").ToString();
 
-                string message = "Do you want to delete this record?";
+                string message = "Quieres eliminar esta transacción?";
                 MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-                DialogResult result = MessageBox.Show(message, "", buttons);
+                DialogResult result = MessageBox.Show(message, "", buttons, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
                 {
 
@@ -368,13 +362,13 @@ namespace creditcharges.Views
                     catch { }
 
                     cmd.Connection.Close();
-                    if (res > 0 && rel > 0 && ret > 0) MessageBox.Show("Record deleted.");
+                    if (res > 0 && rel > 0 && ret > 0) MessageBox.Show("Transacción eliminada.");
                     LoadTable();
                 }
             }
             catch (NullReferenceException)
             {
-                MessageBox.Show("Please select a record.");
+                MessageBox.Show("Por favor seleccione una transacción.");
             }
         }
 
@@ -432,8 +426,7 @@ namespace creditcharges.Views
                 switch (view.Tag)
                 {
                     case "general":
-                        var msg = "Please select a transaction to edit.";
-                        MessageBox.Show(msg, "Error");
+                        MessageBox.Show("Seleccione una transacción.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
 
                     case "detail":

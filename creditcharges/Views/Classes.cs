@@ -84,7 +84,7 @@ namespace creditcharges.Views
                     cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = entity;
                     if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                     var res = cmd.ExecuteNonQuery();
-                    if (res == 1) MessageBox.Show("Saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (res == 1) MessageBox.Show("Clase guardada.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     cmd.Connection.Close();
                     FillComboBox();
                 }
@@ -98,14 +98,14 @@ namespace creditcharges.Views
                     cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = entity;
                     if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                     var res = cmd.ExecuteNonQuery();
-                    if (res == 1) MessageBox.Show("Saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (res == 1) MessageBox.Show("Clase guardada.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     cmd.Connection.Close();
                     FillComboBox();
                 }
             }
             catch (NullReferenceException)
             {
-                MessageBox.Show("Information missing, please verify.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Información inválida, verifique por favor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -121,10 +121,10 @@ namespace creditcharges.Views
                 if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 var res = cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
-                if (res == 1) MessageBox.Show("Class deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (res == 1) MessageBox.Show("Clase eliminada.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 FillComboBox();
             }
-            else MessageBox.Show("Class doesn't exists.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else MessageBox.Show("Clase inexistente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         #endregion
     }

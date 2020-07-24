@@ -79,13 +79,13 @@ namespace creditcharges.Views
                 if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 var res = cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
-                if (res == 1) MessageBox.Show("Card added.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (res == 1) MessageBox.Show("Tarjeta añadida.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadCards();
 
                 if (Controller.controller.editTransaction != null) Controller.controller.editTransaction.AddAutoCompleteOptions();
                         
             }
-            else MessageBox.Show("Card is already saved.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else MessageBox.Show("Tarjeta ya existente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void RemoveChildCard()
@@ -99,10 +99,10 @@ namespace creditcharges.Views
                 if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
                 var res = cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
-                if (res == 1) MessageBox.Show("Card deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (res == 1) MessageBox.Show("Tarjeta eliminada.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 if (Controller.controller.editTransaction != null) Controller.controller.editTransaction.AddAutoCompleteOptions();
             }
-            else MessageBox.Show("Card doesn't exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else MessageBox.Show("Tarjeta inexistente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         #endregion
