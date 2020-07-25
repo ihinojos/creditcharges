@@ -267,9 +267,9 @@ namespace creditcharges.Views
                     var date = DateTime.Parse(view.GetRowCellDisplayText(e.RowHandle, view.Columns["Date"]));
                     var card = view.GetRowCellDisplayText(e.RowHandle, view.Columns["Card"]);
                     var amnt = decimal.Parse(view.GetRowCellDisplayText(e.RowHandle, view.Columns["Amount"]).Replace("$", ""));
-                    var query = "SELECT * FROM Records WHERE Card = @card AND Amount = @amnt AND CAST(TDate as DATE) = CAST(@date as DATE)";
+                    var query = "SELECT * FROM Records WHERE Card = @card AND Amount = @amnt "; //AND CAST(TDate as DATE) = CAST(@date as DATE)
                     SqlCommand cmd = new SqlCommand(query, sql);
-                    cmd.Parameters.AddWithValue("@date", SqlDbType.DateTime).Value = date;
+                    //cmd.Parameters.AddWithValue("@date", SqlDbType.DateTime).Value = date;
                     cmd.Parameters.AddWithValue("@card", SqlDbType.VarChar).Value = card;
                     cmd.Parameters.AddWithValue("@amnt", SqlDbType.Decimal).Value = amnt;
 
@@ -277,7 +277,16 @@ namespace creditcharges.Views
                     var reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        e.Appearance.BackColor = Color.LightBlue;
+                        var rdate = reader.GetDateTime(6);
+                        
+                        if (rdate.Day == date.Day && rdate.Month == date.Month && rdate.Year == date.Year)
+                        {
+                            e.Appearance.BackColor = Color.LightBlue;
+                        } else
+                        {
+                            e.Appearance.BackColor = Color.LightGreen;
+                            e.Appearance.BackColor2 = Color.ForestGreen;
+                        }
                         view.SetRowCellValue(e.RowHandle, "Id", reader[0] as string);
                     }
                     else
@@ -354,6 +363,8 @@ namespace creditcharges.Views
                     var ret = cmd.ExecuteNonQuery();
                     cmd.CommandText = "DELETE FROM Records WHERE Id = @id";
                     var rel = cmd.ExecuteNonQuery();
+                    cmd.CommandText = "DELETE FROM Dossier WHERE Id = @id";
+                    cmd.ExecuteNonQuery();
                     try
                     {
                         cmd.CommandText = "DELETE FROM Fuel WHERE Id = @id";

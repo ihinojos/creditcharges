@@ -12,11 +12,11 @@ namespace creditcharges.Models
         #region Attributes
 
         private static SqlConnection sql;
-        private static string[] concepts = {"Alojamiento","Atención Médica", "Combustible/Vehículo", "Internet", "Mercancía", "Otra Opción",
+        private static string[] concepts = {"Alojamiento","Atención Médica", "Combustible/Vehículo", "Internet", "Llantas/Partes Vehículares", "Mercancía", "Otra Opción",
             "Otros Servicios", "Pago/Crédito", "Seguros", "Servicios Profesionales", "Servicios Púbilcos", "Teléfono/Cable", "Herramientas/Mantenimiento"};
 
-        //public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=TESTTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
-        public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=PRODTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
+        public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=TESTTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
+        //public static string cn = @"Server=INTLGXCUU24\INTELOGIX;Initial Catalog=PRODTRANS;MultipleActiveResultSets=true;Persist Security Info=True;User ID=Intelogix;Password=Intelogix20XX!";
 
         public static List<string> accountType { get; set; }
         public static List<string> entities { get; set; }

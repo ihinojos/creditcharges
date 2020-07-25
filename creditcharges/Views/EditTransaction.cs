@@ -412,6 +412,8 @@ namespace creditcharges.Views
                 var ret = cmd.ExecuteNonQuery();
                 cmd.CommandText = "DELETE FROM Records WHERE Id = @id";
                 var rel = cmd.ExecuteNonQuery();
+                cmd.CommandText = "DELETE FROM Dossier WHERE Id = @id";
+                cmd.ExecuteNonQuery();
                 try
                 {
                     cmd.CommandText = "DELETE FROM Fuel WHERE Id = @id";
@@ -588,6 +590,24 @@ namespace creditcharges.Views
                     }
                 }
             }
+
+            if(conceptBox.Text == "Llantas/Partes Vehículares")
+            {
+                query = "SELECT Number FROM Dossier Where Id = @id";
+                cmd.CommandText = query;
+                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
+                using(var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        dossBox.Checked = true;
+                        dossOrderNumberBox.Text = reader[0] as string;
+                    }
+                }
+            }
+
+
+
             if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
             query = "SELECT * FROM Images WHERE Id = @id";
             cmd.CommandText = query;
@@ -883,6 +903,14 @@ namespace creditcharges.Views
                     }
                 }
 
+                if (dossBox.Checked)
+                {
+                    query = "UPDATE Dossier SET Number = @num WHERE Id = @id";
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@num", SqlDbType.VarChar).Value = dossOrderNumberBox.Text;
+                    cmd.ExecuteNonQuery();
+                }
+
                 cmd.Connection.Close();
                 SaveImagesAsync(entity, amount, childCard, date);
                 MessageBox.Show("Trnsacción guardada.", "Hecho");
@@ -985,6 +1013,20 @@ namespace creditcharges.Views
                                 cmd.ExecuteNonQuery();
                             }
                         }
+                        else if (concept == "Llantas/Partes Vehículares")
+                        {
+                            if (dossBox.Checked)
+                            {
+                                query = "INSERT INTO Dossier VALUES(@id, @number)";
+                                cmd.CommandText = query;
+                                var orderNum = dossOrderNumberBox.Text;
+                                cmd.Parameters.AddWithValue("@number", SqlDbType.VarChar).Value = orderNum;
+                                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+
+
                         if (imgPaths.Count > 0)
                             SaveImagesAsync(entity, value.ToString(), number, date);
                         if (res == 1) MessageBox.Show("Transacción guardada.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1059,7 +1101,7 @@ namespace creditcharges.Views
         private void conceptBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selection = conceptBox.SelectedItem.ToString();
-            if (selection == "Herramientas/Mantenimiento")
+            if (selection == "Llantas/Partes Vehículares")
             {
                 dossBox.Visible = true;
                 dossBox.Enabled = true;

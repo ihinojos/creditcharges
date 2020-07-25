@@ -92,24 +92,32 @@ namespace creditcharges.Views
             if(comboBox1.Text.Trim().Split(new char[] {' '}).Length < 2)
             {
                 MessageBox.Show("Ingrese mínimo 2 nombres.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
 
             if (!Data.names.Contains(comboBox1.Text))
             {
-                var query = "INSERT INTO Employees (Id, Name, Entity) VALUES (@id, @name, @entity)";
-                var cmd = new SqlCommand(query, sql);
-                var id = Guid.NewGuid().ToString("N");
-                var name = comboBox1.Text.Trim();
-                var entity = comboBox2.SelectedItem.ToString();
-                cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = id;
-                cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = name;
-                cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = entity;
-                if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
-                var res = cmd.ExecuteNonQuery();
-                cmd.Connection.Close();
-                if (res == 1) MessageBox.Show("Empleado guardado.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LoadData();
+                try
+                {
+                    var query = "INSERT INTO Employees (Id, Name, Entity) VALUES (@id, @name, @entity)";
+                    var cmd = new SqlCommand(query, sql);
+                    var id = Guid.NewGuid().ToString("N");
+                    var name = comboBox1.Text.Trim();
+                    var entity = comboBox2.SelectedItem.ToString();
+                    cmd.Parameters.AddWithValue("@id", SqlDbType.VarChar).Value = id;
+                    cmd.Parameters.AddWithValue("@name", SqlDbType.VarChar).Value = name;
+                    cmd.Parameters.AddWithValue("@entity", SqlDbType.VarChar).Value = entity;
+                    if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
+                    var res = cmd.ExecuteNonQuery();
+                    cmd.Connection.Close();
+                    if (res == 1) MessageBox.Show("Empleado guardado.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadData();
+                }
+                catch
+                {
+                    MessageBox.Show("Ocurrió un error, inténtelo de nuevo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
