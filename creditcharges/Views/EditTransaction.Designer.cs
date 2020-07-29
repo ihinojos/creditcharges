@@ -739,7 +739,6 @@
             this.odometerBox.Name = "odometerBox";
             this.odometerBox.Size = new System.Drawing.Size(381, 20);
             this.odometerBox.TabIndex = 5;
-            this.odometerBox.Leave += new System.EventHandler(this.odometerBox_Leave);
             // 
             // label16
             // 

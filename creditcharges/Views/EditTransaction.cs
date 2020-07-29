@@ -202,22 +202,7 @@ namespace creditcharges.Views
                 }
             }
         }
-        private void odometerBox_Leave(object sender, EventArgs e)
-        {
-            try
-            {
-                var odo = int.Parse(odometerBox.Text);
-                if (odo <= lastOdo)
-                {
-                    MessageBox.Show("Las millas ingresadas son menores al último registro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    odometerBox.Text = string.Empty;
-                }
-            }
-            catch
-            {
-                odometerBox.Text = string.Empty;
-            }
-        }
+
         private void Picture_DragDrop(object sender, DragEventArgs e)
         {
             try
@@ -1120,5 +1105,9 @@ namespace creditcharges.Views
             dossOrderNumberBox.Enabled = dossBox.Checked;
         }
 
+        private void odometerBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
