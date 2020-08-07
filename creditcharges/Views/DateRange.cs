@@ -11,6 +11,11 @@ namespace creditcharges.Views
         #endregion
 
         #region Constructor
+
+        /// <summary>
+        /// Displays a form from which the user can select a range of dates and sends back the values.
+        /// </summary>
+        /// <param name="sender"></param>
         public DateRange(string sender)
         {
             this.sender = sender;

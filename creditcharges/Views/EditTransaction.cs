@@ -96,6 +96,11 @@ namespace creditcharges.Views
         #endregion
 
         #region Events
+        /// <summary>
+        /// Adds the "$" symbol to the amount put into the amount box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void amountBox_Leave(object sender, EventArgs e)
         {
             if (double.TryParse(amountBox.Text, out value))
@@ -103,6 +108,11 @@ namespace creditcharges.Views
             else
                 amountBox.Text = string.Empty;
         }
+        /// <summary>
+        /// Changes the state of some controls depending on the checked state of the checkbox in the diesel part
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             odometerBox.Enabled = checkBox1.Checked;
@@ -124,6 +134,11 @@ namespace creditcharges.Views
             zoomBar.Value = 100;
             zoomBar_Scroll(null, null);
         }
+        /// <summary>
+        /// Attempts to select the last card used by the employee selected
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void employeeBox_Leave(object sender, EventArgs e)
         {
 
@@ -919,6 +934,7 @@ namespace creditcharges.Views
             var status = listView1.Items.Count == 0 ? "No Ticket" : "Finished";
             var location = locationBox.Text.Trim();
 
+            
 
             if (!Data.names.Contains(employee))
             {

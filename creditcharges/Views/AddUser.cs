@@ -45,6 +45,9 @@ namespace creditcharges.Views
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Creates a new user and saves it into database
+        /// </summary>
         private void CreateUser()
         {
             var username = usernameBox.Text.Trim();

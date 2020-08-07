@@ -20,6 +20,9 @@ namespace creditcharges.Views
         {
             InitializeComponent();
             sql = new SqlConnection(Data.cn);
+
+            //Key down is for enabling enter press log in
+
             KeyDown += new KeyEventHandler(passBox_KeyDown);
         }
         #endregion
@@ -33,6 +36,11 @@ namespace creditcharges.Views
         #endregion
 
         #region Methods
+
+
+        /// <summary>
+        /// Checks if username exists in the database, then checks if stored password is able to verify
+        /// </summary>
         private void LogInAccount()
         {
             var user = userBox.Text;

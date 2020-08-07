@@ -51,7 +51,11 @@ namespace creditcharges.Views
             }
         }
 
-
+        /// <summary>
+        /// Loads card details from the card selected
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cardBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var card = cardBox.SelectedItem.ToString();
@@ -100,6 +104,9 @@ namespace creditcharges.Views
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Updates the card information
+        /// </summary>
         private void UpdateCard()
         {
             try
@@ -137,6 +144,9 @@ namespace creditcharges.Views
             }
         }
 
+        /// <summary>
+        /// Saves a new card into the database
+        /// </summary>
         private void SaveCard()
         {
             
@@ -182,7 +192,9 @@ namespace creditcharges.Views
                 }
             else UpdateCard();
         }
-
+        /// <summary>
+        /// Deletes a card from the database
+        /// </summary>
         private void Delete()
         {
             var main = cardBox.Text;
@@ -206,7 +218,9 @@ namespace creditcharges.Views
                 if (res > 0) MessageBox.Show("Tarjeta eliminada.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
+        /// <summary>
+        /// Adds cards to comboBoxes
+        /// </summary>
         private void GetCards()
         {
             cardBox.Items.Clear();

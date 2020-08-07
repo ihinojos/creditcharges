@@ -31,7 +31,11 @@ namespace creditcharges.Views
 
         #region Events
 
-
+        /// <summary>
+        /// Loads entity associated with selected class
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void classBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var name = classBox.SelectedItem;
@@ -60,6 +64,9 @@ namespace creditcharges.Views
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Fills the boxes with the existing data
+        /// </summary>
         private void FillComboBox()
         {
             Data.getData();
@@ -69,7 +76,9 @@ namespace creditcharges.Views
             entityBox.Items.AddRange(Data.entities.ToArray());
             if (Controller.controller.editTransaction != null) Controller.controller.editTransaction.AddAutoCompleteOptions();
         }
-
+        /// <summary>
+        /// Creates a new class and saves it into the database
+        /// </summary>
         private void SaveClass()
         {
             try
@@ -108,7 +117,9 @@ namespace creditcharges.Views
                 MessageBox.Show("Información inválida, verifique por favor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
+        /// <summary>
+        /// Deletes a class from the database
+        /// </summary>
         private void DeleteClass()
         {
 

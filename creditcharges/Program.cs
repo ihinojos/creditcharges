@@ -15,6 +15,9 @@ namespace creditcharges
             Data.getData();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            //Create singleton instance for login view
+
             var instance = Controller.controller.logIn = new Views.LogIn();
             Application.Run(instance);
         }

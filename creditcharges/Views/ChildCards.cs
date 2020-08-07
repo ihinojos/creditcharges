@@ -49,6 +49,9 @@ namespace creditcharges.Views
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Adds existing cards into comboBoxes
+        /// </summary>
         private void LoadCards()
         {
             childsBox.Items.Clear();
@@ -66,7 +69,9 @@ namespace creditcharges.Views
                 cmd.Connection.Close();
             }
         }
-
+        /// <summary>
+        /// Registers new child card into existing main card
+        /// </summary>
         private void AddChildCard()
         {
             var card = childsBox.Text.Trim();
@@ -87,7 +92,9 @@ namespace creditcharges.Views
             }
             else MessageBox.Show("Tarjeta ya existente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
+        /// <summary>
+        /// Deletes child card from main card register.
+        /// </summary>
         private void RemoveChildCard()
         {
             var card = childsBox.Text.Trim();

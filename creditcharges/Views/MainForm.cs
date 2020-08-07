@@ -83,6 +83,11 @@ namespace creditcharges.Views
             }
         }
 
+        /// <summary>
+        /// Changes the color of the record depending if it was saved with an image or not.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void generalGridView_RowStyle(object sender, RowStyleEventArgs e)
         {
             try
@@ -257,6 +262,11 @@ namespace creditcharges.Views
             catch { }
         }
 
+        /// <summary>
+        /// Changes the color of the record row when a report has loaded from a download bank file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void detailsGridView_RowStyle(object sender, RowStyleEventArgs e)
         {
             if (report)
@@ -300,6 +310,11 @@ namespace creditcharges.Views
             }
         }
 
+        /// <summary>
+        /// Loads the records from the selected date
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dateEdit1_EditValueChanged(object sender, EventArgs e)
         {
             try
@@ -326,6 +341,9 @@ namespace creditcharges.Views
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Deletes a record
+        /// </summary>
         private void DeleteRecord()
         {
             try
@@ -383,6 +401,9 @@ namespace creditcharges.Views
             }
         }
 
+        /// <summary>
+        /// Loads initial table that shows today's records.
+        /// </summary>
         public void LoadTable()
         {
             if (generalGrid.DataSource != null) generalGrid.DataSource = null;
@@ -412,6 +433,10 @@ namespace creditcharges.Views
             instance.Show();
         }
 
+        /// <summary>
+        /// Attempts to create a new record based on the missing record from the bank's downloaded file
+        /// </summary>
+        /// <param name="view"></param>
         private void AddTransactionFromReport(GridView view)
         {
             var date = DateTime.Parse(view.GetRowCellValue(view.FocusedRowHandle, "Date").ToString());
@@ -427,6 +452,10 @@ namespace creditcharges.Views
             instance.Show();
         }
 
+        /// <summary>
+        /// Edits a transaction and gets them values and properties depending on the view from which the record is trying to be edited
+        /// </summary>
+        /// <param name="view"></param>
         private void EditTransaction(GridView view)
         {
             var flag = false;
@@ -514,6 +543,11 @@ namespace creditcharges.Views
             instance.Show();
         }
 
+        /// <summary>
+        /// Loads avg miles per galon and stuff when selected a range, although it doesn't fully work yet, some avg values are waaaaay off
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         public void GetDieselSource(DateTime start, DateTime end)
         {
             var lastOdo = 0;
@@ -596,6 +630,11 @@ namespace creditcharges.Views
             dieselGridView.BestFitColumns();
         }
 
+        /// <summary>
+        /// Loads records from date range and all the relevant information
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         public void GetDataSource(DateTime start, DateTime end)
         {
             report = false;
@@ -647,6 +686,9 @@ namespace creditcharges.Views
 
         }
 
+        /// <summary>
+        /// Serves to display the records that are loaded form the bank's downloaded file
+        /// </summary>
         private void LoadReport()
         {
             report = false;
